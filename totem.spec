@@ -1,11 +1,9 @@
-# TODO:
-# - this is a GNOME player and should use gstreamer as well
 #
 Summary:	Movie player for GNOME 2 based on the xine engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku xine
 Name:		totem
 Version:	0.99.8
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.tar.bz2
@@ -16,13 +14,14 @@ BuildRequires:	gnome-vfs2-devel
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.4.0.1
 BuildRequires:	pkgconfig
-BuildRequires:	xine-lib-devel >= 1.0b12-3
-#BuildRequires:	gstreamer-play-devel >= 0.6.0
-#BuildRequires:	gstreamer-GConf-devel >= 0.6.0
+BuildRequires:	gstreamer-play-devel >= 0.6.0
+BuildRequires:	gstreamer-GConf-devel >= 0.6.0
+BuildRequires:	gstreamer-plugins-devel >= 0.6.0
 Requires(post):	GConf2
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
-Requires:	xine-lib
+Requires:	gstreamer-colorspace >= 0.6.0
+Requires:	gstreamer-videosink
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -39,7 +38,8 @@ g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z klawiatury.
 %setup -q
 
 %build
-%configure
+%configure \
+    --enable-gstreamer
 %{__make}
 
 %install
