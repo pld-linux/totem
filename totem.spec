@@ -1,6 +1,6 @@
 #
 # Conditional build
-%bcond_with	xine		# build with xine-lib instead gstreamer
+%bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_with	nvtv		# build with nvtv support
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
@@ -120,7 +120,7 @@ Statyczne biblioteki Totema.
 %{__automake}
 %configure \
 	%{?with_nvtv:--enable-nvtv} \
-	%{!?with_xine:--enable-gstreamer}
+	%{?with_gstreamer:--enable-gstreamer}
 
 %{__make}
 
