@@ -10,7 +10,7 @@ Version:	1.0
 Release:	0.1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.0/%{name}-%{version}.tar.bz2
 # Source0-md5:	eddfebd11ccb58caca72edc6485ed22f
 Patch0:		%{name}-desktop.patch
 URL:		http://www.hadess.net/totem.php3
@@ -35,6 +35,7 @@ BuildRequires:	pkgconfig
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
 Requires(post):	GConf2
 Requires(post,postun):	scrollkeeper
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
 %if %{with gstreamer}
@@ -72,23 +73,23 @@ klawiatury.
 %endif
 
 %package libs
-Summary:        Totem shared libraries
-Summary(pl):    Wspó³dzielone biblioteki Totema
-Group:          Libraries
+Summary:	Totem shared libraries
+Summary(pl):	Wspó³dzielone biblioteki Totema
+Group:		Libraries
 Requires:	nautilus >= 2.10.0
 
 %description libs
 Totem shared libraries.
 
 %description libs -l pl
-Wspó³dzielone biblioteki Totema
+Wspó³dzielone biblioteki Totema.
 
 %package devel
-Summary:        Totem include files
-Summary(pl):    Pliki nag³ówkowe Totema
-Group:          Development/Libraries
-Requires:       %{name}-libs = %{version}-%{release}
-Requires:       gtk+2-devel >= 2:2.6.2
+Summary:	Totem include files
+Summary(pl):	Pliki nag³ówkowe Totema
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	gtk+2-devel >= 2:2.6.2
 
 %description devel
 Totem headers files.
@@ -97,10 +98,10 @@ Totem headers files.
 Pliki nag³ówkowe Totema.
 
 %package static
-Summary:        Static Totem libraries
-Summary(pl):    Statyczne biblioteki Totema
-Group:          Development/Libraries
-Requires:       %{name}-devel = %{version}-%{release}
+Summary:	Static Totem libraries
+Summary(pl):	Statyczne biblioteki Totema
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static Totem libraries.
@@ -130,10 +131,10 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
-%find_lang %{name} --all-name --with-gnome
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.a
+%find_lang %{name} --all-name --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -149,6 +150,9 @@ umask 022
 /usr/bin/scrollkeeper-update
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
 
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
@@ -162,9 +166,8 @@ umask 022
 
 %files libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
-%{_libdir}/nautilus/extensions-1.0/*.la
 %attr(755,root,root) %{_libdir}/libtotem-plparser.so.*.*.*
+%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
 
 %files devel
 %defattr(644,root,root,755)
