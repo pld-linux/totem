@@ -1,12 +1,12 @@
-diff -urN aa/totem-0.99.9/configure.in totem-0.99.9/configure.in
---- aa/totem-0.99.9/configure.in	2004-02-13 12:07:52.000000000 +0100
-+++ totem-0.99.9/configure.in	2004-02-27 16:17:01.418998528 +0100
-@@ -273,7 +273,7 @@
+diff -urN totem-0.99.12.orig/configure.in totem-0.99.12/configure.in
+--- totem-0.99.12.orig/configure.in	2004-06-07 12:22:11.064829720 +0200
++++ totem-0.99.12/configure.in	2004-06-07 12:22:25.459641376 +0200
+@@ -295,7 +295,7 @@
  fi
  
  dnl Add the languages which your application supports here.
--ALL_LINGUAS="am ar az be bg bn ca cs cy da de el en_CA en_GB es et eu fi fr ga he hr hu it ja ko lt lv mk ml ms nl no pl pt pt_BR ro ru sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
-+ALL_LINGUAS="am ar az be bg bn ca cs cy da de el en_CA en_GB es et eu fi fr ga he hr hu it ja ko lt lv mk ml ms nb nl pl pt pt_BR ro ru sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+-ALL_LINGUAS="am ar az be bg bn ca cs cy da de el en_CA en_GB es et eu fi fr ga he hr hu is it ja ko lt lv mk ml ms nl no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
++ALL_LINGUAS="am ar az be bg bn ca cs cy da de el en_CA en_GB es et eu fi fr ga he hr hu is it ja ko lt lv mk ml ms nb nl pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
  AM_GLIB_GNU_GETTEXT
  
  AC_OUTPUT([
