@@ -20,9 +20,9 @@ BuildRequires:	xine-lib-devel >= 1.0b12-3
 #BuildRequires:	gstreamer-play-devel >= 0.6.0
 #BuildRequires:	gstreamer-GConf-devel >= 0.6.0
 Requires(post):	GConf2
+Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.2.0
 Requires:	xine-lib >= 1.0b12-3
-Requires:	XFree86-libs >= 4.3.0-1.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -66,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/totem-properties-page
 %{_libdir}/bonobo/servers/Totem_properties.server
 %{_datadir}/application-registry/%{name}.applications
-%{_datadir}/applications/*.desktop
+%{_desktopdir}/*.desktop
 %{_datadir}/mime-info/%{name}.keys
 %{_datadir}/%{name}
 %{_pixmapsdir}/*
