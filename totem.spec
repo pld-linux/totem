@@ -1,15 +1,15 @@
-
-%define 	snap	20030630
-
+# TODO:
+# - this is a GNOME player and should use gstreamer as well
+#
 Summary:	Movie player for GNOME 2 based on the xine engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku xine
 Name:		totem
-Version:	0.99.5
+Version:	0.99.6
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.tar.bz2
-# Source0-md5:	95ee9a5a543b0700d951b8b9a0701590
+# Source0-md5:	296e83acbc02de29d8ea2738ea1b1757
 #Source0:	%{name}-%{version}-%{snap}.tar.bz2
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	gnome-vfs2-devel
