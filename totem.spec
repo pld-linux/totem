@@ -31,7 +31,7 @@ BuildRequires:	libgnomeui-devel >= 2.4.0.1
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: nvtv}
 BuildRequires:	pkgconfig
-%{!?with_gstreamer:BuildRequires:       xine-lib-devel >= 1:1.0-0.rc3c.1}
+%{!?with_gstreamer:BuildRequires:       xine-lib-devel >= 1:1.0-0.rc3c.3}
 Requires(post):	GConf2
 Requires(post):	scrollkeeper
 Requires:	XFree86-libs >= 4.3.0-1.3
