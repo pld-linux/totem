@@ -1,7 +1,7 @@
 #
 # Conditional build
 %bcond_with     gstreamer       # build with gstreamer instead xine-lib
-%bcond_without  nvtv	        # build without nvtv support
+%bcond_with	nvtv	        # build with nvtv support
 #
 
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
@@ -81,7 +81,7 @@ mv po/{no,nb}.po
 %{__autoconf}
 %{__automake}
 %configure \
-%{?without_nvtv: --disable-nvtv} \
+%{?with_nvtv: --enable-nvtv} \
 %{?with_gstreamer: --enable-gstreamer}
 
 %{__make}
