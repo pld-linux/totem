@@ -12,7 +12,7 @@ Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.
 # Source0-md5:	e20104c07b892d182b16815e860db13e
 #Source0:	%{name}-%{version}-%{snap}.tar.bz2
 URL:		http://www.hadess.net/totem.php3
-BuildRequires:	gnome-vfs2-devel 
+BuildRequires:	gnome-vfs2-devel
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.3.3.1-2
 BuildRequires:	pkgconfig
