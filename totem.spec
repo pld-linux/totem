@@ -34,7 +34,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
 Requires(post):	GConf2
-Requires(post):	scrollkeeper
+Requires(post,postun):	scrollkeeper
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
 %if %{with gstreamer}
@@ -100,10 +100,15 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
+umask 022
 %gconf_schema_install
 /usr/bin/scrollkeeper-update
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
 
-%postun	-p /usr/bin/scrollkeeper-update
+%postun
+umask 022
+/usr/bin/scrollkeeper-update
+[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
