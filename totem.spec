@@ -7,12 +7,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	0.99.13
+Version:	0.99.14
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.tar.bz2
-# Source0-md5:	467702367cbc2d897c1236d43a75eab2
+# Source0-md5:	c15a85a401c0d0d62c1b58c067cdd437
 Patch0:		%{name}-locale-names.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
@@ -24,12 +24,12 @@ BuildRequires:	gnome-vfs2-devel
 BuildRequires:	gstreamer-GConf-devel >= 0.8.0
 BuildRequires:	gstreamer-plugins-devel >= 0.8.0
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.4.3
+BuildRequires:	gtk+2-devel >= 2:2.4.4
 BuildRequires:	intltool >= 0.20
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.4.0.1
 BuildRequires:	libtool
-%{?with_nvtv:BuildRequires: nvtv}
+%{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	pkgconfig
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
 Requires(post):	GConf2
@@ -40,7 +40,7 @@ Requires:	gnome-desktop >= 2.4.0
 Requires:	gstreamer-colorspace >= 0.8.0
 Requires:	gstreamer-videosink >= 0.8.0
 %endif
-Requires:	gtk+2 >= 2:2.4.3
+Requires:	gtk+2 >= 2:2.4.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -54,9 +54,8 @@ Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na
 gstreamer. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
 po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
 klawiatury.
-%endif
 
-%if %{without gstreamer}
+%else
 %description
 Totem is simple movie player for the GNOME desktop based on xine-libs.
 It features a simple playlist, a full-screen mode, seek and volume
