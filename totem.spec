@@ -1,5 +1,5 @@
-Summary:	Movie player for GNOME 2 based on the xine engine
-Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku xine
+Summary:	Movie player for GNOME 2 based on the gstreamer engine
+Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	0.99.9
 Release:	1
@@ -30,13 +30,13 @@ Requires:	gstreamer-videosink
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Totem is simple movie player for the GNOME desktop based on xine. It
+Totem is simple movie player for the GNOME desktop based on gstreamer. It
 features a simple playlist, a full-screen mode, seek and volume
 controls, as well as a pretty complete keyboard navigation.
 
 %description -l pl
-Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na xine.
-Ma prost± playlistê, tryb pe³noekranowy, kontrolê po³o¿enia w pliku i
+Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na gstreamer.
+Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê po³o¿enia w pliku i
 g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z klawiatury.
 
 %prep
