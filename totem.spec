@@ -52,8 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-# isn't COPYING just GPL?
-%doc AUTHORS COPYING ChangeLog NEWS README TODO
+%doc AUTHORS ChangeLog NEWS README TODO
 %config %{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/application-registry/%{name}.applications
