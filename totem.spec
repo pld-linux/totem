@@ -1,19 +1,19 @@
 Summary:	Movie player for GNOME 2 based on the xine engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku xine
 Name:		totem
-Version:	0.90.0
+Version:	0.95.1
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://www.hadess.net/files/software/%{name}/%{name}-%{version}.tar.gz
 URL:		http://www.hadess.net/totem.php3
-BuildRequires:	gnome-vfs2-devel
+BuildRequires:	gnome-vfs2-devel 
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.0.0
+BuildRequires:	libgnomeui-devel >= 2.2.0
 BuildRequires:	pkgconfig
-BuildRequires:	xine-lib-devel >= 1.0-beta3
+BuildRequires:	xine-lib-devel >= 1.0-beta6
 Requires(post):	GConf2
-Requires:	gnome-desktop >= 2.0.0
+Requires:	gnome-desktop >= 2.2.0
 Requires:	xine-lib >= 1.0-beta3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
