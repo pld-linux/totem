@@ -1,3 +1,9 @@
+#
+# Conditional build
+%bcond_with     gstreamer       # build with gstreamer instead xine-lib
+%bcond_without  nvtv	        # build without nvtv support
+#
+
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
@@ -14,23 +20,30 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel
+%if %{with gstreamer}
 BuildRequires:	gstreamer-GConf-devel >= 0.8.0
 BuildRequires:	gstreamer-plugins-devel >= 0.8.0
+%endif
 BuildRequires:	gtk+2-devel >= 2:2.4.0
 BuildRequires:	intltool >= 0.20
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.4.0.1
 BuildRequires:	libtool
+%{?with_nvtv:BuildRequires: nvtv}
 BuildRequires:	pkgconfig
+%{!?with_gstreamer:BuildRequires:       xine-lib-devel >= 1:1.0-0.rc3c.1}
 Requires(post):	GConf2
 Requires(post):	scrollkeeper
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
+%if %{with gstreamer}
 Requires:	gstreamer-colorspace >= 0.8.0
 Requires:	gstreamer-videosink >= 0.8.0
+%endif
 Requires:	gtk+2 >= 2:2.4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%if %{with gstreamer}
 %description
 Totem is simple movie player for the GNOME desktop based on gstreamer.
 It features a simple playlist, a full-screen mode, seek and volume
@@ -41,6 +54,20 @@ Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na
 gstreamer. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
 po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
 klawiatury.
+%endif
+
+%if %{without gstreamer}
+%description
+Totem is simple movie player for the GNOME desktop based on xine-libs.
+It features a simple playlist, a full-screen mode, seek and volume
+controls, as well as a pretty complete keyboard navigation.
+
+%description -l pl
+Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na
+xine-libs. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
+po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
+klawiatury.
+%endif
 
 %prep
 %setup -q
@@ -54,7 +81,9 @@ mv po/{no,nb}.po
 %{__autoconf}
 %{__automake}
 %configure \
-    --enable-gstreamer
+%{?without_nvtv: --disable-nvtv} \
+%{?with_gstreamer: --enable-gstreamer}
+
 %{__make}
 
 %install
