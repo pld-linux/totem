@@ -7,12 +7,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	0.101
-Release:	2
+Version:	1.0
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/0.101/%{name}-%{version}.tar.bz2
-# Source0-md5:	c85edd6a39fa2514f09c0c8afe6bf135
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.0/%{name}-%{version}.tar.bz2
+# Source0-md5:	eddfebd11ccb58caca72edc6485ed22f
 Patch0:		%{name}-desktop.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
@@ -21,18 +21,18 @@ BuildRequires:	automake
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf-devel >= 0.8.5
-BuildRequires:	gstreamer-devel >= 0.8.7
-BuildRequires:	gstreamer-plugins-devel >= 0.8.5
+BuildRequires:	gstreamer-GConf-devel >= 0.8.9
+BuildRequires:	gstreamer-devel >= 0.8.9
+BuildRequires:	gstreamer-plugins-devel >= 0.8.8
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.6.2
-BuildRequires:	intltool >= 0.20
+BuildRequires:	gtk+2-devel >= 2:2.6.4
+BuildRequires:	intltool >= 0.33
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.4.0.1
+BuildRequires:	libgnomeui-devel >= 2.10.0
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
-BuildRequires:	nautilus-cd-burner-devel >= 2.9.6
+BuildRequires:	nautilus-cd-burner-devel >= 2.10.0
 BuildRequires:	pkgconfig
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
 Requires(post,postun):	/sbin/ldconfig
@@ -40,14 +40,14 @@ Requires(post):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
-Requires:	gnome-desktop >= 2.4.0
+Requires:	gnome-desktop >= 2.10.0
 %if %{with gstreamer}
-Requires:	gstreamer-colorspace >= 0.8.5
-Requires:	gstreamer-videosink >= 0.8.5
+Requires:	gstreamer-colorspace >= 0.8.8
+Requires:	gstreamer-videosink >= 0.8.8
 %else
 Requires:	xine-plugin-video
 %endif
-Requires:	gtk+2 >= 2:2.4.4
+Requires:	gtk+2 >= 2:2.6.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -80,7 +80,7 @@ Summary:	Totem include files
 Summary(pl):	Pliki nag³ówkowe totem 
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.6.2
+Requires:	gtk+2-devel >= 2:2.6.4
 
 %description devel
 Totem headers files.
