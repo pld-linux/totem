@@ -8,7 +8,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	0.101
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/0.101/%{name}-%{version}.tar.bz2
@@ -38,6 +38,7 @@ BuildRequires:	pkgconfig
 Requires(post,postun):	/sbin/ldconfig
 Requires(post):	GConf2
 Requires(post,postun):	scrollkeeper
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
 %if %{with gstreamer}
@@ -73,6 +74,42 @@ xine-libs. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
 po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
 klawiatury.
 %endif
+
+%package devel
+Summary:	Totem include files
+Summary(pl):	Pliki nag³ówkowe totem 
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	gtk+2-devel >= 2:2.6.2
+
+%description devel
+Totem headers files.
+
+%description devel -l pl
+Pliki nag³ówkowe totem.
+
+%package libs
+Summary:	Totem library
+Summary(pl):	Biblioteka totem
+Group:		Libraries
+
+%description libs
+Totem library.
+
+%description libs -l pl
+Biblioteka totem.
+
+%package static
+Summary:	Static totem library
+Summary(pl):	Statyczna biblioteka totem
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static totem library.
+
+%description static -l pl
+Statyczna biblioteka totem.
 
 %prep
 %setup -q
@@ -115,14 +152,15 @@ umask 022
 /usr/bin/scrollkeeper-update
 [ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
 
+%post	libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %config %{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 %attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
-%{_libdir}/lib*.la
 %{_datadir}/%{name}
 %{_omf_dest_dir}/%{name}
 %{_desktopdir}/*.desktop
@@ -130,3 +168,18 @@ umask 022
 %{_mandir}/man1/*
 %{_includedir}/%{name}
 %{_pkgconfigdir}/*.pc
+
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.la
+%{_includedir}/%{name}
+%{_pkgconfigdir}/*.pc
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
