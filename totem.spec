@@ -21,6 +21,7 @@ BuildRequires:	xine-lib-devel >= 1.0-beta6
 Requires(post):	GConf2
 Requires:	gnome-desktop >= 2.2.0
 Requires:	xine-lib >= 1.0-beta3
+Requires:	XFree86-libs >= 4.3.0-1.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
