@@ -21,7 +21,7 @@ BuildRequires:	xine-lib-devel >= 1.0b12-3
 #BuildRequires:	gstreamer-GConf-devel >= 0.6.0
 Requires(post):	GConf2
 Requires:	XFree86-libs >= 4.3.0-1.3
-Requires:	gnome-desktop >= 2.4.0.1
+Requires:	gnome-desktop >= 2.4.0
 Requires:	xine-lib >= 1.0b12-3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
