@@ -4,12 +4,12 @@
 Summary:	Movie player for GNOME 2 based on the xine engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku xine
 Name:		totem
-Version:	0.99.6
+Version:	0.99.7
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.tar.bz2
-# Source0-md5:	296e83acbc02de29d8ea2738ea1b1757
+# Source0-md5:	f6be8a31c0080b05efaec909d4318a4f
 #Source0:	%{name}-%{version}-%{snap}.tar.bz2
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	gnome-vfs2-devel
@@ -39,7 +39,6 @@ g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z klawiatury.
 %setup -q
 
 %build
-#./autogen.sh
 %configure
 %{__make}
 
@@ -64,9 +63,9 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/totem-properties-page
-%{_libdir}/bonobo/servers/Totem_properties.server
-%{_datadir}/application-registry/%{name}.applications
-%{_desktopdir}/*.desktop
-%{_datadir}/mime-info/%{name}.keys
 %{_datadir}/%{name}
+%{_datadir}/application-registry/%{name}.applications
+%{_datadir}/mime-info/%{name}.keys
+%{_libdir}/bonobo/servers/Totem_properties.server
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
