@@ -2,12 +2,13 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	0.99.9
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/0.99/%{name}-%{version}.tar.bz2
 # Source0-md5:	e90467c1b4185edbad6571a139e4a42c
 Patch0:		%{name}-locale-names.patch
+Patch1:		%{name}-gstreamer08.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
@@ -18,15 +19,15 @@ BuildRequires:	intltool >= 0.20
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.4.0.1
 BuildRequires:	libtool
-BuildRequires:	gstreamer-GConf-devel >= 0.7.0.3
-BuildRequires:	gstreamer-plugins-devel >= 0.7.0.3
+BuildRequires:	gstreamer-GConf-devel >= 0.7.6
+BuildRequires:	gstreamer-plugins-devel >= 0.7.6
 BuildRequires:	pkgconfig
 Requires(post):	GConf2
 Requires(post):	scrollkeeper
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
-Requires:	gstreamer-colorspace >= 0.7.0.3
-Requires:	gstreamer-videosink
+Requires:	gstreamer-colorspace >= 0.7.6
+Requires:	gstreamer-videosink >= 0.7.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -42,6 +43,7 @@ g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z klawiatury.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 mv po/{no,nb}.po
 
