@@ -16,12 +16,12 @@ BuildRequires:	gnome-vfs2-devel
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.2.0
 BuildRequires:	pkgconfig
-BuildRequires:	xine-lib-devel >= 1.0-beta12-3
+BuildRequires:	xine-lib-devel >= 1.0b12-3
 #BuildRequires:	gstreamer-play-devel >= 0.6.0
 #BuildRequires:	gstreamer-GConf-devel >= 0.6.0
 Requires(post):	GConf2
 Requires:	gnome-desktop >= 2.2.0
-Requires:	xine-lib >= 1.0-beta12-3
+Requires:	xine-lib >= 1.0b12-3
 Requires:	XFree86-libs >= 4.3.0-1.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
