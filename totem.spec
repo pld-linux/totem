@@ -78,7 +78,6 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
 Requires:	nautilus >= 2.10.0
 
 %description libs
