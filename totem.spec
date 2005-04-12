@@ -7,7 +7,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.0.1
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.0/%{name}-%{version}.tar.bz2
@@ -32,13 +32,15 @@ BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	nautilus-cd-burner-devel >= 2.10.0
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.197
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
-Requires(post):	GConf2
+Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.4.0
 %if %{with gstreamer}
+Requires:	gstreamer-audiosink >= 0.8.8
 Requires:	gstreamer-colorspace >= 0.8.8
 Requires:	gstreamer-videosink >= 0.8.8
 %else
@@ -76,6 +78,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
 Requires:	nautilus >= 2.10.0
 
 %description libs
@@ -140,15 +143,20 @@ rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 rm -rf $RPM_BUILD_ROOT
 
 %post
-umask 022
-%gconf_schema_install
-/usr/bin/scrollkeeper-update
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
+%gconf_schema_install totem-handlers.schemas
+%gconf_schema_install totem-video-thumbnail.schemas
+%gconf_schema_install totem.schemas
+%scrollkeeper_update_post
+%update_desktop_database_post
+
+%preun
+%gconf_schema_uninstall totem-handlers.schemas
+%gconf_schema_uninstall totem-video-thumbnail.schemas
+%gconf_schema_uninstall totem.schemas
 
 %postun
-umask 022
-/usr/bin/scrollkeeper-update
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+%scrollkeeper_update_postun
+%update_desktop_database_postun
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -156,7 +164,7 @@ umask 022
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
-%config %{_sysconfdir}/gconf/schemas/*.schemas
+%{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
 %{_omf_dest_dir}/%{name}
