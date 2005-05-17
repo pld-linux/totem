@@ -1,4 +1,7 @@
 #
+# todo:
+# - mozilla plugin
+#
 # Conditional build
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_with	nvtv		# build with nvtv support
@@ -123,6 +126,7 @@ Statyczne biblioteki Totema.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-mozilla \
 	%{?with_nvtv:--enable-nvtv} \
 	%{?with_gstreamer:--enable-gstreamer} \
 	--without-iso-codes
