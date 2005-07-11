@@ -4,9 +4,8 @@
 #
 # Conditional build
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
-%bcond_with	nvtv		# build with nvtv support
+%bcond_without	nvtv		# build without nvtv support
 #
-# TODO: iso-codes currently not available in PLD, a Debian specific package
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
@@ -33,6 +32,7 @@ BuildRequires:	intltool >= 0.20
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.10.0-2
+BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	nautilus-cd-burner-devel >= 2.10.0
