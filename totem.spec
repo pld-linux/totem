@@ -9,19 +9,19 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.1.2
+Version:	1.1.3
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	2228bbb4c1656c932233ecfd0d5c54da
+# Source0-md5:	e8d34fed67924efa00ae50a294b94d60
 Patch0:		%{name}-desktop.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-vfs2-devel >= 2.10.0-2
+BuildRequires:	gnome-vfs2-devel >= 2.11.0
 %if %{with gstreamer}
 BuildRequires:	gstreamer-GConf-devel >= 0.8.8
 BuildRequires:	gstreamer-devel >= 0.8.8
@@ -31,11 +31,11 @@ BuildRequires:	gtk+2-devel >= 2:2.6.0
 BuildRequires:	intltool >= 0.20
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.10.0-2
+BuildRequires:	libgnomeui-devel >= 2.11.0
 BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
-BuildRequires:	nautilus-cd-burner-devel >= 2.10.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.11.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
