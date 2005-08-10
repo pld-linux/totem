@@ -39,7 +39,7 @@ BuildRequires:	nautilus-cd-burner-devel >= 2.11.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
-%{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
+%{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
