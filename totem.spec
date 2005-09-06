@@ -21,21 +21,21 @@ BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-vfs2-devel >= 2.11.0
+BuildRequires:	gnome-vfs2-devel >= 2.12.0
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf-devel >= 0.8.8
-BuildRequires:	gstreamer-devel >= 0.8.8
-BuildRequires:	gstreamer-plugins-devel >= 0.8.8
+BuildRequires:	gstreamer-GConf-devel >= 0.8.11
+BuildRequires:	gstreamer-devel >= 0.8.11
+BuildRequires:	gstreamer-plugins-devel >= 0.8.11
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.8.0
-BuildRequires:	intltool >= 0.20
+BuildRequires:	gtk+2-devel >= 2:2.8.3
+BuildRequires:	intltool >= 0.34
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.11.0
+BuildRequires:	libgnomeui-devel >= 2.12.0
 BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
-BuildRequires:	nautilus-cd-burner-devel >= 2.11.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.12.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
@@ -44,15 +44,15 @@ Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
-Requires:	gnome-desktop >= 2.4.0
+Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
-Requires:	gstreamer-audiosink >= 0.8.8
-Requires:	gstreamer-colorspace >= 0.8.8
-Requires:	gstreamer-videosink >= 0.8.8
+Requires:	gstreamer-audiosink >= 0.8.11
+Requires:	gstreamer-colorspace >= 0.8.11
+Requires:	gstreamer-videosink >= 0.8.11
 %else
 Requires:	xine-plugin-video
 %endif
-Requires:	gtk+2 >= 2:2.8.0
+Requires:	gtk+2 >= 2:2.8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -97,7 +97,7 @@ Summary:	Totem include files
 Summary(pl):	Pliki nag³ówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.8.0
+Requires:	gtk+2-devel >= 2:2.8.3
 
 %description devel
 Totem headers files.
@@ -131,7 +131,6 @@ Statyczne biblioteki Totema.
 	%{?with_nvtv:--enable-nvtv} \
 	%{?with_gstreamer:--enable-gstreamer} \
 	--without-iso-codes
-
 %{__make}
 
 %install
