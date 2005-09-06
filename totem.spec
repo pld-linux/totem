@@ -1,39 +1,45 @@
 #
+# todo:
+# - mozilla plugin
+#
 # Conditional build
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
-%bcond_with	nvtv		# build with nvtv support
+%bcond_without	nvtv		# build without nvtv support
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.0.4
-Release:	2
+Version:	1.2.0
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	60dfa922d8de40fe3cdbdb5062065d55
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.2/%{name}-%{version}.tar.bz2
+# Source0-md5:	e07aded62a929779a4cd28c16fdb2efd
 Patch0:		%{name}-desktop.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-vfs2-devel >= 2.10.0-2
+BuildRequires:	gnome-vfs2-devel >= 2.11.0
 %if %{with gstreamer}
 BuildRequires:	gstreamer-GConf-devel >= 0.8.8
 BuildRequires:	gstreamer-devel >= 0.8.8
 BuildRequires:	gstreamer-plugins-devel >= 0.8.8
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.4.4
+BuildRequires:	gtk+2-devel >= 2:2.8.0
 BuildRequires:	intltool >= 0.20
+BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.10.0-2
+BuildRequires:	libgnomeui-devel >= 2.11.0
+BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
-BuildRequires:	nautilus-cd-burner-devel >= 2.10.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.11.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
-%{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0-0.rc4a.1}
+BuildRequires:	scrollkeeper
+%{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
@@ -46,7 +52,7 @@ Requires:	gstreamer-videosink >= 0.8.8
 %else
 Requires:	xine-plugin-video
 %endif
-Requires:	gtk+2 >= 2:2.4.4
+Requires:	gtk+2 >= 2:2.8.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -78,7 +84,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	nautilus >= 2.10.0
+Requires:	nautilus >= 2.12.0
 
 %description libs
 Totem shared libraries.
@@ -91,7 +97,7 @@ Summary:	Totem include files
 Summary(pl):	Pliki nag³ówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.6.2
+Requires:	gtk+2-devel >= 2:2.8.0
 
 %description devel
 Totem headers files.
@@ -121,8 +127,10 @@ Statyczne biblioteki Totema.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-mozilla \
 	%{?with_nvtv:--enable-nvtv} \
-	%{?with_gstreamer:--enable-gstreamer}
+	%{?with_gstreamer:--enable-gstreamer} \
+	--without-iso-codes
 
 %{__make}
 
@@ -163,18 +171,20 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
-%{_sysconfdir}/gconf/schemas/*.schemas
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
-%{_omf_dest_dir}/%{name}
 %{_desktopdir}/*.desktop
-%{_pixmapsdir}/*
 %{_mandir}/man1/*
+%{_omf_dest_dir}/%{name}
+%{_pixmapsdir}/*
+%{_sysconfdir}/gconf/schemas/totem-handlers.schemas
+%{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
+%{_sysconfdir}/gconf/schemas/totem.schemas
 
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtotem-plparser.so.*.*.*
-%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
+%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so.*
 
 %files devel
 %defattr(644,root,root,755)
