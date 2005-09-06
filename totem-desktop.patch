@@ -1,7 +1,7 @@
-diff -aurN totem-1.0.orig/data/totem.desktop.in.in.in totem-1.0/data/totem.desktop.in.in.in
---- totem-1.0.orig/data/totem.desktop.in.in.in	2005-01-04 19:38:12.000000000 +0100
-+++ totem-1.0/data/totem.desktop.in.in.in	2005-03-20 10:39:29.658296216 +0100
-@@ -7,7 +7,7 @@
+diff -urN aa/totem-0.99.15.1/data/totem.desktop.in.in.in totem-0.99.15.1/data/totem.desktop.in.in.in
+--- aa/totem-0.99.15.1/data/totem.desktop.in.in.in	2004-07-22 18:00:38.000000000 +0200
++++ totem-0.99.15.1/data/totem.desktop.in.in.in	2004-07-24 13:34:38.337804936 +0200
+@@ -7,9 +7,10 @@
  Terminal=false
  Type=Application
  DocPath=
@@ -10,3 +10,6 @@ diff -aurN totem-1.0.orig/data/totem.desktop.in.in.in totem-1.0/data/totem.deskt
  X-GNOME-Bugzilla-Bugzilla=GNOME
  X-GNOME-Bugzilla-Product=totem
  X-GNOME-Bugzilla-Component=general
+ X-GNOME-Bugzilla-Version=@VERSION@
+ StartupNotify=true
++# vi: encoding=utf-8
