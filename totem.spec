@@ -36,6 +36,7 @@ BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	nautilus-cd-burner-devel >= 2.12.0
+BuildRequires:	nautilus-devel >= 2.12.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
