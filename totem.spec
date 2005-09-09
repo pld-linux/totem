@@ -6,11 +6,16 @@
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	nvtv		# build without nvtv support
 #
+# nvtv only available on few archs
+%ifnarch alpha arm %{ix86} ia64 sh %{x8664}
+%define		without_nvtv	1
+%endif
+#
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.2.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.2/%{name}-%{version}.tar.bz2
