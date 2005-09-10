@@ -92,7 +92,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	nautilus >= 2.12.0
+Requires:	nautilus-libs >= 2.12.0
 
 %description libs
 Totem shared libraries.
