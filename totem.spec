@@ -8,7 +8,7 @@
 #
 # nvtv only available on few archs
 %ifnarch alpha arm %{ix86} ia64 sh %{x8664}
-%define		without_nvtv	1
+%undefine		with_nvtv
 %endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
