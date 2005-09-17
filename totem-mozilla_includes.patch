@@ -1,0 +1,11 @@
+diff -aurN totem-1.2.0.orig/src/Makefile.am totem-1.2.0/src/Makefile.am
+--- totem-1.2.0.orig/src/Makefile.am	2005-08-05 11:37:52.000000000 +0200
++++ totem-1.2.0/src/Makefile.am	2005-09-17 18:47:32.000000000 +0200
+@@ -199,6 +199,7 @@
+ 	$(DBUS_CFLAGS)					\
+ 	$(MOZILLA_CFLAGS)				\
+ 	$(MOZILLA_XPCOM_CFLAGS)				\
++	-I$(includedir)/mozilla/necko			\
+ 	$(NVTV_CFLAGS)					\
+ 	$(NAUTILUS_CFLAGS)				\
+ 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
