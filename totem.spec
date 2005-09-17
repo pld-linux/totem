@@ -1,9 +1,10 @@
 #
 # TODO:
-# - Make choice to build plugin with firefox or mozilla or none?
+# - switch to common plugins dir (better known as glen's nsplugins dir ;)
 #
 # Conditional build
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
+%bcond_with	mozilla_firefox	# build with mozilla-firefox
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
@@ -15,13 +16,14 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.2.0
-Release:	3.1
+Release:	4
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.2/%{name}-%{version}.tar.bz2
 # Source0-md5:	e07aded62a929779a4cd28c16fdb2efd
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
+Patch2:		%{name}-mozilla_includes.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
@@ -41,7 +43,12 @@ BuildRequires:	libgnomeui-devel >= 2.12.0
 BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
+BuildRequires:	lirc-devel
+%if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
+%else
+BuildRequires:	mozilla-devel >= 5:1.7
+%endif
 BuildRequires:	nautilus-cd-burner-devel >= 2.12.0
 BuildRequires:	nautilus-devel >= 2.12.0
 BuildRequires:	pkgconfig
@@ -61,6 +68,10 @@ Requires:	gstreamer-videosink >= 0.8.11
 Requires:	xine-plugin-video
 %endif
 Requires:	gtk+2 >= 2:2.8.3
+%if %{with mozilla_firefox}
+%requires_eq	mozilla-firefox
+%else
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -129,7 +140,7 @@ Statyczne biblioteki Totema.
 Summary:	Totem's plugin for Mozilla Firefox
 Summary(pl):	Wtyczka Totema dla Mozilla Firefox
 Group:		Libraries
-Requires:	mozilla-firefox
+%requires_eq	mozilla-firefox
 Requires:	%{name} = %{version}-%{release}
 
 %description -n mozilla-firefox-plugin-totem
@@ -138,10 +149,24 @@ Totem's plugin for Mozilla Firefox.
 %description -n mozilla-firefox-plugin-totem -l pl
 Wtyczka Totema dla Mozilla Firefox.
 
+%package -n mozilla-plugin-totem
+Summary:	Totem's plugin for Mozilla
+Summary(pl):	Wtyczka Totema dla Mozilla
+Group:		Libraries
+Requires:	mozilla-embedded = %(rpm -q --qf '%{EPOCH}:%{VERSION}' --whatprovides mozilla-embedded)
+Requires:	%{name} = %{version}-%{release}
+
+%description -n mozilla-plugin-totem
+Totem's plugin for Mozilla.
+
+%description -n mozilla-plugin-totem -l pl
+Wtyczka Totema dla Mozilla.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -149,11 +174,14 @@ Wtyczka Totema dla Mozilla Firefox.
 %{__autoconf}
 %{__automake}
 %configure \
+	--enable-lirc \
 	--enable-mozilla \
+	--enable-nautilus \
 	%{?with_nvtv:--enable-nvtv} \
 	%{?with_gstreamer:--enable-gstreamer}
 
-%{__make}
+%{__make} \
+	MOZILLA_IDLDIR="%{_datadir}/idl"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -161,7 +189,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+	MOZILLA_PLUGINDIR='%{_libdir}/mozilla/plugins'
 
+rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla-firefox/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
@@ -219,8 +249,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libtotem-plparser.a
 
+%if %{with mozilla_firefox}
 %files -n mozilla-firefox-plugin-totem
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/totem-mozilla-viewer
 %attr(755,root,root) %{_libdir}/mozilla-firefox/plugins/*.so
 %{_libdir}/mozilla-firefox/plugins/*.xpt
+%else
+%files -n mozilla-plugin-totem
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+%attr(755,root,root) %{_libdir}/mozilla/plugins/*.so
+%{_libdir}/mozilla/plugins/*.xpt
+%endif
