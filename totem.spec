@@ -28,13 +28,12 @@ URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel
+BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel >= 2.12.0
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf-devel >= 0.8.11
-BuildRequires:	gstreamer-devel >= 0.8.11
-BuildRequires:	gstreamer-plugins-devel >= 0.8.11
+BuildRequires:	gstreamer-GConf >= 0.10
+BuildRequires:	gstreamer-plugins-base-devel >= 0.8.11
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.8.3
 BuildRequires:	intltool >= 0.34
@@ -62,9 +61,8 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
-Requires:	gstreamer-audiosink >= 0.8.11
-Requires:	gstreamer-colorspace >= 0.8.11
-Requires:	gstreamer-videosink >= 0.8.11
+Requires:	gstreamer-audiosink >= 0.10
+Requires:	gstreamer-videosink >= 0.10
 %else
 Requires:	xine-plugin-video
 %endif
