@@ -15,12 +15,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.3.90
+Version:	1.3.91
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	fbb1ef6d8b6dc9150ab51ced8f65b618
+# Source0-md5:	2d0b57549a6bcc989061468ce133ea24
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -58,7 +58,6 @@ BuildRequires:	scrollkeeper
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
 Requires:	gstreamer-audiosink >= 0.10
@@ -192,7 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla-firefox/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --all-name --with-gnome
 
