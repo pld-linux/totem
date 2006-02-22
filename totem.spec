@@ -3,8 +3,8 @@
 # - switch to common plugins dir (better known as glen's nsplugins dir ;)
 #
 # Conditional build
-%bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_with	mozilla_firefox	# build with mozilla-firefox
+%bcond_without	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.3.91
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.3/%{name}-%{version}.tar.bz2
@@ -55,6 +55,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
+BuildRequires:	xorg-lib-libXv-devel
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
