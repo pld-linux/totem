@@ -59,7 +59,6 @@ BuildRequires:	scrollkeeper
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	XFree86-libs >= 4.3.0-1.3
 Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
 Requires:	gstreamer-audiosink >= 0.8.11
