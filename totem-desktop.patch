@@ -5,7 +5,7 @@ diff -aurN totem-1.2.1.orig/data/totem.desktop.in.in.in totem-1.2.1/data/totem.d
  Icon=media-player-48.png
  Terminal=false
  Type=Application
--Categories=GNOME;Application;AudioVideo;Player;X-Ximian-Main;X-Red-Hat-Base;
+-Categories=GNOME;GTK;Application;AudioVideo;Player;X-Ximian-Main;X-Red-Hat-Base;
 +Categories=GTK;GNOME;AudioVideo;Player;
  X-GNOME-Bugzilla-Bugzilla=GNOME
  X-GNOME-Bugzilla-Product=totem
