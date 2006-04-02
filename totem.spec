@@ -3,8 +3,8 @@
 # - switch to common plugins dir (better known as glen's nsplugins dir ;)
 #
 # Conditional build
-%bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_with	mozilla_firefox	# build with mozilla-firefox
+%bcond_without	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
@@ -15,12 +15,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.3.1
+Version:	1.4.0
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	3201390ea4a74027e8bab32fa383f4e4
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
+# Source0-md5:	34be929fc384b078afabd6d81ab47285
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -28,13 +28,12 @@ URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel
+BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel >= 2.12.0
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf-devel >= 0.8.11
-BuildRequires:	gstreamer-devel >= 0.8.11
-BuildRequires:	gstreamer-plugins-devel >= 0.8.11
+BuildRequires:	gstreamer-GConf >= 0.10
+BuildRequires:	gstreamer-plugins-base-devel >= 0.8.11
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.8.3
 BuildRequires:	intltool >= 0.34
@@ -56,14 +55,14 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
+BuildRequires:	xorg-lib-libXv-devel
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
-Requires:	gstreamer-audiosink >= 0.8.11
-Requires:	gstreamer-colorspace >= 0.8.11
-Requires:	gstreamer-videosink >= 0.8.11
+Requires:	gstreamer-audiosink >= 0.10
+Requires:	gstreamer-videosink >= 0.10
 %else
 Requires:	xine-plugin-video
 %endif
@@ -193,7 +192,6 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla-firefox/plugins/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --all-name --with-gnome
 
