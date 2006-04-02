@@ -24,6 +24,7 @@ Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
+Patch3:		%{name}-configure.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
@@ -32,8 +33,7 @@ BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel >= 2.12.0
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf >= 0.10
-BuildRequires:	gstreamer-plugins-base-devel >= 0.8.11
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.8.3
 BuildRequires:	intltool >= 0.34
@@ -59,8 +59,8 @@ BuildRequires:	xorg-lib-libXv-devel
 Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
+Requires:	gstreamer-GConf >= 0.10
 Requires:	gstreamer-audiosink >= 0.10
 Requires:	gstreamer-videosink >= 0.10
 %else
@@ -166,6 +166,7 @@ Wtyczka Totema dla Mozilli.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
