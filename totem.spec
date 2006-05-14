@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.4.0
-Release:	1.1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
@@ -160,6 +160,8 @@ Supported browsers: %{browsers}.
 %description -n browser-plugin-%{name} -l pl
 Wtyczka Totem do przegl±darek WWW.
 
+Obs³ugiwane przegl±darki: %{browsers}.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -187,10 +189,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	plugindir=%{_plugindir} \
+	typelibdir=%{_plugindir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla/plugins/*.{la,a}
-rm -f $RPM_BUILD_ROOT%{_libdir}/mozilla-firefox/plugins/*.{la,a}
+rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 
 %find_lang %{name} --all-name --with-gnome
@@ -278,16 +281,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libtotem-plparser.a
 
-#%if %{with mozilla_firefox}
-#%files -n mozilla-firefox-plugin-totem
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
-#%attr(755,root,root) %{_libdir}/mozilla-firefox/plugins/*.so
-#%{_libdir}/mozilla-firefox/plugins/*.xpt
-#%else
-#%files -n mozilla-plugin-totem
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
-#%attr(755,root,root) %{_libdir}/mozilla/plugins/*.so
-#%{_libdir}/mozilla/plugins/*.xpt
-#%endif
+%files -n browser-plugin-%{name}
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+%attr(755,root,root) %{_plugindir}/*.so
+%attr(755,root,root) %{_plugindir}/*.xpt
