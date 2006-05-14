@@ -142,32 +142,6 @@ Static Totem libraries.
 %description static -l pl
 Statyczne biblioteki Totema.
 
-%package -n mozilla-firefox-plugin-totem
-Summary:	Totem's plugin for Mozilla Firefox
-Summary(pl):	Wtyczka Totema dla Mozilli Firefox
-Group:		Libraries
-%requires_eq	mozilla-firefox
-Requires:	%{name} = %{version}-%{release}
-
-%description -n mozilla-firefox-plugin-totem
-Totem's plugin for Mozilla Firefox.
-
-%description -n mozilla-firefox-plugin-totem -l pl
-Wtyczka Totema dla Mozilli Firefox.
-
-%package -n mozilla-plugin-totem
-Summary:	Totem's plugin for Mozilla
-Summary(pl):	Wtyczka Totema dla Mozilli
-Group:		Libraries
-Requires:	mozilla-embedded = %(rpm -q --qf '%{EPOCH}:%{VERSION}' --whatprovides mozilla-embedded)
-Requires:	%{name} = %{version}-%{release}
-
-%description -n mozilla-plugin-totem
-Totem's plugin for Mozilla.
-
-%description -n mozilla-plugin-totem -l pl
-Wtyczka Totema dla Mozilli.
-
 %package -n browser-plugin-%{name}
 Summary:	Totem's browser plugin
 Summary(pl):	Wtyczka Totema do przegl±darek WWW
