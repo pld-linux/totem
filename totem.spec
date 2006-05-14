@@ -32,6 +32,7 @@ BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-vfs2-devel >= 2.12.0
+BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10
 %endif
@@ -41,8 +42,8 @@ BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
 BuildRequires:	libgnomeui-devel >= 2.12.0
 BuildRequires:	libmusicbrainz-devel
+%{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
-%{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	lirc-devel
 %if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
@@ -56,8 +57,8 @@ BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
-Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
+Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10
@@ -144,12 +145,12 @@ Statyczne biblioteki Totema.
 Summary:	Totem's browser plugin
 Summary(pl):	Wtyczka Totema do przegl±darek WWW
 Group:		X11/Libraries
-Requires:	browser-plugins(%{_target_base_arch})
 Requires:	%{name} = %{version}-%{release}
-Provides:	mozilla-plugin-totem
-Obsoletes:	mozilla-plugin-totem
+Requires:	browser-plugins(%{_target_base_arch})
 Provides:	mozilla-firefox-plugin-totem
+Provides:	mozilla-plugin-totem
 Obsoletes:	mozilla-firefox-plugin-totem
+Obsoletes:	mozilla-plugin-totem
 
 %description -n browser-plugin-%{name}
 Totem's plugin for browsers.
