@@ -1,11 +1,10 @@
-diff -aurN totem-1.2.1.orig/data/totem.desktop.in.in.in totem-1.2.1/data/totem.desktop.in.in.in
---- totem-1.2.1.orig/data/totem.desktop.in.in.in	2005-11-24 20:00:19.000000000 +0100
-+++ totem-1.2.1/data/totem.desktop.in.in.in	2005-12-11 22:49:44.000000000 +0100
+--- ./data/totem.desktop.in.in.in.org	2006-05-14 12:36:22.000000000 +0000
++++ ./data/totem.desktop.in.in.in	2006-05-14 12:36:50.000000000 +0000
 @@ -6,7 +6,7 @@
  Icon=media-player-48.png
  Terminal=false
  Type=Application
--Categories=GNOME;Application;AudioVideo;Player;X-Ximian-Main;X-Red-Hat-Base;
+-Categories=GNOME;GTK;Application;AudioVideo;Player;X-Ximian-Main;X-Red-Hat-Base;
 +Categories=GTK;GNOME;AudioVideo;Player;
  X-GNOME-Bugzilla-Bugzilla=GNOME
  X-GNOME-Bugzilla-Product=totem
