@@ -1,6 +1,6 @@
 #
 # TODO:
-# - switch to common plugins dir (better known as glen's nsplugins dir ;)
+# - what more bowsers can be supported?
 #
 # Conditional build
 %bcond_with	mozilla_firefox	# build with mozilla-firefox
@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.4.0
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
@@ -72,6 +72,11 @@ Requires:	gtk+2 >= 2:2.8.3
 %else
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_plugindir	%{_libdir}/browser-plugins
+
+# list of supported browsers, in free form text
+%define		browsers	mozilla, mozilla-firefox, netscape, seamonkey
 
 %if %{with gstreamer}
 %description
@@ -135,31 +140,24 @@ Static Totem libraries.
 %description static -l pl
 Statyczne biblioteki Totema.
 
-%package -n mozilla-firefox-plugin-totem
-Summary:	Totem's plugin for Mozilla Firefox
-Summary(pl):	Wtyczka Totema dla Mozilli Firefox
-Group:		Libraries
-%requires_eq	mozilla-firefox
+%package -n browser-plugin-%{name}
+Summary:	Totem's browser plugin
+Summary(pl):	Wtyczka Totema do przegl±darek WWW
+Group:		X11/Libraries
+Requires:	browser-plugins(%{_target_base_arch})
 Requires:	%{name} = %{version}-%{release}
+Provides:	mozilla-plugin-totem
+Obsoletes:	mozilla-plugin-totem
+Provides:	mozilla-firefox-plugin-totem
+Obsoletes:	mozilla-firefox-plugin-totem
 
-%description -n mozilla-firefox-plugin-totem
-Totem's plugin for Mozilla Firefox.
+%description -n browser-plugin-%{name}
+Totem's plugin for browsers.
 
-%description -n mozilla-firefox-plugin-totem -l pl
-Wtyczka Totema dla Mozilli Firefox.
+Supported browsers: %{browsers}.
 
-%package -n mozilla-plugin-totem
-Summary:	Totem's plugin for Mozilla
-Summary(pl):	Wtyczka Totema dla Mozilli
-Group:		Libraries
-Requires:	mozilla-embedded = %(rpm -q --qf '%{EPOCH}:%{VERSION}' --whatprovides mozilla-embedded)
-Requires:	%{name} = %{version}-%{release}
-
-%description -n mozilla-plugin-totem
-Totem's plugin for Mozilla.
-
-%description -n mozilla-plugin-totem -l pl
-Wtyczka Totema dla Mozilli.
+%description -n browser-plugin-%{name} -l pl
+Wtyczka Totem do przegl±darek WWW.
 
 %prep
 %setup -q
@@ -218,6 +216,38 @@ rm -rf $RPM_BUILD_ROOT
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
 
+%triggerin -n browser-plugin-%{name} -- mozilla
+%nsplugin_install -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+
+%triggerun -n browser-plugin-%{name} -- mozilla
+%nsplugin_uninstall -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+
+%triggerin -n browser-plugin-%{name} -- mozilla-firefox
+%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
+
+%triggerun -n browser-plugin-%{name} -- mozilla-forefox
+%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
+
+%triggerin -n browser-plugin-%{name} -- netscape-common
+%nsplugin_install -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+
+%triggerun -n browser-plugin-%{name} -- netscape-common
+%nsplugin_uninstall -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+
+%triggerin -n browser-plugin-%{name} -- seamonkey
+%nsplugin_install -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
+
+%triggerun -n browser-plugin-%{name} -- seamonkey
+%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
+
+# as rpm removes the old obsoleted package files after the triggers
+# are ran, add another trigger to make the links there.
+%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-%{name}
+%nsplugin_install -f -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+
+%triggerpostun -n browser-plugin-%{name} -- mozilla-firefox-plugin-%{name}
+%nsplugin_install -f -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
@@ -247,16 +277,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libtotem-plparser.a
 
-%if %{with mozilla_firefox}
-%files -n mozilla-firefox-plugin-totem
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
-%attr(755,root,root) %{_libdir}/mozilla-firefox/plugins/*.so
-%{_libdir}/mozilla-firefox/plugins/*.xpt
-%else
-%files -n mozilla-plugin-totem
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
-%attr(755,root,root) %{_libdir}/mozilla/plugins/*.so
-%{_libdir}/mozilla/plugins/*.xpt
-%endif
+#%if %{with mozilla_firefox}
+#%files -n mozilla-firefox-plugin-totem
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+#%attr(755,root,root) %{_libdir}/mozilla-firefox/plugins/*.so
+#%{_libdir}/mozilla-firefox/plugins/*.xpt
+#%else
+#%files -n mozilla-plugin-totem
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+#%attr(755,root,root) %{_libdir}/mozilla/plugins/*.so
+#%{_libdir}/mozilla/plugins/*.xpt
+#%endif
