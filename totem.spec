@@ -3,8 +3,8 @@
 # - what more bowsers can be supported?
 #
 # Conditional build
-%bcond_with	gstreamer	# build with gstreamer instead xine-lib
 %bcond_with	mozilla_firefox	# build with mozilla-firefox
+%bcond_without	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
@@ -15,56 +15,56 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.2.2
-Release:	1
+Version:	1.4.0
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	a1ccda72948706edf13d2e1e69b48969
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
+# Source0-md5:	34be929fc384b078afabd6d81ab47285
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
+Patch3:		%{name}-configure.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
+BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel
+BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-vfs2-devel >= 2.12.0
+BuildRequires:	gnome-vfs2-devel >= 2.14.0
+BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
-BuildRequires:	gstreamer-GConf-devel >= 0.8.11
-BuildRequires:	gstreamer-devel >= 0.8.11
-BuildRequires:	gstreamer-plugins-devel >= 0.8.11
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.8.3
 BuildRequires:	intltool >= 0.34
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.12.0
+BuildRequires:	libgnomeui-devel >= 2.14.0
 BuildRequires:	libmusicbrainz-devel
+%{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
-%{?with_nvtv:BuildRequires: libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	lirc-devel
 %if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
 %else
 BuildRequires:	mozilla-devel >= 5:1.7.12
 %endif
-BuildRequires:	nautilus-cd-burner-devel >= 2.12.0
-BuildRequires:	nautilus-devel >= 2.12.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
+BuildRequires:	nautilus-devel >= 2.14.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
-Requires(post,preun):	GConf2
 Requires(post,postun):	scrollkeeper
+Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	XFree86-libs >= 4.3.0-1.3
-Requires:	gnome-desktop >= 2.12.0
 %if %{with gstreamer}
-Requires:	gstreamer-audiosink >= 0.8.11
-Requires:	gstreamer-colorspace >= 0.8.11
-Requires:	gstreamer-videosink >= 0.8.11
+Requires:	gstreamer-GConf >= 0.10
+Requires:	gstreamer-audiosink >= 0.10
+Requires:	gstreamer-videosink >= 0.10
 %else
 Requires:	xine-plugin-video
 %endif
@@ -109,7 +109,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	nautilus-libs >= 2.12.0
+Requires:	nautilus-libs >= 2.14.0
 
 %description libs
 Totem shared libraries.
@@ -146,12 +146,12 @@ Statyczne biblioteki Totema.
 Summary:	Totem's browser plugin
 Summary(pl):	Wtyczka Totema do przegl±darek WWW
 Group:		X11/Libraries
-Requires:	browser-plugins(%{_target_base_arch})
 Requires:	%{name} = %{version}-%{release}
-Provides:	mozilla-plugin-totem
-Obsoletes:	mozilla-plugin-totem
+Requires:	browser-plugins(%{_target_base_arch})
 Provides:	mozilla-firefox-plugin-totem
+Provides:	mozilla-plugin-totem
 Obsoletes:	mozilla-firefox-plugin-totem
+Obsoletes:	mozilla-plugin-totem
 
 %description -n browser-plugin-%{name}
 Totem's plugin for browsers.
@@ -168,6 +168,7 @@ Obs³ugiwane przegl±darki: %{browsers}.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -195,7 +196,6 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --all-name --with-gnome
 
