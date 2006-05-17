@@ -31,7 +31,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-vfs2-devel >= 2.12.0
+BuildRequires:	gnome-vfs2-devel >= 2.14.0
 BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10
@@ -40,7 +40,7 @@ BuildRequires:	gtk+2-devel >= 2:2.8.3
 BuildRequires:	intltool >= 0.34
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.12.0
+BuildRequires:	libgnomeui-devel >= 2.14.0
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
@@ -50,8 +50,8 @@ BuildRequires:	mozilla-firefox-devel
 %else
 BuildRequires:	mozilla-devel >= 5:1.7.12
 %endif
-BuildRequires:	nautilus-cd-burner-devel >= 2.12.0
-BuildRequires:	nautilus-devel >= 2.12.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
+BuildRequires:	nautilus-devel >= 2.14.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
@@ -108,7 +108,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	nautilus-libs >= 2.12.0
+Requires:	nautilus-libs >= 2.14.0
 
 %description libs
 Totem shared libraries.
