@@ -49,7 +49,7 @@ BuildRequires:	lirc-devel
 %if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
 %else
-BuildRequires:	mozilla-devel >= 5:1.7.12
+BuildRequires:	mozilla-devel >= 5:1.7.13-2
 %endif
 BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
 BuildRequires:	nautilus-devel >= 2.14.0
