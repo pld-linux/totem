@@ -3,24 +3,24 @@
 # - what more bowsers can be supported?
 #
 # Conditional build
-%bcond_with	mozilla_firefox	# build with mozilla-firefox
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
+%bcond_without	mozilla_firefox	# build with mozilla-firefox
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
 %ifnarch alpha arm %{ix86} ia64 sh %{x8664}
-%undefine		with_nvtv
+%undefine	with_nvtv
 %endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.4.0
-Release:	5
+Version:	1.4.1
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	34be929fc384b078afabd6d81ab47285
+# Source0-md5:	6788b83f7889f61eef5922f4daecd859
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -184,7 +184,12 @@ Obs³ugiwane przegl±darki: %{browsers}.
 	%{?with_gstreamer:--enable-gstreamer}
 
 %{__make} \
+%if %{with mozilla_firefox}
+	MOZILLA_IDLDIR="%{_includedir}/mozilla-firefox/idl"
+%else
 	MOZILLA_IDLDIR="%{_includedir}/mozilla/idl"
+%endif
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
