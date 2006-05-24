@@ -3,13 +3,13 @@
 # - what more bowsers can be supported?
 #
 # Conditional build
-%bcond_with	mozilla_firefox	# build with mozilla-firefox
 %bcond_without	gstreamer	# build with gstreamer instead xine-lib
+%bcond_without	mozilla_firefox	# build with mozilla intead of mozilla-firefox
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
 %ifnarch alpha arm %{ix86} ia64 sh %{x8664}
-%undefine		with_nvtv
+%undefine	with_nvtv
 %endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
@@ -29,8 +29,8 @@ URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel >= 0.35
-BuildRequires:	gnome-desktop-devel
+BuildRequires:	dbus-glib-devel >= 0.60
+BuildRequires:	gnome-desktop-devel >= 2.14.0
 BuildRequires:	gnome-vfs2-devel >= 2.14.0
 BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
@@ -48,7 +48,7 @@ BuildRequires:	lirc-devel
 %if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
 %else
-BuildRequires:	mozilla-devel >= 5:1.7.12
+BuildRequires:	mozilla-devel >= 5:1.7.13-2
 %endif
 BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
 BuildRequires:	nautilus-devel >= 2.14.0
@@ -108,6 +108,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
+Requires:	gnome-desktop-libs >= 2.14.0
 Requires:	nautilus-libs >= 2.14.0
 
 %description libs
@@ -182,7 +183,12 @@ Obs³ugiwane przegl±darki: %{browsers}.
 	%{?with_gstreamer:--enable-gstreamer}
 
 %{__make} \
-	MOZILLA_IDLDIR="%{_datadir}/idl"
+%if %{with mozilla_firefox}
+	MOZILLA_IDLDIR="%{_includedir}/mozilla-firefox/idl"
+%else
+	MOZILLA_IDLDIR="%{_includedir}/mozilla/idl"
+%endif
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
