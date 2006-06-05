@@ -66,6 +66,8 @@ Requires:	gstreamer-audiosink >= 0.10
 Requires:	gstreamer-videosink >= 0.10
 %else
 Requires:	xine-plugin-video
+# unusable
+Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.8.3
 %if %{with mozilla_firefox}
@@ -180,7 +182,7 @@ Obs³ugiwane przegl±darki: %{browsers}.
 	--enable-mozilla \
 	--enable-nautilus \
 	%{?with_nvtv:--enable-nvtv} \
-	%{?with_gstreamer:--enable-gstreamer}
+	%{?with_gstreamer:--enable-gstreamer=0.10}
 
 %{__make} \
 %if %{with mozilla_firefox}
