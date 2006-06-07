@@ -6,6 +6,7 @@
 %bcond_without	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	mozilla_firefox	# build with mozilla intead of mozilla-firefox
 %bcond_without	nvtv		# build without nvtv support
+%bcond_without	lirc		# without lirc support
 #
 # nvtv only available on few archs
 %ifnarch alpha arm %{ix86} ia64 sh %{x8664}
@@ -44,7 +45,7 @@ BuildRequires:	libgnomeui-devel >= 2.14.0
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
-BuildRequires:	lirc-devel
+%{?with_lirc:BuildRequires:	lirc-devel}
 %if %{with mozilla_firefox}
 BuildRequires:	mozilla-firefox-devel
 %else
@@ -178,7 +179,7 @@ Obs³ugiwane przegl±darki: %{browsers}.
 %{__autoconf}
 %{__automake}
 %configure \
-	--enable-lirc \
+	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
 	%{?with_nvtv:--enable-nvtv} \
