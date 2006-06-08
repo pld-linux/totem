@@ -16,12 +16,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.4.1
-Release:	2
+Version:	1.5.1
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	6788b83f7889f61eef5922f4daecd859
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.5/%{name}-%{version}.tar.bz2
+# Source0-md5:	a3fbceb3648dfe97e5de4479b9bb12cc
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -31,17 +31,17 @@ BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.60
-BuildRequires:	gnome-desktop-devel >= 2.14.0
-BuildRequires:	gnome-vfs2-devel >= 2.14.0
+BuildRequires:	gnome-desktop-devel >= 2.15.2
+BuildRequires:	gnome-vfs2-devel >= 2.15.1
 BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.7
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.8.3
-BuildRequires:	intltool >= 0.34
+BuildRequires:	gtk+2-devel >= 2:2.9.2
+BuildRequires:	intltool >= 0.35
 BuildRequires:	iso-codes
-BuildRequires:	libglade2-devel
-BuildRequires:	libgnomeui-devel >= 2.14.0
+BuildRequires:	libglade2-devel >= 1:2.5.1
+BuildRequires:	libgnomeui-devel >= 2.15.1
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
@@ -51,8 +51,8 @@ BuildRequires:	mozilla-firefox-devel
 %else
 BuildRequires:	mozilla-devel >= 5:1.7.13-2
 %endif
-BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
-BuildRequires:	nautilus-devel >= 2.14.0
+BuildRequires:	nautilus-cd-burner-devel >= 2.15.2
+BuildRequires:	nautilus-devel >= 2.15.1
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
@@ -62,7 +62,7 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
-Requires:	gstreamer-GConf >= 0.10
+Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
 Requires:	gstreamer-videosink >= 0.10
 %else
@@ -70,7 +70,7 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.8.3
+Requires:	gtk+2 >= 2:2.9.2
 %if %{with mozilla_firefox}
 %requires_eq	mozilla-firefox
 %else
@@ -111,8 +111,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.14.0
-Requires:	nautilus-libs >= 2.14.0
+Requires:	gnome-desktop-libs >= 2.15.2
+Requires:	nautilus-libs >= 2.15.1
 
 %description libs
 Totem shared libraries.
@@ -125,7 +125,7 @@ Summary:	Totem include files
 Summary(pl):	Pliki nag³ówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.8.3
+Requires:	gtk+2-devel >= 2:2.9.2
 
 %description devel
 Totem headers files.
@@ -183,7 +183,7 @@ Obs³ugiwane przegl±darki: %{browsers}.
 	--enable-mozilla \
 	--enable-nautilus \
 	%{?with_nvtv:--enable-nvtv} \
-	%{?with_gstreamer:--enable-gstreamer=0.10}
+	%{?with_gstreamer:--enable-gstreamer}
 
 %{__make} \
 %if %{with mozilla_firefox}
@@ -204,6 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/ug
 
 %find_lang %{name} --all-name --with-gnome
 
