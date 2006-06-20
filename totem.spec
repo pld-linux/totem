@@ -17,7 +17,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.5.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.5/%{name}-%{version}.tar.bz2
@@ -72,6 +72,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.9.2
+Requires:	nautilus >= 2.15.2
 %if %{with mozilla_firefox}
 %requires_eq	mozilla-firefox
 %else
@@ -269,6 +270,7 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
 %{_datadir}/%{name}
 %{_desktopdir}/*.desktop
 %{_mandir}/man1/*
@@ -282,7 +284,6 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtotem-plparser.so.*.*.*
-%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
 
 %files devel
 %defattr(644,root,root,755)
