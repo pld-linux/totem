@@ -1,7 +1,7 @@
-diff -aurN totem-1.4.0.orig/configure.in totem-1.4.0/configure.in
---- totem-1.4.0.orig/configure.in	2006-03-13 10:33:13.000000000 +0100
-+++ totem-1.4.0/configure.in	2006-04-02 16:06:36.000000000 +0200
-@@ -143,41 +143,6 @@
+diff -aurN totem-1.4.2.orig/configure.in totem-1.4.2/configure.in
+--- totem-1.4.2.orig/configure.in	2006-06-22 16:29:04.000000000 +0200
++++ totem-1.4.2/configure.in	2006-06-25 13:55:55.431293832 +0200
+@@ -146,41 +146,6 @@
  
  	AC_MSG_RESULT(GStreamer-$GST_MAJORMINOR)
  
@@ -26,7 +26,7 @@ diff -aurN totem-1.4.0.orig/configure.in totem-1.4.0/configure.in
 -		done
 -
 -		dnl Check for elements from gst-plugins-good
--		for good_element in gconfaudiosink gconfvideosink
+-		for good_element in gconfaudiosink gconfvideosink goom
 -		do
 -			AC_MSG_CHECKING([GStreamer 0.10 $good_element plugin])
 -			if $gst010_inspect $good_element >/dev/null 2>/dev/null; then
@@ -43,10 +43,11 @@ diff -aurN totem-1.4.0.orig/configure.in totem-1.4.0/configure.in
  		dnl We want at least GLib-2.8 for the GStreamer-0.10 backend
  		AC_MSG_CHECKING([whether GLib has atomic refcounting for objects])
  		PKG_CHECK_MODULES(GLIB_WITH_ATOMIC_REFCOUNTING, glib-2.0 >= 2.8.0, [
-@@ -191,7 +156,6 @@
+@@ -193,8 +158,6 @@
+ 				your GLib version first.
  			])
  		])
- 			
+-			
 -	fi
  fi
  
