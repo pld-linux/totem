@@ -1,0 +1,15 @@
+diff -aurN totem-1.4.3.orig/src/backend/bacon-video-widget-xine.c totem-1.4.3/src/backend/bacon-video-widget-xine.c
+--- totem-1.4.3.orig/src/backend/bacon-video-widget-xine.c	2006-07-06 20:50:53.000000000 +0200
++++ totem-1.4.3/src/backend/bacon-video-widget-xine.c	2006-07-24 10:17:20.981946640 +0200
+@@ -2767,10 +2767,7 @@
+ 
+ 	/* And we try and create symlinks from /usr/lib/win32 to
+ 	 * the local user path */
+-	totem_create_symlinks ("/usr/lib/win32", path);
+-	totem_create_symlinks ("/usr/lib/RealPlayer9/Codecs/", path);
+-	totem_create_symlinks ("/usr/lib/RealPlayer9/users/Real/Codecs/", path);
+-	totem_create_symlinks ("/usr/lib/RealPlayer8/Codecs", path);
++	totem_create_symlinks ("/usr/lib/codecs", path);
+ 
+ 	g_free (bvw->priv->codecs_path);
+ 	bvw->priv->codecs_path = g_strdup (path);
