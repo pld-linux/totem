@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.5.90
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.5/%{name}-%{version}.tar.bz2
@@ -29,9 +29,9 @@ URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel >= 0.62
-BuildRequires:	gnome-desktop-devel >= 2.15.90
-BuildRequires:	gnome-vfs2-devel >= 2.15.90
+BuildRequires:	dbus-glib-devel >= 0.71
+BuildRequires:	gnome-desktop-devel >= 2.15.91
+BuildRequires:	gnome-vfs2-devel >= 2.15.91
 BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.9
@@ -40,14 +40,14 @@ BuildRequires:	gtk+2-devel >= 2:2.10.1
 BuildRequires:	intltool >= 0.35
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
-BuildRequires:	libgnomeui-devel >= 2.15.90
+BuildRequires:	libgnomeui-devel >= 2.15.91
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	mozilla-firefox-devel >= 1.5.0.5
-BuildRequires:	nautilus-cd-burner-devel >= 2.15.5
-BuildRequires:	nautilus-devel >= 2.15.90
+BuildRequires:	nautilus-cd-burner-devel >= 2.15.6
+BuildRequires:	nautilus-devel >= 2.15.91
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.311
 BuildRequires:	scrollkeeper
@@ -105,8 +105,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.15.90
-Requires:	nautilus-libs >= 2.15.90
+Requires:	gnome-desktop-libs >= 2.15.91
+Requires:	nautilus-libs >= 2.15.91
 
 %description libs
 Totem shared libraries.
