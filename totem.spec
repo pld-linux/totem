@@ -15,12 +15,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.5.90
-Release:	3
+Version:	1.5.91
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.5/%{name}-%{version}.tar.bz2
-# Source0-md5:	f4d03b463cfb08299b5bce75e3ed3ec1
+# Source0-md5:	2195f9a36c5328c3ee10f1dfda206865
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -32,7 +32,6 @@ BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.71
 BuildRequires:	gnome-desktop-devel >= 2.15.91
 BuildRequires:	gnome-vfs2-devel >= 2.15.91
-BuildRequires:	rpmbuild(macros) >= 1.236
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.9
 %endif
@@ -189,6 +188,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	plugindir=%{_plugindir} \
 	typelibdir=%{_plugindir} \
+	xptdir=%{_plugindir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
@@ -262,7 +262,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_mandir}/man1/*
 %{_omf_dest_dir}/%{name}
-%{_iconsdir}/hicolor/*/*/media-player-48.png
+%{_iconsdir}/hicolor/*/*/totem.*
 %{_pixmapsdir}/*
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
