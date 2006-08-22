@@ -1,13 +1,10 @@
-diff -aurN totem-1.5.2.orig/configure.in totem-1.5.2/configure.in
---- totem-1.5.2.orig/configure.in	2006-06-12 17:30:45.000000000 +0200
-+++ totem-1.5.2/configure.in	2006-06-12 20:10:50.922337864 +0200
-@@ -130,40 +130,6 @@
- 
- 	AC_MSG_RESULT(GStreamer-$GST_MAJORMINOR)
- 
--	dnl Check for required plugins
--	gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
--	gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
+diff -aurN totem-1.5.92.orig/configure.in totem-1.5.92/configure.in
+--- totem-1.5.92.orig/configure.in	2006-08-22 11:00:07.000000000 +0200
++++ totem-1.5.92/configure.in	2006-08-22 20:04:33.000000000 +0200
+@@ -127,36 +127,6 @@
+ 	dnl Check for required plugins
+ 	gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
+ 	gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
 -
 -	dnl Check for elements from gst-plugins-base
 -	for base_element in playbin ffmpegcolorspace videoscale
@@ -38,7 +35,6 @@ diff -aurN totem-1.5.2.orig/configure.in totem-1.5.2/configure.in
 -			])
 -		fi
 -	done
--
- 	dnl We want at least GLib-2.8 for the GStreamer-0.10 backend
- 	AC_MSG_CHECKING([whether GLib has atomic refcounting for objects])
- 	PKG_CHECK_MODULES(GLIB_WITH_ATOMIC_REFCOUNTING, glib-2.0 >= 2.8.0, [
+ fi
+ 
+ AM_CONDITIONAL(TOTEM_GST, test "x$HAVE_GSTREAMER" = "xyes")
