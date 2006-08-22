@@ -15,12 +15,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	1.5.91
+Version:	1.5.92
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.5/%{name}-%{version}.tar.bz2
-# Source0-md5:	2195f9a36c5328c3ee10f1dfda206865
+# Source0-md5:	830e2597cc5b8c93b7693642a6a414f2
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -30,12 +30,12 @@ BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.71
-BuildRequires:	gnome-desktop-devel >= 2.15.91
-BuildRequires:	gnome-vfs2-devel >= 2.15.91
+BuildRequires:	gnome-desktop-devel >= 2.15.92
+BuildRequires:	gnome-vfs2-devel >= 2.15.92
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.9
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.10.1
+BuildRequires:	gtk+2-devel >= 2:2.10.2
 BuildRequires:	intltool >= 0.35
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
@@ -44,8 +44,8 @@ BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	mozilla-firefox-devel >= 1.5.0.5
-BuildRequires:	nautilus-cd-burner-devel >= 2.15.6
+BuildRequires:	mozilla-firefox-devel >= 1.5.0.6
+BuildRequires:	nautilus-cd-burner-devel >= 2.15.7
 BuildRequires:	nautilus-devel >= 2.15.91
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.311
@@ -53,7 +53,7 @@ BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 Requires(post,preun):	GConf2 >= 2.14.0
-Requires(post,postun):	gtk+2 >= 2:2.10.1
+Requires(post,postun):	gtk+2 >= 2:2.10.2
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
@@ -66,6 +66,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.10.1
+Requires:	hicolor-icon-theme
 Requires:	nautilus >= 2.15.90
 %requires_eq	mozilla-firefox
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
