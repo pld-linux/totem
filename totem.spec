@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.16.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.16/%{name}-%{version}.tar.bz2
@@ -223,36 +223,36 @@ rm -rf $RPM_BUILD_ROOT
 %postun	libs -p /sbin/ldconfig
 
 %triggerin -n browser-plugin-%{name} -- mozilla
-%nsplugin_install -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -d %{_libdir}/mozilla/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerun -n browser-plugin-%{name} -- mozilla
-%nsplugin_uninstall -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_uninstall -d %{_libdir}/mozilla/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerin -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerun -n browser-plugin-%{name} -- mozilla-forefox
-%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerin -n browser-plugin-%{name} -- netscape-common
-%nsplugin_install -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -d %{_libdir}/netscape/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerun -n browser-plugin-%{name} -- netscape-common
-%nsplugin_uninstall -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_uninstall -d %{_libdir}/netscape/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerin -n browser-plugin-%{name} -- seamonkey
-%nsplugin_install -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -d %{_libdir}/seamonkey/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerun -n browser-plugin-%{name} -- seamonkey
-%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 # as rpm removes the old obsoleted package files after the triggers
 # are ran, add another trigger to make the links there.
 %triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-%{name}
-%nsplugin_install -f -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -f -d %{_libdir}/mozilla/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerpostun -n browser-plugin-%{name} -- mozilla-firefox-plugin-%{name}
-%nsplugin_install -f -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+%nsplugin_install -f -d %{_libdir}/netscape/plugins libtotem-{base,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
