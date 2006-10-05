@@ -194,7 +194,6 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/ug
 
 %find_lang %{name} --all-name --with-gnome
 
