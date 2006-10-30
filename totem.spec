@@ -16,7 +16,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.16.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.16/%{name}-%{version}.tar.bz2
@@ -74,7 +74,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_plugindir	%{_libdir}/browser-plugins
 
 # list of supported browsers, in free form text
-%define		browsers	mozilla, mozilla-firefox, netscape, seamonkey
+%define		browsers	mozilla, mozilla-firefox, mozilla-firefox-bin, netscape, seamonkey
 
 %if %{with gstreamer}
 %description
@@ -232,6 +232,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerun -n browser-plugin-%{name} -- mozilla-forefox
 %nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins libtotem-{basic,complex,gmp,narrowspace}-plugin.{so,xpt}
+
+%triggerin -n browser-plugin-%{name} -- mozilla-firefox-bin
+%nsplugin_install -d %{_libdir}/mozilla-firefox-bin/plugins libtotem-{basic,complex,gmp,narrowspace}-plugin.{so,xpt}
+
+%triggerun -n browser-plugin-%{name} -- mozilla-forefox-bin
+%nsplugin_uninstall -d %{_libdir}/mozilla-firefox-bin/plugins libtotem-{basic,complex,gmp,narrowspace}-plugin.{so,xpt}
 
 %triggerin -n browser-plugin-%{name} -- netscape-common
 %nsplugin_install -d %{_libdir}/netscape/plugins libtotem-{basic,complex,gmp,narrowspace}-plugin.{so,xpt}
