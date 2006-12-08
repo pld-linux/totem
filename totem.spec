@@ -68,7 +68,7 @@ Conflicts:	xine-input-gnome-vfs
 Requires:	gtk+2 >= 2:2.10.5
 Requires:	hicolor-icon-theme
 Requires:	nautilus >= 2.16.1
-%requires_eq	mozilla-firefox
+%requires_eq	mozilla-firefox-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_plugindir	%{_libdir}/browser-plugins
