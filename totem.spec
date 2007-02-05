@@ -15,12 +15,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.16.4
-Release:	2
+Version:	2.16.5
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.16/%{name}-%{version}.tar.bz2
-# Source0-md5:	dacfc1089125170bc47517c39fbc7828
+# Source0-md5:	fa8eb90b52d70d876e1d42ec43cf8448
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-mozilla_includes.patch
@@ -30,13 +30,13 @@ BuildRequires:	GConf2-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.71
-BuildRequires:	gnome-desktop-devel >= 2.16.2
+BuildRequires:	gnome-desktop-devel >= 2.16.3
 BuildRequires:	gnome-vfs2-devel >= 2.16.3
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.10.6
-BuildRequires:	intltool >= 0.35.0
+BuildRequires:	gtk+2-devel >= 2:2.10.9
+BuildRequires:	intltool >= 0.35.4
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libgnomeui-devel >= 2.16.1
@@ -44,17 +44,18 @@ BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	xulrunner-devel
-BuildRequires:	nautilus-cd-burner-devel >= 2.16.1
+BuildRequires:	nautilus-cd-burner-devel >= 2.16.3
 BuildRequires:	nautilus-devel >= 2.16.3
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
-Requires(post,preun):	GConf2 >= 2.16.0
-Requires(post,postun):	gtk+2 >= 2:2.10.6
+BuildRequires:	xulrunner-devel
+Requires(post,postun):	gtk+2
+Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
+Requires(post,preun):	GConf2 >= 2.16.0
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10.3
@@ -65,8 +66,7 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.10.6
-Requires:	hicolor-icon-theme
+Requires:	gtk+2 >= 2:2.10.9
 Requires:	nautilus >= 2.16.3
 %requires_eq	xulrunner-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -100,7 +100,7 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl):	Wspó³dzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.16.2
+Requires:	gnome-desktop-libs >= 2.16.3
 Requires:	nautilus-libs >= 2.16.3
 
 %description libs
@@ -114,7 +114,7 @@ Summary:	Totem include files
 Summary(pl):	Pliki nag³ówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.10.6
+Requires:	gtk+2-devel >= 2:2.10.9
 
 %description devel
 Totem headers files.
@@ -168,7 +168,7 @@ Wtyczka Totem do przegl±darek WWW.
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
-	--%{?with_nvtv:enable}%{!?without_nvtv:disable}-nvtv \
+	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
 	%{?with_gstreamer:--enable-gstreamer}
 
 %{__make} \
@@ -225,14 +225,16 @@ fi
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/*.so
+%attr(755,root,root) %{_bindir}/totem
+%attr(755,root,root) %{_bindir}/totem-video-thumbnailer
+%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/libtotem-properties-page.so
 %{_datadir}/%{name}
-%{_desktopdir}/*.desktop
-%{_mandir}/man1/*
+%{_desktopdir}/totem.desktop
+%{_mandir}/man1/totem.1*
+%{_mandir}/man1/totem-video-thumbnailer.1*
 %{_omf_dest_dir}/%{name}
 %{_iconsdir}/hicolor/*/*/totem.*
-%{_pixmapsdir}/*
+%{_pixmapsdir}/vanity.png
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
@@ -246,7 +248,7 @@ fi
 %attr(755,root,root) %{_libdir}/libtotem-plparser.so
 %{_libdir}/libtotem-plparser.la
 %{_includedir}/totem
-%{_pkgconfigdir}/*
+%{_pkgconfigdir}/totem-plparser.pc
 
 %files static
 %defattr(644,root,root,755)
