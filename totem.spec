@@ -13,7 +13,7 @@
 %endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
-Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
+Summary(pl.UTF-8):   Odtwarzacz filmÃ³w dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.16.5
 Release:	1
@@ -77,10 +77,10 @@ Totem is simple movie player for the GNOME desktop based on gstreamer.
 It features a simple playlist, a full-screen mode, seek and volume
 controls, as well as a pretty complete keyboard navigation.
 
-%description -l pl
-Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na
-gstreamer. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
-po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
+%description -l pl.UTF-8
+Totem to prosty odtwarzacz filmÃ³w dla Å›rodowiska GNOME oparty na
+gstreamer. Ma prostÄ… listÄ™ odtwarzania, tryb peÅ‚noekranowy, kontrolÄ™
+poÅ‚oÅ¼enia w pliku i gÅ‚oÅ›noÅ›ci, a takÅ¼e w miarÄ™ kompletnÄ… obsÅ‚ugÄ™ z
 klawiatury.
 
 %else
@@ -89,16 +89,16 @@ Totem is simple movie player for the GNOME desktop based on xine-libs.
 It features a simple playlist, a full-screen mode, seek and volume
 controls, as well as a pretty complete keyboard navigation.
 
-%description -l pl
-Totem to prosty odtwarzacz filmów dla ¶rodowiska GNOME oparty na
-xine-libs. Ma prost± listê odtwarzania, tryb pe³noekranowy, kontrolê
-po³o¿enia w pliku i g³o¶no¶ci, a tak¿e w miarê kompletn± obs³ugê z
+%description -l pl.UTF-8
+Totem to prosty odtwarzacz filmÃ³w dla Å›rodowiska GNOME oparty na
+xine-libs. Ma prostÄ… listÄ™ odtwarzania, tryb peÅ‚noekranowy, kontrolÄ™
+poÅ‚oÅ¼enia w pliku i gÅ‚oÅ›noÅ›ci, a takÅ¼e w miarÄ™ kompletnÄ… obsÅ‚ugÄ™ z
 klawiatury.
 %endif
 
 %package libs
 Summary:	Totem shared libraries
-Summary(pl):	Wspó³dzielone biblioteki Totema
+Summary(pl.UTF-8):   WspÃ³Å‚dzielone biblioteki Totema
 Group:		Libraries
 Requires:	gnome-desktop-libs >= 2.16.3
 Requires:	nautilus-libs >= 2.16.3
@@ -106,12 +106,12 @@ Requires:	nautilus-libs >= 2.16.3
 %description libs
 Totem shared libraries.
 
-%description libs -l pl
-Wspó³dzielone biblioteki Totema.
+%description libs -l pl.UTF-8
+WspÃ³Å‚dzielone biblioteki Totema.
 
 %package devel
 Summary:	Totem include files
-Summary(pl):	Pliki nag³ówkowe Totema
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.10.9
@@ -119,24 +119,24 @@ Requires:	gtk+2-devel >= 2:2.10.9
 %description devel
 Totem headers files.
 
-%description devel -l pl
-Pliki nag³ówkowe Totema.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe Totema.
 
 %package static
 Summary:	Static Totem libraries
-Summary(pl):	Statyczne biblioteki Totema
+Summary(pl.UTF-8):   Statyczne biblioteki Totema
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static Totem libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki Totema.
 
 %package -n browser-plugin-%{name}
 Summary:	Totem's browser plugin
-Summary(pl):	Wtyczka Totema do przegl±darek WWW
+Summary(pl.UTF-8):   Wtyczka Totema do przeglÄ…darek WWW
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	browser-plugins >= 2.0
@@ -149,8 +149,8 @@ Obsoletes:	mozilla-plugin-totem
 %description -n browser-plugin-%{name}
 Totem's plugin for browsers.
 
-%description -n browser-plugin-%{name} -l pl
-Wtyczka Totem do przegl±darek WWW.
+%description -n browser-plugin-%{name} -l pl.UTF-8
+Wtyczka Totem do przeglÄ…darek WWW.
 
 %prep
 %setup -q
