@@ -13,7 +13,7 @@
 %endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
-Summary(pl.UTF-8):   Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
+Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.16.5
 Release:	1
@@ -98,7 +98,7 @@ klawiatury.
 
 %package libs
 Summary:	Totem shared libraries
-Summary(pl.UTF-8):   Współdzielone biblioteki Totema
+Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
 Requires:	gnome-desktop-libs >= 2.16.3
 Requires:	nautilus-libs >= 2.16.3
@@ -111,7 +111,7 @@ Współdzielone biblioteki Totema.
 
 %package devel
 Summary:	Totem include files
-Summary(pl.UTF-8):   Pliki nagłówkowe Totema
+Summary(pl.UTF-8):	Pliki nagłówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.10.9
@@ -124,7 +124,7 @@ Pliki nagłówkowe Totema.
 
 %package static
 Summary:	Static Totem libraries
-Summary(pl.UTF-8):   Statyczne biblioteki Totema
+Summary(pl.UTF-8):	Statyczne biblioteki Totema
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -136,7 +136,7 @@ Statyczne biblioteki Totema.
 
 %package -n browser-plugin-%{name}
 Summary:	Totem's browser plugin
-Summary(pl.UTF-8):   Wtyczka Totema do przeglądarek WWW
+Summary(pl.UTF-8):	Wtyczka Totema do przeglądarek WWW
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	browser-plugins >= 2.0
