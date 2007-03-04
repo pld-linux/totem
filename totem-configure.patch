@@ -1,7 +1,7 @@
 diff -aurN totem-1.5.92.orig/configure.in totem-1.5.92/configure.in
 --- totem-1.5.92.orig/configure.in	2006-08-22 11:00:07.000000000 +0200
 +++ totem-1.5.92/configure.in	2006-08-22 20:04:33.000000000 +0200
-@@ -127,36 +127,6 @@
+@@ -127,38 +127,6 @@
  	dnl Check for required plugins
  	gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
  	gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
@@ -35,6 +35,8 @@ diff -aurN totem-1.5.92.orig/configure.in totem-1.5.92/configure.in
 -			])
 -		fi
 -	done
+-
+-
  fi
  
- AM_CONDITIONAL(TOTEM_GST, test "x$HAVE_GSTREAMER" = "xyes")
+ if test x$ENABLE_XINE = xno && test x$HAVE_GSTREAMER = xno; then
