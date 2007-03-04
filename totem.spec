@@ -15,15 +15,15 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.16.5
-Release:	2
+Version:	2.17.92
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.16/%{name}-%{version}.tar.bz2
-# Source0-md5:	fa8eb90b52d70d876e1d42ec43cf8448
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.17/%{name}-%{version}.tar.bz2
+# Source0-md5:	a37688924af11021aa868afc2ed56f20
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
-Patch2:		%{name}-mozilla_includes.patch
+#Patch2:		%{name}-mozilla_includes.patch
 Patch3:		%{name}-configure.patch
 URL:		http://www.hadess.net/totem.php3
 BuildRequires:	GConf2-devel
@@ -157,7 +157,7 @@ Wtyczka Totem do przeglądarek WWW.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%%patch2 -p1
 %patch3 -p1
 
 %build
@@ -227,6 +227,7 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/totem
+%attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/libtotem-properties-page.so
 %{_datadir}/%{name}
@@ -257,6 +258,6 @@ fi
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+%attr(755,root,root) %{_libdir}/totem-plugin-viewer
 %attr(755,root,root) %{_browserpluginsdir}/*.so
 %attr(755,root,root) %{_browserpluginsdir}/*.xpt
