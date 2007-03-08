@@ -23,40 +23,40 @@ Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.17/%{name}-%{version}.ta
 # Source0-md5:	a37688924af11021aa868afc2ed56f20
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
-#Patch2:		%{name}-mozilla_includes.patch
-Patch3:		%{name}-configure.patch
-URL:		http://www.hadess.net/totem.php3
-BuildRequires:	GConf2-devel
+Patch2:		%{name}-configure.patch
+URL:		http://www.gnome.org/projects/totem/
+BuildRequires:	GConf2-devel >= 2.18.0.1
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel >= 0.71
-BuildRequires:	gnome-desktop-devel >= 2.16.3
-BuildRequires:	gnome-vfs2-devel >= 2.16.3
+BuildRequires:	dbus-glib-devel >= 0.73
+BuildRequires:	gnome-desktop-devel >= 2.17.92
+BuildRequires:	gnome-vfs2-devel >= 2.17.91
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.10.9
-BuildRequires:	intltool >= 0.35.4
+BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
-BuildRequires:	libgnomeui-devel >= 2.16.1
+BuildRequires:	libgnomeui-devel >= 2.17.92
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.16.3
-BuildRequires:	nautilus-devel >= 2.16.3
+BuildRequires:	nautilus-cd-burner-devel >= 2.17.8
+BuildRequires:	nautilus-devel >= 2.17.92
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 BuildRequires:	shared-mime-info >= 0.17
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 BuildRequires:	xulrunner-devel
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
-Requires(post,preun):	GConf2 >= 2.16.0
+Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10.3
@@ -68,7 +68,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.10.9
-Requires:	nautilus >= 2.16.3
+Requires:	nautilus >= 2.17.92
 %requires_eq	xulrunner-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,8 +101,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.16.3
-Requires:	nautilus-libs >= 2.16.3
+Requires:	gnome-desktop-libs >= 2.17.92
+Requires:	nautilus-libs >= 2.17.92
 
 %description libs
 Totem shared libraries.
@@ -157,8 +157,7 @@ Wtyczka Totem do przeglądarek WWW.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%%patch2 -p1
-%patch3 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -166,6 +165,7 @@ Wtyczka Totem do przeglądarek WWW.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-scrollkeeper \
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
