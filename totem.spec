@@ -15,48 +15,48 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.16.5
-Release:	2
+Version:	2.18.0
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.16/%{name}-%{version}.tar.bz2
-# Source0-md5:	fa8eb90b52d70d876e1d42ec43cf8448
+Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.18/%{name}-%{version}.tar.bz2
+# Source0-md5:	1a3bfeaac6297b259967f5d79896b0e7
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
-Patch2:		%{name}-mozilla_includes.patch
-Patch3:		%{name}-configure.patch
-URL:		http://www.hadess.net/totem.php3
-BuildRequires:	GConf2-devel
+Patch2:		%{name}-configure.patch
+URL:		http://www.gnome.org/projects/totem/
+BuildRequires:	GConf2-devel >= 2.18.0.1
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-glib-devel >= 0.71
-BuildRequires:	gnome-desktop-devel >= 2.16.3
-BuildRequires:	gnome-vfs2-devel >= 2.16.3
+BuildRequires:	dbus-glib-devel >= 0.73
+BuildRequires:	gnome-desktop-devel >= 2.17.92
+BuildRequires:	gnome-vfs2-devel >= 2.17.91
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 %endif
 BuildRequires:	gtk+2-devel >= 2:2.10.9
-BuildRequires:	intltool >= 0.35.4
+BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
-BuildRequires:	libgnomeui-devel >= 2.16.1
+BuildRequires:	libgnomeui-devel >= 2.17.92
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.16.3
-BuildRequires:	nautilus-devel >= 2.16.3
+BuildRequires:	nautilus-cd-burner-devel >= 2.17.8
+BuildRequires:	nautilus-devel >= 2.17.92
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 BuildRequires:	shared-mime-info >= 0.17
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 BuildRequires:	xulrunner-devel
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
-Requires(post,preun):	GConf2 >= 2.16.0
+Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10.3
@@ -68,7 +68,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.10.9
-Requires:	nautilus >= 2.16.3
+Requires:	nautilus >= 2.17.92
 %requires_eq	xulrunner-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,8 +101,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.16.3
-Requires:	nautilus-libs >= 2.16.3
+Requires:	gnome-desktop-libs >= 2.17.92
+Requires:	nautilus-libs >= 2.17.92
 
 %description libs
 Totem shared libraries.
@@ -158,7 +158,6 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -166,6 +165,7 @@ Wtyczka Totem do przeglądarek WWW.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-scrollkeeper \
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
@@ -227,6 +227,7 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/totem
+%attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/libtotem-properties-page.so
 %{_datadir}/%{name}
@@ -257,6 +258,6 @@ fi
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/totem-mozilla-viewer
+%attr(755,root,root) %{_libdir}/totem-plugin-viewer
 %attr(755,root,root) %{_browserpluginsdir}/*.so
 %attr(755,root,root) %{_browserpluginsdir}/*.xpt
