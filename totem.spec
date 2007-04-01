@@ -1,10 +1,5 @@
-#
-# TODO:
-# - what more bowsers can be supported?
-#
 # Conditional build
 %bcond_with	gstreamer	# build with gstreamer instead xine-lib
-%bcond_without	mozilla_firefox	# build with mozilla-firefox
 %bcond_without	nvtv		# build without nvtv support
 #
 # nvtv only available on few archs
@@ -16,7 +11,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	1.4.4
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/1.4/%{name}-%{version}.tar.bz2
@@ -47,15 +42,11 @@ BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 BuildRequires:	lirc-devel
-%if %{with mozilla_firefox}
-BuildRequires:	mozilla-firefox-devel
-%else
-BuildRequires:	mozilla-devel >= 5:1.7.13-2
-%endif
+BuildRequires:	xulrunner-devel
 BuildRequires:	nautilus-cd-burner-devel >= 2.14.0
 BuildRequires:	nautilus-devel >= 2.14.0
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.197
+BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 Requires(post,postun):	scrollkeeper
@@ -72,16 +63,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs <= 1.1.1
 %endif
 Requires:	gtk+2 >= 2:2.8.3
-%if %{with mozilla_firefox}
-%requires_eq	mozilla-firefox
-%else
-%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_plugindir	%{_libdir}/browser-plugins
-
-# list of supported browsers, in free form text
-%define		browsers	mozilla, mozilla-firefox, netscape, seamonkey
 
 %if %{with gstreamer}
 %description
@@ -188,11 +170,7 @@ Obs³ugiwane przegl±darki: %{browsers}.
 	%{?with_gstreamer:--enable-gstreamer=0.10}
 
 %{__make} \
-%if %{with mozilla_firefox}
-	MOZILLA_IDLDIR="%{_includedir}/mozilla-firefox/idl"
-%else
-	MOZILLA_IDLDIR="%{_includedir}/mozilla/idl"
-%endif
+	MOZILLA_IDLDIR="%{_includedir}/xulrunner/idl"
 
 
 %install
@@ -200,11 +178,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	plugindir=%{_plugindir} \
-	typelibdir=%{_plugindir} \
+	plugindir=%{_browserpluginsdir} \
+	typelibdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
-rm -f $RPM_BUILD_ROOT%{_plugindir}/*.{la,a}
+rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 
 %find_lang %{name} --all-name --with-gnome
@@ -231,37 +209,13 @@ rm -rf $RPM_BUILD_ROOT
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
 
-%triggerin -n browser-plugin-%{name} -- mozilla
-%nsplugin_install -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
+%post -n browser-plugin-%{name}
+%update_browser_plugins
 
-%triggerun -n browser-plugin-%{name} -- mozilla
-%nsplugin_uninstall -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
-
-%triggerin -n browser-plugin-%{name} -- mozilla-firefox
-%nsplugin_install -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
-
-%triggerun -n browser-plugin-%{name} -- mozilla-forefox
-%nsplugin_uninstall -d %{_libdir}/mozilla-firefox/plugins libtotem_mozilla.{so,xpt}
-
-%triggerin -n browser-plugin-%{name} -- netscape-common
-%nsplugin_install -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
-
-%triggerun -n browser-plugin-%{name} -- netscape-common
-%nsplugin_uninstall -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
-
-%triggerin -n browser-plugin-%{name} -- seamonkey
-%nsplugin_install -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
-
-%triggerun -n browser-plugin-%{name} -- seamonkey
-%nsplugin_uninstall -d %{_libdir}/seamonkey/plugins libtotem_mozilla.{so,xpt}
-
-# as rpm removes the old obsoleted package files after the triggers
-# are ran, add another trigger to make the links there.
-%triggerpostun -n browser-plugin-%{name} -- mozilla-plugin-%{name}
-%nsplugin_install -f -d %{_libdir}/mozilla/plugins libtotem_mozilla.{so,xpt}
-
-%triggerpostun -n browser-plugin-%{name} -- mozilla-firefox-plugin-%{name}
-%nsplugin_install -f -d %{_libdir}/netscape/plugins libtotem_mozilla.{so,xpt}
+%postun -n browser-plugin-%{name}
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -295,5 +249,5 @@ rm -rf $RPM_BUILD_ROOT
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/totem-mozilla-viewer
-%attr(755,root,root) %{_plugindir}/*.so
-%attr(755,root,root) %{_plugindir}/*.xpt
+%attr(755,root,root) %{_browserpluginsdir}/*.so
+%attr(755,root,root) %{_browserpluginsdir}/*.xpt
