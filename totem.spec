@@ -1,7 +1,4 @@
 #
-# TODO:
-# - what more bowsers can be supported?
-#
 # Conditional build
 %bcond_without	gstreamer	# build with gstreamer instead xine-lib
 %bcond_without	nvtv		# build without nvtv support
@@ -15,12 +12,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.18.1
-Release:	2
+Version:	2.18.2
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/gnome/sources/totem/2.18/%{name}-%{version}.tar.bz2
-# Source0-md5:	c8faa37112cfd2edfebdd1df88519f36
+# Source0-md5:	a77ca6f0c56b2fc6ececd8158bb0cdca
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
@@ -29,8 +26,8 @@ BuildRequires:	GConf2-devel >= 2.18.0.1
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.73
-BuildRequires:	gnome-desktop-devel >= 2.17.92
-BuildRequires:	gnome-vfs2-devel >= 2.17.91
+BuildRequires:	gnome-desktop-devel >= 2.18.1
+BuildRequires:	gnome-vfs2-devel >= 2.18.1
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 %endif
@@ -38,13 +35,13 @@ BuildRequires:	gtk+2-devel >= 2:2.10.9
 BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
-BuildRequires:	libgnomeui-devel >= 2.17.92
+BuildRequires:	libgnomeui-devel >= 2.18.1
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.17.8
-BuildRequires:	nautilus-devel >= 2.17.92
+BuildRequires:	nautilus-cd-burner-devel >= 2.18.1
+BuildRequires:	nautilus-devel >= 2.18.1
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
@@ -68,7 +65,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.10.9
-Requires:	nautilus >= 2.17.92
+Requires:	nautilus >= 2.18.1
 %requires_eq	xulrunner-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,8 +98,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.17.92
-Requires:	nautilus-libs >= 2.17.92
+Requires:	gnome-desktop-libs >= 2.18.1
+Requires:	nautilus-libs >= 2.18.1
 
 %description libs
 Totem shared libraries.
