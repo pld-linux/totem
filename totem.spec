@@ -12,15 +12,16 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.18.3
+Version:	2.19.90
 Release:	1
 License:	GPL
 Group:		Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.18/%{name}-%{version}.tar.bz2
-# Source0-md5:	152a0ed2d21f6ce982e3d37066156110
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.19/%{name}-%{version}.tar.bz2
+# Source0-md5:	0855cb16f426550619f3549854888063
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
+Patch3:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.18.0.1
 BuildRequires:	autoconf
@@ -31,7 +32,7 @@ BuildRequires:	gnome-vfs2-devel >= 2.18.1
 %if %{with gstreamer}
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 %endif
-BuildRequires:	gtk+2-devel >= 2:2.10.9
+BuildRequires:	gtk+2-devel >= 2:2.11.6
 BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
 BuildRequires:	libglade2-devel >= 1:2.6.0
@@ -155,6 +156,7 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__intltoolize}
@@ -179,12 +181,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	plugindir=%{_browserpluginsdir} \
+	MOZILLA_PLUGINDIR=%{_browserpluginsdir} \
 	typelibdir=%{_browserpluginsdir} \
 	xptdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
+rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 
 %find_lang %{name} --all-name --with-gnome
@@ -234,10 +237,23 @@ fi
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_omf_dest_dir}/%{name}
 %{_iconsdir}/hicolor/*/*/totem.*
-%{_pixmapsdir}/vanity.png
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
+%dir %{_libdir}/totem
+%dir %{_libdir}/totem/plugins
+%dir %{_libdir}/totem/plugins/bemused
+%dir %{_libdir}/totem/plugins/galago
+%dir %{_libdir}/totem/plugins/gromit
+%dir %{_libdir}/totem/plugins/lirc
+%dir %{_libdir}/totem/plugins/media-player-keys
+%dir %{_libdir}/totem/plugins/ontop
+%dir %{_libdir}/totem/plugins/properties
+%dir %{_libdir}/totem/plugins/screensaver
+%dir %{_libdir}/totem/plugins/skipto
+%attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
+%{_libdir}/totem/plugins/*/*.totem-plugin
+%{_libdir}/totem/plugins/*/*.ui
 
 %files libs
 %defattr(644,root,root,755)
