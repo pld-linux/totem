@@ -35,6 +35,7 @@ BuildRequires:	gnome-vfs2-devel >= 2.18.1
 BuildRequires:	gtk+2-devel >= 2:2.11.6
 BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
+BuildRequires:	libgalago-devel >= 0.5.2
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libgnomeui-devel >= 2.18.1
 BuildRequires:	libmusicbrainz-devel
