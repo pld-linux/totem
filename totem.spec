@@ -1,6 +1,7 @@
 #
 # Conditional build
-%bcond_without	gstreamer	# build with gstreamer instead xine-lib
+%bcond_without	bemused		# build without bemused plugin
+%bcond_without	gstreamer	# build with xine-lib instead of gstreamer
 %bcond_without	nvtv		# build without nvtv support
 %bcond_without	lirc		# without lirc support
 #
@@ -26,12 +27,11 @@ URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.18.0.1
 BuildRequires:	autoconf
 BuildRequires:	automake
+%{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.73
 BuildRequires:	gnome-desktop-devel >= 2.18.1
 BuildRequires:	gnome-vfs2-devel >= 2.18.1
-%if %{with gstreamer}
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
-%endif
+%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
 BuildRequires:	gtk+2-devel >= 2:2.11.6
 BuildRequires:	intltool >= 0.35.5
 BuildRequires:	iso-codes
@@ -242,7 +242,7 @@ fi
 %{_sysconfdir}/gconf/schemas/totem.schemas
 %dir %{_libdir}/totem
 %dir %{_libdir}/totem/plugins
-%dir %{_libdir}/totem/plugins/bemused
+%{?with_bemused:%dir %{_libdir}/totem/plugins/bemused}
 %dir %{_libdir}/totem/plugins/galago
 %dir %{_libdir}/totem/plugins/gromit
 %dir %{_libdir}/totem/plugins/lirc
