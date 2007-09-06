@@ -69,6 +69,9 @@ Conflicts:	xine-input-gnome-vfs
 Requires:	gtk+2 >= 2:2.10.9
 Requires:	nautilus >= 2.18.1
 %requires_eq	xulrunner-libs
+Suggests:	gstreamer-ffmpeg
+Suggests:	gstreamer-mpeg
+Suggests:	gstreamer-pango
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
