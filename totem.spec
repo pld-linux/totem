@@ -1,6 +1,7 @@
 #
 # Conditional build
-%bcond_without	gstreamer	# build with gstreamer instead xine-lib
+%bcond_without	bemused		# build without bemused plugin
+%bcond_without	gstreamer	# build with xine-lib instead of gstreamer
 %bcond_without	nvtv		# build without nvtv support
 %bcond_without	lirc		# without lirc support
 #
@@ -21,27 +22,28 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.20/%{name}-%{version}.ta
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
+Patch3:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.18.0.1
+BuildRequires:	GConf2-devel >= 2.19.1
 BuildRequires:	autoconf
 BuildRequires:	automake
+%{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.73
-BuildRequires:	gnome-desktop-devel >= 2.18.1
-BuildRequires:	gnome-vfs2-devel >= 2.18.1
-%if %{with gstreamer}
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
-%endif
-BuildRequires:	gtk+2-devel >= 2:2.10.9
-BuildRequires:	intltool >= 0.35.5
+BuildRequires:	gnome-desktop-devel >= 2.19.92
+BuildRequires:	gnome-vfs2-devel >= 2.20.0
+%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
+BuildRequires:	gtk+2-devel >= 2:2.12.0
+BuildRequires:	intltool >= 0.36.2
 BuildRequires:	iso-codes
-BuildRequires:	libglade2-devel >= 1:2.6.0
-BuildRequires:	libgnomeui-devel >= 2.18.1
+BuildRequires:	libgalago-devel >= 0.5.2
+BuildRequires:	libglade2-devel >= 1:2.6.2
+BuildRequires:	libgnomeui-devel >= 2.19.1
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.18.1
-BuildRequires:	nautilus-devel >= 2.18.1
+BuildRequires:	nautilus-cd-burner-devel >= 2.19.6
+BuildRequires:	nautilus-devel >= 2.19.91
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
@@ -64,9 +66,12 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.10.9
-Requires:	nautilus >= 2.18.1
+Requires:	gtk+2 >= 2:2.12.0
+Requires:	nautilus >= 2.19.91
 %requires_eq	xulrunner-libs
+Suggests:	gstreamer-ffmpeg
+Suggests:	gstreamer-mpeg
+Suggests:	gstreamer-pango
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -98,8 +103,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.18.1
-Requires:	nautilus-libs >= 2.18.1
+Requires:	gnome-desktop-libs >= 2.19.92
+Requires:	nautilus-libs >= 2.19.91
 
 %description libs
 Totem shared libraries.
@@ -112,7 +117,7 @@ Summary:	Totem include files
 Summary(pl.UTF-8):	Pliki nagłówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.10.9
+Requires:	gtk+2-devel >= 2:2.12.0
 
 %description devel
 Totem headers files.
@@ -155,6 +160,7 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__intltoolize}
@@ -179,13 +185,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	plugindir=%{_browserpluginsdir} \
+	MOZILLA_PLUGINDIR=%{_browserpluginsdir} \
 	typelibdir=%{_browserpluginsdir} \
 	xptdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
+rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 
 %find_lang %{name} --all-name --with-gnome
 
@@ -234,10 +241,24 @@ fi
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_omf_dest_dir}/%{name}
 %{_iconsdir}/hicolor/*/*/totem.*
-%{_pixmapsdir}/vanity.png
+#%{_pixmapsdir}/vanity.png
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
+%dir %{_libdir}/totem
+%dir %{_libdir}/totem/plugins
+%{?with_bemused:%dir %{_libdir}/totem/plugins/bemused}
+%dir %{_libdir}/totem/plugins/galago
+%dir %{_libdir}/totem/plugins/gromit
+%dir %{_libdir}/totem/plugins/lirc
+%dir %{_libdir}/totem/plugins/media-player-keys
+%dir %{_libdir}/totem/plugins/ontop
+%dir %{_libdir}/totem/plugins/properties
+%dir %{_libdir}/totem/plugins/screensaver
+%dir %{_libdir}/totem/plugins/skipto
+%attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
+%{_libdir}/totem/plugins/*/*.totem-plugin
+%{_libdir}/totem/plugins/*/*.ui
 
 %files libs
 %defattr(644,root,root,755)
