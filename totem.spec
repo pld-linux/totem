@@ -14,7 +14,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.20.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.20/%{name}-%{version}.tar.bz2
@@ -24,12 +24,12 @@ Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.19.1
+BuildRequires:	GConf2-devel >= 2.20.0
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.73
-BuildRequires:	gnome-desktop-devel >= 2.19.92
+BuildRequires:	gnome-desktop-devel >= 2.20.0
 BuildRequires:	gnome-vfs2-devel >= 2.20.0
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
 BuildRequires:	gtk+2-devel >= 2:2.12.0
@@ -37,13 +37,13 @@ BuildRequires:	intltool >= 0.36.2
 BuildRequires:	iso-codes
 BuildRequires:	libgalago-devel >= 0.5.2
 BuildRequires:	libglade2-devel >= 1:2.6.2
-BuildRequires:	libgnomeui-devel >= 2.19.1
+BuildRequires:	libgnomeui-devel >= 2.20.0
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.19.6
-BuildRequires:	nautilus-devel >= 2.19.91
+BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
+BuildRequires:	nautilus-devel >= 2.20.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
@@ -67,7 +67,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.12.0
-Requires:	nautilus >= 2.19.91
+Requires:	nautilus >= 2.20.0
 %requires_eq	xulrunner-libs
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
@@ -103,8 +103,8 @@ klawiatury.
 Summary:	Totem shared libraries
 Summary(pl.UTF-8):	Współdzielone biblioteki Totema
 Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.19.92
-Requires:	nautilus-libs >= 2.19.91
+Requires:	gnome-desktop-libs >= 2.20.0
+Requires:	nautilus-libs >= 2.20.0
 
 %description libs
 Totem shared libraries.
