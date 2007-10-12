@@ -29,6 +29,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.73
+BuildRequires:	gnome-control-center-devel
 BuildRequires:	gnome-desktop-devel >= 2.20.0
 BuildRequires:	gnome-vfs2-devel >= 2.20.0
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
