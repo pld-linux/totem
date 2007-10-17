@@ -13,12 +13,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.20.0
-Release:	2
+Version:	2.20.1
+Release:	1
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.20/%{name}-%{version}.tar.bz2
-# Source0-md5:	e7f289179b8ac304738d599d4a5c14a9
+# Source0-md5:	6627727e7abd7a7f95257be8df6359a6
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
@@ -33,7 +33,7 @@ BuildRequires:	gnome-control-center-devel
 BuildRequires:	gnome-desktop-devel >= 2.20.0
 BuildRequires:	gnome-vfs2-devel >= 2.20.0
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
-BuildRequires:	gtk+2-devel >= 2:2.12.0
+BuildRequires:	gtk+2-devel >= 2:2.12.1
 BuildRequires:	intltool >= 0.36.2
 BuildRequires:	iso-codes
 BuildRequires:	libgalago-devel >= 0.5.2
@@ -67,7 +67,7 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.12.0
+Requires:	gtk+2 >= 2:2.12.1
 Requires:	nautilus >= 2.20.0
 %requires_eq	xulrunner-libs
 Suggests:	gstreamer-ffmpeg
@@ -118,7 +118,7 @@ Summary:	Totem include files
 Summary(pl.UTF-8):	Pliki nagłówkowe Totema
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.12.0
+Requires:	gtk+2-devel >= 2:2.12.1
 
 %description devel
 Totem headers files.
