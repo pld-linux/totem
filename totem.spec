@@ -14,7 +14,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.20.1
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.20/%{name}-%{version}.tar.bz2
@@ -46,6 +46,8 @@ BuildRequires:	libtool
 BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
 BuildRequires:	nautilus-devel >= 2.20.0
 BuildRequires:	pkgconfig
+# support for --with-omf in find_lang.sh
+BuildRequires:	rpm-build >= 4.4.9-10
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 BuildRequires:	shared-mime-info >= 0.22
@@ -73,6 +75,8 @@ Requires:	nautilus >= 2.20.0
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
+# sr@Latn vs. sr@latin
+Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with gstreamer}
@@ -163,6 +167,9 @@ Wtyczka Totem do przeglądarek WWW.
 %patch2 -p1
 %patch3 -p1
 
+sed -i -e s#sr\@Latn#sr\@latin# po/LINGUAS
+mv po/sr\@{Latn,latin}.po
+
 %build
 %{__intltoolize}
 %{__libtoolize}
@@ -195,7 +202,7 @@ rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 
-%find_lang %{name} --all-name --with-gnome
+%find_lang %{name} --with-gnome --with-omf --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -240,7 +247,6 @@ fi
 %{_desktopdir}/totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
-%{_omf_dest_dir}/%{name}
 %{_iconsdir}/hicolor/*/*/totem.*
 #%{_pixmapsdir}/vanity.png
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
