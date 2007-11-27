@@ -46,10 +46,10 @@ BuildRequires:	libtool
 BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
 BuildRequires:	nautilus-devel >= 2.20.0
 BuildRequires:	pkgconfig
-# support for --with-omf in find_lang.sh
-BuildRequires:	rpm-build >= 4.4.9-10
+BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
+BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
@@ -168,7 +168,7 @@ Wtyczka Totem do przeglądarek WWW.
 %patch2 -p1
 %patch3 -p1
 
-sed -i -e s#sr\@Latn#sr\@latin# po/LINGUAS
+sed -i -e 's#sr\@Latn#sr\@latin#' po/LINGUAS
 mv po/sr\@{Latn,latin}.po
 
 %build
