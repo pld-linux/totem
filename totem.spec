@@ -51,6 +51,7 @@ BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
+BuildRequires:	totem-pl-parser-devel >= 2.21.90
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
