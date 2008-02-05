@@ -44,7 +44,7 @@ BuildRequires:	libmusicbrainz-devel
 BuildRequires:	libtool
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
-BuildRequires:	nautilus-devel >= 2.20.0
+BuildRequires:	nautilus-devel >= 2.21.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
@@ -60,7 +60,6 @@ Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
-Requires:	%{name}-libs = %{version}-%{release}
 %if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
@@ -71,7 +70,7 @@ Requires:	xine-plugin-video
 Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.12.1
-Requires:	nautilus >= 2.20.0
+Requires:	nautilus >= 2.21.0
 %requires_eq	xulrunner-libs
 Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
@@ -105,44 +104,6 @@ xine-libs. Ma prostą listę odtwarzania, tryb pełnoekranowy, kontrolę
 położenia w pliku i głośności, a także w miarę kompletną obsługę z
 klawiatury.
 %endif
-
-%package libs
-Summary:	Totem shared libraries
-Summary(pl.UTF-8):	Współdzielone biblioteki Totema
-Group:		Libraries
-Requires:	gnome-desktop-libs >= 2.20.0
-Requires:	nautilus-libs >= 2.20.0
-
-%description libs
-Totem shared libraries.
-
-%description libs -l pl.UTF-8
-Współdzielone biblioteki Totema.
-
-%package devel
-Summary:	Totem include files
-Summary(pl.UTF-8):	Pliki nagłówkowe Totema
-Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.12.1
-
-%description devel
-Totem headers files.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe Totema.
-
-%package static
-Summary:	Static Totem libraries
-Summary(pl.UTF-8):	Statyczne biblioteki Totema
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Static Totem libraries.
-
-%description static -l pl.UTF-8
-Statyczne biblioteki Totema.
 
 %package -n browser-plugin-%{name}
 Summary:	Totem's browser plugin
@@ -201,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.{la,a}
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 
 %find_lang %{name} --with-gnome --with-omf --all-name
@@ -227,9 +188,6 @@ rm -rf $RPM_BUILD_ROOT
 %update_desktop_database_postun
 %update_icon_cache hicolor
 
-%post	libs -p /sbin/ldconfig
-%postun	libs -p /sbin/ldconfig
-
 %post -n browser-plugin-%{name}
 %update_browser_plugins
 
@@ -242,9 +200,10 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/totem
+%attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
-%attr(755,root,root) %{_libdir}/nautilus/extensions-1.0/libtotem-properties-page.so
+%attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 %{_datadir}/%{name}
 %{_desktopdir}/totem.desktop
 %{_mandir}/man1/totem.1*
@@ -265,24 +224,12 @@ fi
 %dir %{_libdir}/totem/plugins/properties
 %dir %{_libdir}/totem/plugins/screensaver
 %dir %{_libdir}/totem/plugins/skipto
+%dir %{_libdir}/totem/plugins/totem
+%dir %{_libdir}/totem/plugins/youtube
 %attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
+%attr(755,root,root) %{_libdir}/totem/plugins/*/*.py[co]
 %{_libdir}/totem/plugins/*/*.totem-plugin
 %{_libdir}/totem/plugins/*/*.ui
-
-%files libs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtotem-plparser.so.*.*.*
-
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtotem-plparser.so
-%{_libdir}/libtotem-plparser.la
-%{_includedir}/totem
-%{_pkgconfigdir}/totem-plparser.pc
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libtotem-plparser.a
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
