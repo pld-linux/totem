@@ -224,6 +224,7 @@ fi
 %dir %{_libdir}/totem/plugins/properties
 %dir %{_libdir}/totem/plugins/screensaver
 %dir %{_libdir}/totem/plugins/skipto
+%dir %{_libdir}/totem/plugins/thumbnail
 %dir %{_libdir}/totem/plugins/totem
 %dir %{_libdir}/totem/plugins/youtube
 %attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
