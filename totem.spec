@@ -76,6 +76,7 @@ Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
+Suggests:	python-gdata
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
