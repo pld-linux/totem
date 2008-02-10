@@ -71,7 +71,6 @@ Conflicts:	xine-input-gnome-vfs
 %endif
 Requires:	gtk+2 >= 2:2.12.1
 Requires:	nautilus >= 2.21.0
-%requires_eq	xulrunner-libs
 Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
