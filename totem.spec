@@ -42,6 +42,7 @@ BuildRequires:	libgnomeui-devel >= 2.20.0
 BuildRequires:	libmusicbrainz-devel
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
+BuildRequires:	libtracker-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
 BuildRequires:	nautilus-devel >= 2.21.0
@@ -226,6 +227,7 @@ fi
 %dir %{_libdir}/totem/plugins/skipto
 %dir %{_libdir}/totem/plugins/thumbnail
 %dir %{_libdir}/totem/plugins/totem
+%dir %{_libdir}/totem/plugins/tracker
 %dir %{_libdir}/totem/plugins/youtube
 %attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
 %attr(755,root,root) %{_libdir}/totem/plugins/*/*.py[co]
