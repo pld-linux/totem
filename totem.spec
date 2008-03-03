@@ -13,45 +13,48 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.21.93
+Version:	2.21.95
 Release:	1
-License:	GPL
-Group:		Applications/Multimedia
+License:	GPL v2
+Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.21/%{name}-%{version}.tar.bz2
-# Source0-md5:	6baa8c0510c5d40c5b9dfc9390fabd34
+# Source0-md5:	251ebe8365f80fbde9689f5f88c41b4d
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-idl.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.20.0
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	GConf2-devel >= 2.21.90
+BuildRequires:	autoconf >= 2.52
+BuildRequires:	automake >= 1:1.9
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
-BuildRequires:	dbus-glib-devel >= 0.73
-BuildRequires:	gnome-control-center-devel
-BuildRequires:	gnome-desktop-devel >= 2.20.0
-BuildRequires:	gnome-vfs2-devel >= 2.20.0
-%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10}
-BuildRequires:	gtk+2-devel >= 2:2.12.1
+BuildRequires:	dbus-glib-devel >= 0.74
+BuildRequires:	gettext-devel
+BuildRequires:	glib2-devel >= 1:2.15.6
+BuildRequires:	gmyth-devel
+BuildRequires:	gnome-common >= 2.20.0
+BuildRequires:	gnome-doc-utils >= 0.12.0
+BuildRequires:	gnome-vfs2-devel >= 2.21.90
+%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12}
+BuildRequires:	gtk+2-devel >= 2:2.12.8
 BuildRequires:	intltool >= 0.36.2
 BuildRequires:	iso-codes
+BuildRequires:	libepc-ui-devel
 BuildRequires:	libgalago-devel >= 0.5.2
-BuildRequires:	libglade2-devel >= 1:2.6.2
-BuildRequires:	libgnomeui-devel >= 2.20.0
-BuildRequires:	libmusicbrainz-devel
+BuildRequires:	libgnomeui-devel >= 2.21.92
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 BuildRequires:	libtracker-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-cd-burner-devel >= 2.20.0
-BuildRequires:	nautilus-devel >= 2.21.0
+BuildRequires:	nautilus-devel >= 2.21.92
 BuildRequires:	pkgconfig
+BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
+BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	totem-pl-parser-devel >= 2.21.90
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
@@ -70,8 +73,8 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.12.1
-Requires:	nautilus >= 2.21.0
+Requires:	gtk+2 >= 2:2.12.8
+Requires:	nautilus >= 2.21.92
 Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
@@ -131,14 +134,15 @@ Wtyczka Totem do przeglądarek WWW.
 %patch2 -p1
 %patch3 -p1
 
-sed -i -e 's#sr\@Latn#sr\@latin#' po/LINGUAS
-mv po/sr\@{Latn,latin}.po
+sed -i -e 's#sr@Latn#sr@latin#' po/LINGUAS
+mv po/sr@{Latn,latin}.po
 
 %build
 %{__intltoolize}
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
@@ -173,6 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %gconf_schema_install totem-handlers.schemas
+%gconf_schema_install totem-mythtv.schemas
 %gconf_schema_install totem-video-thumbnail.schemas
 %gconf_schema_install totem.schemas
 %scrollkeeper_update_post
@@ -181,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %preun
 %gconf_schema_uninstall totem-handlers.schemas
+%gconf_schema_uninstall totem-mythtv.schemas
 %gconf_schema_uninstall totem-video-thumbnail.schemas
 %gconf_schema_uninstall totem.schemas
 
@@ -205,34 +211,66 @@ fi
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
+%attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
 %{_desktopdir}/totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/totem.*
-#%{_pixmapsdir}/vanity.png
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
+%{_sysconfdir}/gconf/schemas/totem-mythtv.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
 %dir %{_libdir}/totem
 %dir %{_libdir}/totem/plugins
-%{?with_bemused:%dir %{_libdir}/totem/plugins/bemused}
+%if %{with bemused}
+%dir %{_libdir}/totem/plugins/bemused
+%attr(755,root,root) %{_libdir}/totem/plugins/bemused/libbemused.so
+%endif
 %dir %{_libdir}/totem/plugins/galago
+%attr(755,root,root) %{_libdir}/totem/plugins/galago/libtgp.so
+%{_libdir}/totem/plugins/galago/galago.totem-plugin
 %dir %{_libdir}/totem/plugins/gromit
+%attr(755,root,root) %{_libdir}/totem/plugins/gromit/libgromit.so
+%{_libdir}/totem/plugins/gromit/gromit.totem-plugin
 %dir %{_libdir}/totem/plugins/lirc
+%attr(755,root,root) %{_libdir}/totem/plugins/lirc/liblirc.so
+%{_libdir}/totem/plugins/lirc/lirc.totem-plugin
 %dir %{_libdir}/totem/plugins/media-player-keys
+%attr(755,root,root) %{_libdir}/totem/plugins/media-player-keys/libmedia_player_keys.so
+%{_libdir}/totem/plugins/media-player-keys/media-player-keys.totem-plugin
+%dir %{_libdir}/totem/plugins/mythtv
+%attr(755,root,root) %{_libdir}/totem/plugins/mythtv/libtotem_mythtv.so
+%{_libdir}/totem/plugins/mythtv/mythtv.totem-plugin
 %dir %{_libdir}/totem/plugins/ontop
+%attr(755,root,root) %{_libdir}/totem/plugins/ontop/libontop.so
+%{_libdir}/totem/plugins/ontop/ontop.totem-plugin
 %dir %{_libdir}/totem/plugins/properties
+%attr(755,root,root) %{_libdir}/totem/plugins/properties/libmovie-properties.so
+%{_libdir}/totem/plugins/properties/movie-properties.totem-plugin
+%dir %{_libdir}/totem/plugins/publish
+%attr(755,root,root) %{_libdir}/totem/plugins/publish/libpublish.so
+%{_libdir}/totem/plugins/publish/publish-plugin.ui
+%{_libdir}/totem/plugins/publish/publish.totem-plugin
 %dir %{_libdir}/totem/plugins/screensaver
+%attr(755,root,root) %{_libdir}/totem/plugins/screensaver/libscreensaver.so
+%{_libdir}/totem/plugins/screensaver/screensaver.totem-plugin
 %dir %{_libdir}/totem/plugins/skipto
+%attr(755,root,root) %{_libdir}/totem/plugins/skipto/libskipto.so
+%{_libdir}/totem/plugins/skipto/skipto.totem-plugin
+%{_libdir}/totem/plugins/skipto/skipto.ui
 %dir %{_libdir}/totem/plugins/thumbnail
+%attr(755,root,root) %{_libdir}/totem/plugins/thumbnail/libthumbnail.so
+%{_libdir}/totem/plugins/thumbnail/thumbnail.totem-plugin
 %dir %{_libdir}/totem/plugins/totem
+%{_libdir}/totem/plugins/totem/*.py[co]
 %dir %{_libdir}/totem/plugins/tracker
+%attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
+%{_libdir}/totem/plugins/tracker/tracker.totem-plugin
 %dir %{_libdir}/totem/plugins/youtube
-%attr(755,root,root) %{_libdir}/totem/plugins/*/*.so
-%attr(755,root,root) %{_libdir}/totem/plugins/*/*.py[co]
-%{_libdir}/totem/plugins/*/*.totem-plugin
-%{_libdir}/totem/plugins/*/*.ui
+%{_libdir}/totem/plugins/youtube/youtube.py[co]
+%{_libdir}/totem/plugins/youtube/youtube.totem-plugin
+%{_libdir}/totem/plugins/youtube/youtube.ui
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
