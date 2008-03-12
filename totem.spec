@@ -14,15 +14,14 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.22.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.22/%{name}-%{version}.tar.bz2
 # Source0-md5:	21a3f983e762b34db035edbaaba9dd63
 Patch0:		%{name}-desktop.patch
-Patch1:		%{name}-idl.patch
-Patch2:		%{name}-configure.patch
-Patch3:		%{name}-codegen.patch
+Patch1:		%{name}-configure.patch
+Patch2:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.22.0
 BuildRequires:	autoconf >= 2.52
@@ -132,7 +131,6 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 sed -i -e 's#sr@Latn#sr@latin#' po/LINGUAS
 mv po/sr@{Latn,latin}.po
@@ -150,11 +148,10 @@ mv po/sr@{Latn,latin}.po
 	--enable-mozilla \
 	--enable-nautilus \
 	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
-	%{?with_gstreamer:--enable-gstreamer}
+	%{?with_gstreamer:--enable-gstreamer} \
+	--with-gecko=xulrunner
 
-%{__make} \
-	MOZILLA_IDLDIR="%{_includedir}/xulrunner/idl"
-
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
