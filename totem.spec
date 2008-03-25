@@ -58,7 +58,7 @@ BuildRequires:	totem-pl-parser-devel >= 2.22.1
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
-BuildRequires:	xulrunner-devel
+BuildRequires:	xulrunner-devel >= 1.8.1.12-1.20080208.3
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
