@@ -79,7 +79,7 @@ Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
 # youtube plugin
-Suggests:	gstreamer-bad
+Suggests:	gstreamer-plugins-bad
 Suggests:	gstreamer-soup
 Suggests:	python-gdata
 # sr@Latn vs. sr@latin
