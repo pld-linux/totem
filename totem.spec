@@ -78,6 +78,9 @@ Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
+# youtube plugin
+Suggests:	gstreamer-bad
+Suggests:	gstreamer-soup
 Suggests:	python-gdata
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
