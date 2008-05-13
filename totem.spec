@@ -13,12 +13,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.22.2
+Version:	2.23.2
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.22/%{name}-%{version}.tar.bz2
-# Source0-md5:	6062080e81b4859f87fee8a592b92489
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.23/%{name}-%{version}.tar.bz2
+# Source0-md5:	118b9b3030814872697505ef1e1b0b96
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 Patch2:		%{name}-codegen.patch
@@ -210,6 +210,8 @@ fi
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
+%attr(755,root,root) %{_libdir}/libbaconvideowidget.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libbaconvideowidget.so.0
 %attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
