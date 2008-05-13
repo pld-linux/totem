@@ -176,6 +176,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 %gconf_schema_install totem-handlers.schemas
 %gconf_schema_install totem-mythtv.schemas
 %gconf_schema_install totem-video-thumbnail.schemas
@@ -191,6 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %gconf_schema_uninstall totem.schemas
 
 %postun
+/sbin/ldconfig
 %scrollkeeper_update_postun
 %update_desktop_database_postun
 %update_icon_cache hicolor
