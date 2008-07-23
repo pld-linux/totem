@@ -13,15 +13,16 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.23.2
+Version:	2.23.4
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.23/%{name}-%{version}.tar.bz2
-# Source0-md5:	118b9b3030814872697505ef1e1b0b96
+# Source0-md5:	e90839bbac5b7b663a1ddc74646ded99
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 Patch2:		%{name}-codegen.patch
+Patch3:		%{name}-nvtv.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.22.0
 BuildRequires:	autoconf >= 2.52
@@ -31,6 +32,7 @@ BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.16.1
 BuildRequires:	gmyth-devel
+BuildRequires:	gmyth-upnp-devel
 BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gnome-doc-utils >= 0.12.0
 BuildRequires:	gnome-vfs2-devel >= 2.22.0
@@ -135,6 +137,7 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 sed -i -e 's#sr@Latn#sr@latin#' po/LINGUAS
 mv po/sr@{Latn,latin}.po
@@ -148,6 +151,7 @@ mv po/sr@{Latn,latin}.po
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
+	--disable-vala \
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
@@ -162,7 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	MOZILLA_PLUGINDIR=%{_browserpluginsdir} \
+	BROWSER_PLUGIN_DIR=%{_browserpluginsdir} \
 	typelibdir=%{_browserpluginsdir} \
 	xptdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
@@ -179,7 +183,6 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 %gconf_schema_install totem-handlers.schemas
-%gconf_schema_install totem-mythtv.schemas
 %gconf_schema_install totem-video-thumbnail.schemas
 %gconf_schema_install totem.schemas
 %scrollkeeper_update_post
@@ -188,7 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %preun
 %gconf_schema_uninstall totem-handlers.schemas
-%gconf_schema_uninstall totem-mythtv.schemas
 %gconf_schema_uninstall totem-video-thumbnail.schemas
 %gconf_schema_uninstall totem.schemas
 
@@ -223,7 +225,6 @@ fi
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/totem.*
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
-%{_sysconfdir}/gconf/schemas/totem-mythtv.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
 %dir %{_libdir}/totem
@@ -267,8 +268,6 @@ fi
 %dir %{_libdir}/totem/plugins/thumbnail
 %attr(755,root,root) %{_libdir}/totem/plugins/thumbnail/libthumbnail.so
 %{_libdir}/totem/plugins/thumbnail/thumbnail.totem-plugin
-%dir %{_libdir}/totem/plugins/totem
-%{_libdir}/totem/plugins/totem/*.py[co]
 %dir %{_libdir}/totem/plugins/tracker
 %attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
 %{_libdir}/totem/plugins/tracker/tracker.totem-plugin
@@ -281,4 +280,3 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/totem-plugin-viewer
 %attr(755,root,root) %{_browserpluginsdir}/*.so
-%attr(755,root,root) %{_browserpluginsdir}/*.xpt
