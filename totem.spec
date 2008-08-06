@@ -272,8 +272,9 @@ fi
 %dir %{_libdir}/totem/plugins/tracker
 %attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
 %{_libdir}/totem/plugins/tracker/tracker.totem-plugin
-%dir %{_libdir}/totem/plugins/youtube
+%dir %{_libdir}/totem/plugins/totem
 %{_libdir}/totem/plugins/totem/__init__.py[co]
+%dir %{_libdir}/totem/plugins/youtube
 %{_libdir}/totem/plugins/youtube/youtube.py[co]
 %{_libdir}/totem/plugins/youtube/youtube.totem-plugin
 %{_libdir}/totem/plugins/youtube/youtube.ui
