@@ -56,7 +56,7 @@ BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	totem-pl-parser-devel >= 2.22.1
+BuildRequires:	totem-pl-parser-devel >= 2.23.3
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
@@ -157,6 +157,7 @@ mv po/sr@{Latn,latin}.po
 	--enable-nautilus \
 	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
 	%{?with_gstreamer:--enable-gstreamer} \
+	--enable-python \
 	--with-gecko=xulrunner
 
 %{__make}
@@ -272,6 +273,7 @@ fi
 %attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
 %{_libdir}/totem/plugins/tracker/tracker.totem-plugin
 %dir %{_libdir}/totem/plugins/youtube
+%{_libdir}/totem/plugins/totem/__init__.py[co]
 %{_libdir}/totem/plugins/youtube/youtube.py[co]
 %{_libdir}/totem/plugins/youtube/youtube.totem-plugin
 %{_libdir}/totem/plugins/youtube/youtube.ui
