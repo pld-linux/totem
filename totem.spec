@@ -13,16 +13,15 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.23.4
+Version:	2.23.91
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.23/%{name}-%{version}.tar.bz2
-# Source0-md5:	e90839bbac5b7b663a1ddc74646ded99
+# Source0-md5:	b6d74d11b732cae8784696a573cb5c44
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-configure.patch
 Patch2:		%{name}-codegen.patch
-Patch3:		%{name}-nvtv.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.22.0
 BuildRequires:	autoconf >= 2.52
@@ -56,7 +55,8 @@ BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	totem-pl-parser-devel >= 2.23.3
+BuildRequires:	totem-pl-parser-devel >= 2.23.91
+BuildRequires:	vala >= 0.3.5
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
@@ -137,10 +137,6 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-
-sed -i -e 's#sr@Latn#sr@latin#' po/LINGUAS
-mv po/sr@{Latn,latin}.po
 
 %build
 %{__intltoolize}
@@ -151,7 +147,7 @@ mv po/sr@{Latn,latin}.po
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
-	--disable-vala \
+	--enable-vala \
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
@@ -243,6 +239,7 @@ fi
 %dir %{_libdir}/totem/plugins/lirc
 %attr(755,root,root) %{_libdir}/totem/plugins/lirc/liblirc.so
 %{_libdir}/totem/plugins/lirc/lirc.totem-plugin
+%{_libdir}/totem/plugins/lirc/totem_lirc_default
 %dir %{_libdir}/totem/plugins/media-player-keys
 %attr(755,root,root) %{_libdir}/totem/plugins/media-player-keys/libmedia_player_keys.so
 %{_libdir}/totem/plugins/media-player-keys/media-player-keys.totem-plugin
@@ -259,7 +256,11 @@ fi
 %attr(755,root,root) %{_libdir}/totem/plugins/publish/libpublish.so
 %{_libdir}/totem/plugins/publish/publish-plugin.ui
 %{_libdir}/totem/plugins/publish/publish.totem-plugin
-%dir %{_libdir}/totem/plugins/screensaver
+%dir %{_libdir}/totem/plugins/pythonconsole
+%{_libdir}/totem/plugins/pythonconsole/console.py[co]
+%{_libdir}/totem/plugins/pythonconsole/pythonconsole.py[co]
+%{_libdir}/totem/plugins/pythonconsole/pythonconsole.totem-plugin
+%%dir %{_libdir}/totem/plugins/screensaver
 %attr(755,root,root) %{_libdir}/totem/plugins/screensaver/libscreensaver.so
 %{_libdir}/totem/plugins/screensaver/screensaver.totem-plugin
 %dir %{_libdir}/totem/plugins/skipto
