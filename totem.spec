@@ -19,8 +19,11 @@ License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.23/%{name}-%{version}.tar.bz2
 # Source0-md5:	b6d74d11b732cae8784696a573cb5c44
+# http://bugzilla.gnome.org/show_bug.cgi?id=552027
 Patch0:		%{name}-desktop.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=552022
 Patch1:		%{name}-configure.patch
+# PLD-specific
 Patch2:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.22.0
