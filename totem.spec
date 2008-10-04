@@ -13,16 +13,18 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.22.2
-Release:	5
+Version:	2.24.1
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.22/%{name}-%{version}.tar.bz2
-# Source0-md5:	6062080e81b4859f87fee8a592b92489
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.24/%{name}-%{version}.tar.bz2
+# Source0-md5:	326ae306d79076562a577cea761693be
+# http://bugzilla.gnome.org/show_bug.cgi?id=552027
 Patch0:		%{name}-desktop.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=552022
 Patch1:		%{name}-configure.patch
+# PLD-specific
 Patch2:		%{name}-codegen.patch
-Patch3:		%{name}-libxul.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	GConf2-devel >= 2.22.0
 BuildRequires:	autoconf >= 2.52
@@ -32,6 +34,7 @@ BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.16.1
 BuildRequires:	gmyth-devel
+BuildRequires:	gmyth-upnp-devel
 BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gnome-doc-utils >= 0.12.0
 BuildRequires:	gnome-vfs2-devel >= 2.22.0
@@ -55,11 +58,13 @@ BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	totem-pl-parser-devel >= 2.22.1
+BuildRequires:	totem-pl-parser-devel >= 2.23.91
+BuildRequires:	vala >= 0.3.5
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 BuildRequires:	xulrunner-devel >= 1.8.1.12-1.20080208.3
+Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
@@ -135,10 +140,6 @@ Wtyczka Totem do przeglądarek WWW.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
-
-sed -i -e 's#sr@Latn#sr@latin#' po/LINGUAS
-mv po/sr@{Latn,latin}.po
 
 %build
 %{__intltoolize}
@@ -149,11 +150,13 @@ mv po/sr@{Latn,latin}.po
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
+	--enable-vala \
 	%{?with_lirc:--enable-lirc} \
 	--enable-mozilla \
 	--enable-nautilus \
 	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
 	%{?with_gstreamer:--enable-gstreamer} \
+	--enable-python \
 	--with-gecko=xulrunner
 
 %{__make}
@@ -163,7 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	MOZILLA_PLUGINDIR=%{_browserpluginsdir} \
+	BROWSER_PLUGIN_DIR=%{_browserpluginsdir} \
 	typelibdir=%{_browserpluginsdir} \
 	xptdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
@@ -178,8 +181,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 %gconf_schema_install totem-handlers.schemas
-%gconf_schema_install totem-mythtv.schemas
 %gconf_schema_install totem-video-thumbnail.schemas
 %gconf_schema_install totem.schemas
 %scrollkeeper_update_post
@@ -188,11 +191,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %preun
 %gconf_schema_uninstall totem-handlers.schemas
-%gconf_schema_uninstall totem-mythtv.schemas
 %gconf_schema_uninstall totem-video-thumbnail.schemas
 %gconf_schema_uninstall totem.schemas
 
 %postun
+/sbin/ldconfig
 %scrollkeeper_update_postun
 %update_desktop_database_postun
 %update_icon_cache hicolor
@@ -212,6 +215,8 @@ fi
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
+%attr(755,root,root) %{_libdir}/libbaconvideowidget.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libbaconvideowidget.so.0
 %attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
@@ -220,7 +225,6 @@ fi
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/totem.*
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
-%{_sysconfdir}/gconf/schemas/totem-mythtv.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
 %dir %{_libdir}/totem
@@ -238,6 +242,7 @@ fi
 %dir %{_libdir}/totem/plugins/lirc
 %attr(755,root,root) %{_libdir}/totem/plugins/lirc/liblirc.so
 %{_libdir}/totem/plugins/lirc/lirc.totem-plugin
+%{_libdir}/totem/plugins/lirc/totem_lirc_default
 %dir %{_libdir}/totem/plugins/media-player-keys
 %attr(755,root,root) %{_libdir}/totem/plugins/media-player-keys/libmedia_player_keys.so
 %{_libdir}/totem/plugins/media-player-keys/media-player-keys.totem-plugin
@@ -254,7 +259,11 @@ fi
 %attr(755,root,root) %{_libdir}/totem/plugins/publish/libpublish.so
 %{_libdir}/totem/plugins/publish/publish-plugin.ui
 %{_libdir}/totem/plugins/publish/publish.totem-plugin
-%dir %{_libdir}/totem/plugins/screensaver
+%dir %{_libdir}/totem/plugins/pythonconsole
+%{_libdir}/totem/plugins/pythonconsole/console.py[co]
+%{_libdir}/totem/plugins/pythonconsole/pythonconsole.py[co]
+%{_libdir}/totem/plugins/pythonconsole/pythonconsole.totem-plugin
+%%dir %{_libdir}/totem/plugins/screensaver
 %attr(755,root,root) %{_libdir}/totem/plugins/screensaver/libscreensaver.so
 %{_libdir}/totem/plugins/screensaver/screensaver.totem-plugin
 %dir %{_libdir}/totem/plugins/skipto
@@ -264,11 +273,11 @@ fi
 %dir %{_libdir}/totem/plugins/thumbnail
 %attr(755,root,root) %{_libdir}/totem/plugins/thumbnail/libthumbnail.so
 %{_libdir}/totem/plugins/thumbnail/thumbnail.totem-plugin
-#%dir %{_libdir}/totem/plugins/totem
-#%{_libdir}/totem/plugins/totem/*.py[co]
 %dir %{_libdir}/totem/plugins/tracker
 %attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
 %{_libdir}/totem/plugins/tracker/tracker.totem-plugin
+%dir %{_libdir}/totem/plugins/totem
+%{_libdir}/totem/plugins/totem/__init__.py[co]
 %dir %{_libdir}/totem/plugins/youtube
 %{_libdir}/totem/plugins/youtube/youtube.py[co]
 %{_libdir}/totem/plugins/youtube/youtube.totem-plugin
@@ -278,4 +287,3 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/totem-plugin-viewer
 %attr(755,root,root) %{_browserpluginsdir}/*.so
-%attr(755,root,root) %{_browserpluginsdir}/*.xpt
