@@ -13,12 +13,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.24.1
+Version:	2.24.2
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.24/%{name}-%{version}.tar.bz2
-# Source0-md5:	326ae306d79076562a577cea761693be
+# Source0-md5:	e85064c48fe28e8e87c1da04a06173df
 # http://bugzilla.gnome.org/show_bug.cgi?id=552027
 Patch0:		%{name}-desktop.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=552022
@@ -26,44 +26,41 @@ Patch1:		%{name}-configure.patch
 # PLD-specific
 Patch2:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.22.0
+BuildRequires:	GConf2-devel >= 2.24.0
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.16.1
-BuildRequires:	gmyth-devel
-BuildRequires:	gmyth-upnp-devel
-BuildRequires:	gnome-common >= 2.20.0
-BuildRequires:	gnome-doc-utils >= 0.12.0
-BuildRequires:	gnome-vfs2-devel >= 2.22.0
+BuildRequires:	glib2-devel >= 1:2.18.0
+BuildRequires:	gmyth-devel >= 0.7.1
+BuildRequires:	gmyth-upnp-devel >= 0.7.1
+BuildRequires:	gnome-common >= 2.24.0
+BuildRequires:	gnome-doc-utils >= 0.14.0
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12}
-BuildRequires:	gtk+2-devel >= 2:2.12.8
-BuildRequires:	intltool >= 0.36.2
+BuildRequires:	gtk+2-devel >= 2:2.14.0
+BuildRequires:	intltool >= 0.40.0
 BuildRequires:	iso-codes
-BuildRequires:	libepc-ui-devel
+BuildRequires:	libepc-ui-devel >= 0.3.0
 BuildRequires:	libgalago-devel >= 0.5.2
-BuildRequires:	libgnomeui-devel >= 2.22.01
+BuildRequires:	libgnomeui-devel >= 2.24.0
 %{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 BuildRequires:	libtracker-devel
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-devel >= 2.22.0
+BuildRequires:	nautilus-devel >= 2.24.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
-BuildRequires:	scrollkeeper
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	totem-pl-parser-devel >= 2.23.91
+BuildRequires:	totem-pl-parser-devel >= 2.24.0
 BuildRequires:	vala >= 0.3.5
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
-BuildRequires:	xulrunner-devel >= 1.8.1.12-1.20080208.3
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
@@ -78,8 +75,8 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.12.8
-Requires:	nautilus >= 2.22.0
+Requires:	gtk+2 >= 2:2.14.0
+Requires:	nautilus >= 2.24.0
 Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
@@ -151,13 +148,10 @@ Wtyczka Totem do przeglądarek WWW.
 %configure \
 	--disable-scrollkeeper \
 	--enable-vala \
-	%{?with_lirc:--enable-lirc} \
-	--enable-mozilla \
 	--enable-nautilus \
 	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
-	%{?with_gstreamer:--enable-gstreamer} \
-	--enable-python \
-	--with-gecko=xulrunner
+	%{!?with_gstreamer:--enable-xine} \
+	--enable-python
 
 %{__make}
 
@@ -167,8 +161,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	BROWSER_PLUGIN_DIR=%{_browserpluginsdir} \
-	typelibdir=%{_browserpluginsdir} \
-	xptdir=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
