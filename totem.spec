@@ -14,7 +14,7 @@ Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
 Version:	2.24.4
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.24/%{name}-%{version}.tar.bz2
@@ -166,6 +166,8 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
+
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/la
 
 %find_lang %{name} --with-gnome --with-omf --all-name
 
