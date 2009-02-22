@@ -2,63 +2,54 @@
 # Conditional build
 %bcond_without	bemused		# build without bemused plugin
 %bcond_without	gstreamer	# build with xine-lib instead of gstreamer
-%bcond_without	nvtv		# build without nvtv support
 %bcond_without	lirc		# without lirc support
-#
-# nvtv only available on few archs
-%ifnarch alpha arm %{ix86} ia64 sh %{x8664}
-%undefine	with_nvtv
-%endif
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.24.4
-Release:	2
+Version:	2.25.91
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.24/%{name}-%{version}.tar.bz2
-# Source0-md5:	f5d96849a4ca0a4edce9bd6f62b93f7d
-# http://bugzilla.gnome.org/show_bug.cgi?id=552027
-Patch0:		%{name}-desktop.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=552022
-Patch1:		%{name}-configure.patch
-# PLD-specific
-Patch2:		%{name}-codegen.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.25/%{name}-%{version}.tar.bz2
+# Source0-md5:	33e1ccbaf8bfdd9b4ac70bc45680516c
+# PLD-specific patches
+Patch0:		%{name}-configure.patch
+Patch1:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.24.0
+BuildRequires:	GConf2-devel >= 2.25.0
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.18.0
+BuildRequires:	glib2-devel >= 1:2.19.7
 BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
 %{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12}
-BuildRequires:	gtk+2-devel >= 2:2.14.0
+BuildRequires:	gtk+2-devel >= 2:2.15.0
+BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	iso-codes
 BuildRequires:	libepc-ui-devel >= 0.3.0
 BuildRequires:	libgalago-devel >= 0.5.2
-BuildRequires:	libgnomeui-devel >= 2.24.0
-%{?with_nvtv:BuildRequires:	libnvtvsimple-devel >= 0.4.5}
 BuildRequires:	libtool
 BuildRequires:	libtracker-devel
+BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-devel >= 2.24.0
+BuildRequires:	nautilus-devel >= 2.25.90
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	totem-pl-parser-devel >= 2.24.0
+BuildRequires:	totem-pl-parser-devel >= 2.25.90
 BuildRequires:	vala >= 0.3.5
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
+BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 Requires(post,postun):	/sbin/ldconfig
@@ -75,8 +66,9 @@ Requires:	xine-plugin-video
 # unusable
 Conflicts:	xine-input-gnome-vfs
 %endif
-Requires:	gtk+2 >= 2:2.14.0
-Requires:	nautilus >= 2.24.0
+Requires:	gtk+2 >= 2:2.15.0
+Requires:	nautilus >= 2.25.90
+Requires:	python-pygtk-gtk
 Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
@@ -84,10 +76,17 @@ Suggests:	gstreamer-pango
 # youtube plugin
 Suggests:	gstreamer-plugins-bad
 Suggests:	gstreamer-soup
+Suggests:	python-coherence
 Suggests:	python-gdata
+Suggests:	python-gnome-gconf
+Suggests:	python-json-py
+Suggests:	python-pygobject >= 2.16.0
+Suggests:	python-pyxdg
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		pluginsdir	%{_libdir}/totem/plugins
 
 %if %{with gstreamer}
 %description
@@ -114,6 +113,18 @@ położenia w pliku i głośności, a także w miarę kompletną obsługę z
 klawiatury.
 %endif
 
+%package apidocs
+Summary:	Totem API documentation
+Summary(pl.UTF-8):	Dokumentacja API Totema
+Group:		Documentation
+Requires:	gtk-doc-common
+
+%description apidocs
+Totem API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API Totema.
+
 %package -n browser-plugin-%{name}
 Summary:	Totem's browser plugin
 Summary(pl.UTF-8):	Wtyczka Totema do przeglądarek WWW
@@ -136,7 +147,6 @@ Wtyczka Totem do przeglądarek WWW.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__intltoolize}
@@ -149,9 +159,10 @@ Wtyczka Totem do przeglądarek WWW.
 	--disable-scrollkeeper \
 	--enable-vala \
 	--enable-nautilus \
-	--%{?with_nvtv:enable}%{!?with_nvtv:disable}-nvtv \
 	%{!?with_gstreamer:--enable-xine} \
-	--enable-python
+	--enable-python \
+	--enable-gtk-doc \
+	--with-html-dir=%{_gtkdocdir}
 
 %{__make}
 
@@ -168,6 +179,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/la
+
+%py_postclean %{_libdir}/totem/plugins
 
 %find_lang %{name} --with-gnome --with-omf --all-name
 
@@ -217,65 +230,109 @@ fi
 %{_desktopdir}/totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
-%{_iconsdir}/hicolor/*/*/totem.*
+%{_iconsdir}/hicolor/*/*/*.png
+%{_iconsdir}/hicolor/*/*/*.svg
 %{_sysconfdir}/gconf/schemas/totem-handlers.schemas
 %{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
 %{_sysconfdir}/gconf/schemas/totem.schemas
 %dir %{_libdir}/totem
-%dir %{_libdir}/totem/plugins
+%dir %{pluginsdir}
+
 %if %{with bemused}
-%dir %{_libdir}/totem/plugins/bemused
-%attr(755,root,root) %{_libdir}/totem/plugins/bemused/libbemused.so
+%dir %{pluginsdir}/bemused
+%attr(755,root,root) %{pluginsdir}/bemused/libbemused.so
 %endif
-%dir %{_libdir}/totem/plugins/galago
-%attr(755,root,root) %{_libdir}/totem/plugins/galago/libtgp.so
-%{_libdir}/totem/plugins/galago/galago.totem-plugin
-%dir %{_libdir}/totem/plugins/gromit
-%attr(755,root,root) %{_libdir}/totem/plugins/gromit/libgromit.so
-%{_libdir}/totem/plugins/gromit/gromit.totem-plugin
-%dir %{_libdir}/totem/plugins/lirc
-%attr(755,root,root) %{_libdir}/totem/plugins/lirc/liblirc.so
-%{_libdir}/totem/plugins/lirc/lirc.totem-plugin
-%{_libdir}/totem/plugins/lirc/totem_lirc_default
-%dir %{_libdir}/totem/plugins/media-player-keys
-%attr(755,root,root) %{_libdir}/totem/plugins/media-player-keys/libmedia_player_keys.so
-%{_libdir}/totem/plugins/media-player-keys/media-player-keys.totem-plugin
-%dir %{_libdir}/totem/plugins/mythtv
-%attr(755,root,root) %{_libdir}/totem/plugins/mythtv/libtotem_mythtv.so
-%{_libdir}/totem/plugins/mythtv/mythtv.totem-plugin
-%dir %{_libdir}/totem/plugins/ontop
-%attr(755,root,root) %{_libdir}/totem/plugins/ontop/libontop.so
-%{_libdir}/totem/plugins/ontop/ontop.totem-plugin
-%dir %{_libdir}/totem/plugins/properties
-%attr(755,root,root) %{_libdir}/totem/plugins/properties/libmovie-properties.so
-%{_libdir}/totem/plugins/properties/movie-properties.totem-plugin
-%dir %{_libdir}/totem/plugins/publish
-%attr(755,root,root) %{_libdir}/totem/plugins/publish/libpublish.so
-%{_libdir}/totem/plugins/publish/publish-plugin.ui
-%{_libdir}/totem/plugins/publish/publish.totem-plugin
-%dir %{_libdir}/totem/plugins/pythonconsole
-%{_libdir}/totem/plugins/pythonconsole/console.py[co]
-%{_libdir}/totem/plugins/pythonconsole/pythonconsole.py[co]
-%{_libdir}/totem/plugins/pythonconsole/pythonconsole.totem-plugin
-%%dir %{_libdir}/totem/plugins/screensaver
-%attr(755,root,root) %{_libdir}/totem/plugins/screensaver/libscreensaver.so
-%{_libdir}/totem/plugins/screensaver/screensaver.totem-plugin
-%dir %{_libdir}/totem/plugins/skipto
-%attr(755,root,root) %{_libdir}/totem/plugins/skipto/libskipto.so
-%{_libdir}/totem/plugins/skipto/skipto.totem-plugin
-%{_libdir}/totem/plugins/skipto/skipto.ui
-%dir %{_libdir}/totem/plugins/thumbnail
-%attr(755,root,root) %{_libdir}/totem/plugins/thumbnail/libthumbnail.so
-%{_libdir}/totem/plugins/thumbnail/thumbnail.totem-plugin
-%dir %{_libdir}/totem/plugins/tracker
-%attr(755,root,root) %{_libdir}/totem/plugins/tracker/libtracker.so
-%{_libdir}/totem/plugins/tracker/tracker.totem-plugin
-%dir %{_libdir}/totem/plugins/totem
-%{_libdir}/totem/plugins/totem/__init__.py[co]
-%dir %{_libdir}/totem/plugins/youtube
-%{_libdir}/totem/plugins/youtube/youtube.py[co]
-%{_libdir}/totem/plugins/youtube/youtube.totem-plugin
-%{_libdir}/totem/plugins/youtube/youtube.ui
+
+%dir %{pluginsdir}/brasero-disc-recorder
+%attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
+%{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.totem-plugin
+
+%dir %{pluginsdir}/coherence_upnp
+%{pluginsdir}/coherence_upnp/*.py[co]
+%{pluginsdir}/coherence_upnp/coherence_upnp.totem-plugin
+
+%dir %{pluginsdir}/galago
+%attr(755,root,root) %{pluginsdir}/galago/libtgp.so
+%{pluginsdir}/galago/galago.totem-plugin
+
+%dir %{pluginsdir}/gromit
+%attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
+%{pluginsdir}/gromit/gromit.totem-plugin
+
+%dir %{pluginsdir}/jamendo
+%{pluginsdir}/jamendo/*.py[co]
+%{pluginsdir}/jamendo/jamendo.totem-plugin
+%{pluginsdir}/jamendo/jamendo.ui
+
+%dir %{pluginsdir}/lirc
+%attr(755,root,root) %{pluginsdir}/lirc/liblirc.so
+%{pluginsdir}/lirc/lirc.totem-plugin
+%{pluginsdir}/lirc/totem_lirc_default
+
+%dir %{pluginsdir}/media-player-keys
+%attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
+%{pluginsdir}/media-player-keys/media-player-keys.totem-plugin
+
+%dir %{pluginsdir}/mythtv
+%attr(755,root,root) %{pluginsdir}/mythtv/libtotem_mythtv.so
+%{pluginsdir}/mythtv/mythtv.totem-plugin
+
+%dir %{pluginsdir}/ontop
+%attr(755,root,root) %{pluginsdir}/ontop/libontop.so
+%{pluginsdir}/ontop/ontop.totem-plugin
+
+%dir %{pluginsdir}/opensubtitles
+%{pluginsdir}/opensubtitles/*.py[co]
+%{pluginsdir}/opensubtitles/opensubtitles.totem-plugin
+%{pluginsdir}/opensubtitles/opensubtitles.ui
+
+%dir %{pluginsdir}/properties
+%attr(755,root,root) %{pluginsdir}/properties/libmovie-properties.so
+%{pluginsdir}/properties/movie-properties.totem-plugin
+
+%dir %{pluginsdir}/publish
+%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
+%{pluginsdir}/publish/publish-plugin.ui
+%{pluginsdir}/publish/publish.totem-plugin
+
+%dir %{pluginsdir}/pythonconsole
+%{pluginsdir}/pythonconsole/console.py[co]
+%{pluginsdir}/pythonconsole/pythonconsole.py[co]
+%{pluginsdir}/pythonconsole/pythonconsole.totem-plugin
+
+%dir %{pluginsdir}/screensaver
+%attr(755,root,root) %{pluginsdir}/screensaver/libscreensaver.so
+%{pluginsdir}/screensaver/screensaver.totem-plugin
+
+%dir %{pluginsdir}/screenshot
+%attr(755,root,root) %{pluginsdir}/screenshot/libscreenshot.so
+%{pluginsdir}/screenshot/gallery.ui
+%{pluginsdir}/screenshot/screenshot.totem-plugin
+
+%dir %{pluginsdir}/skipto
+%attr(755,root,root) %{pluginsdir}/skipto/libskipto.so
+%{pluginsdir}/skipto/skipto.totem-plugin
+%{pluginsdir}/skipto/skipto.ui
+
+%dir %{pluginsdir}/thumbnail
+%attr(755,root,root) %{pluginsdir}/thumbnail/libthumbnail.so
+%{pluginsdir}/thumbnail/thumbnail.totem-plugin
+
+%dir %{pluginsdir}/tracker
+%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
+%{pluginsdir}/tracker/tracker.totem-plugin
+
+%dir %{pluginsdir}/totem
+%{pluginsdir}/totem/__init__.py[co]
+
+%dir %{pluginsdir}/youtube
+%{pluginsdir}/youtube/youtube.py[co]
+%{pluginsdir}/youtube/youtube.totem-plugin
+%{pluginsdir}/youtube/youtube.ui
+
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/totem
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
