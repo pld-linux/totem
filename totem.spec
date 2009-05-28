@@ -1,18 +1,17 @@
 #
 # Conditional build
 %bcond_without	bemused		# build without bemused plugin
-%bcond_without	gstreamer	# build with xine-lib instead of gstreamer
 %bcond_without	lirc		# without lirc support
 #
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.26.2
+Version:	2.27.1
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.26/%{name}-%{version}.tar.bz2
-# Source0-md5:	aa9905e84c7a15354baa2de529afde86
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.27/%{name}-%{version}.tar.bz2
+# Source0-md5:	586d08291bdd5e0673baeae0f93ab790
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -28,13 +27,14 @@ BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
-%{?with_gstreamer:BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12}
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12
 BuildRequires:	gtk+2-devel >= 2:2.16.0
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	iso-codes
 BuildRequires:	libepc-ui-devel >= 0.3.0
 BuildRequires:	libgalago-devel >= 0.5.2
+BuildRequires:	libgdata-devel
 BuildRequires:	libtool
 BuildRequires:	libtracker-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
@@ -46,9 +46,8 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 2.26.0
+BuildRequires:	totem-pl-parser-devel >= 2.27.0
 BuildRequires:	vala >= 0.3.5
-%{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
@@ -57,15 +56,10 @@ Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
-%if %{with gstreamer}
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
+Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
-%else
-Requires:	xine-plugin-video
-# unusable
-Conflicts:	xine-input-gnome-vfs
-%endif
 Requires:	gtk+2 >= 2:2.16.0
 Requires:	nautilus >= 2.26.0
 Requires:	python-pygtk-gtk
@@ -75,11 +69,13 @@ Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
 # youtube plugin
 Suggests:	gstreamer-plugins-bad
-Suggests:	gstreamer-soup
+Suggests:	python-BeautifulSoup
 Suggests:	python-coherence
-Suggests:	python-gdata
+Suggests:	python-feedparser
 Suggests:	python-gnome-gconf
+Suggests:	python-httplib2
 Suggests:	python-json-py
+Suggests:	python-listparser
 Suggests:	python-pygobject >= 2.16.0
 Suggests:	python-pyxdg
 # sr@Latn vs. sr@latin
@@ -160,7 +156,6 @@ Wtyczka Totem do przeglądarek WWW.
 	--disable-scrollkeeper \
 	--enable-vala \
 	--enable-nautilus \
-	%{!?with_gstreamer:--enable-xine} \
 	--enable-python \
 	--enable-gtk-doc \
 	--with-html-dir=%{_gtkdocdir}
@@ -223,8 +218,6 @@ fi
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
-%attr(755,root,root) %{_libdir}/libbaconvideowidget.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libbaconvideowidget.so.0
 %attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
@@ -252,6 +245,10 @@ fi
 %{pluginsdir}/coherence_upnp/*.py[co]
 %{pluginsdir}/coherence_upnp/coherence_upnp.totem-plugin
 
+%dir %{pluginsdir}/dbus
+%{pluginsdir}/dbus/*.py[co]
+%{pluginsdir}/dbus/dbus-service.totem-plugin
+
 %dir %{pluginsdir}/galago
 %attr(755,root,root) %{pluginsdir}/galago/libtgp.so
 %{pluginsdir}/galago/galago.totem-plugin
@@ -259,6 +256,11 @@ fi
 %dir %{pluginsdir}/gromit
 %attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
 %{pluginsdir}/gromit/gromit.totem-plugin
+
+%dir %{pluginsdir}/iplayer
+%{pluginsdir}/iplayer/*.py[co]
+%{pluginsdir}/iplayer/iplayer.ui
+%{pluginsdir}/iplayer/iplayer.totem-plugin
 
 %dir %{pluginsdir}/jamendo
 %{pluginsdir}/jamendo/*.py[co]
@@ -327,7 +329,7 @@ fi
 %{pluginsdir}/totem/__init__.py[co]
 
 %dir %{pluginsdir}/youtube
-%{pluginsdir}/youtube/youtube.py[co]
+%attr(755,root,root) %{pluginsdir}/youtube/libyoutube.so
 %{pluginsdir}/youtube/youtube.totem-plugin
 %{pluginsdir}/youtube/youtube.ui
 
