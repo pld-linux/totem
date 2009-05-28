@@ -1,58 +1,75 @@
-diff -urN totem-2.25.91/configure.in totem-2.25.91.new/configure.in
---- totem-2.25.91/configure.in	2009-02-17 13:46:50.000000000 +0100
-+++ totem-2.25.91.new/configure.in	2009-02-21 21:55:48.000000000 +0100
-@@ -123,54 +123,6 @@
- 		AC_MSG_ERROR(you need the GStreamer or the xine-lib development packages installed)
- 	fi
- 	AC_MSG_RESULT(GStreamer-$GST_MAJORMINOR)
+--- totem-2.27.1/configure.in~	2009-05-06 19:28:37.000000000 +0200
++++ totem-2.27.1/configure.in	2009-05-28 13:04:36.295330882 +0200
+@@ -97,52 +97,6 @@
+ AC_SUBST(GST_LIBS)
+ EXTRA_BACKEND_LIBS="-lgstinterfaces-$GST_MAJORMINOR -lgstvideo-$GST_MAJORMINOR -lgstaudio-$GST_MAJORMINOR -lgstpbutils-$GST_MAJORMINOR"
+ 
+-dnl Check for required plugins
+-gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
+-gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
 -
--	dnl Check for required plugins
--	gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
--	gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
+-dnl Give error and exit if we don't have the gst_inspect tool
+-AC_MSG_CHECKING([GStreamer 0.10 inspection tool])
+-if test -r "$gst010_inspect"; then
+-	AC_MSG_RESULT([yes])
+-else
+-	AC_MSG_RESULT([no])
+-	AC_MSG_ERROR([
+-		Cannot find required GStreamer-0.10 tool 'gst-inspect-0.10'.
+-		It should be part of gstreamer-0_10-utils. Please install it.
+-	])
+-fi
 -
--	dnl Give error and exit if we don't have the gst_inspect tool
--	AC_MSG_CHECKING([GStreamer 0.10 inspection tool])
--	if test -r "$gst010_inspect"; then
+-dnl Check for elements from gst-plugins-base
+-for base_element in playbin2 ffmpegcolorspace videoscale
+-do
+-	AC_MSG_CHECKING([GStreamer 0.10 $base_element plugin])
+-	if $gst010_inspect $base_element >/dev/null 2>/dev/null; then
 -		AC_MSG_RESULT([yes])
 -	else
 -		AC_MSG_RESULT([no])
 -		AC_MSG_ERROR([
--			Cannot find required GStreamer-0.10 tool 'gst-inspect-0.10'.
--			It should be part of gstreamer-0_10-utils. Please install it.
+-			Cannot find required GStreamer-0.10 plugin '$base_element'.
+-			It should be part of gst-plugins-base. Please install it.
 -		])
 -	fi
+-done
 -
--	dnl Check for elements from gst-plugins-base
--	for base_element in playbin ffmpegcolorspace videoscale
--	do
--		AC_MSG_CHECKING([GStreamer 0.10 $base_element plugin])
--		if $gst010_inspect $base_element >/dev/null 2>/dev/null; then
--			AC_MSG_RESULT([yes])
--		else
--			AC_MSG_RESULT([no])
--			AC_MSG_ERROR([
--				Cannot find required GStreamer-0.10 plugin '$base_element'.
--				It should be part of gst-plugins-base. Please install it.
--			])
--		fi
--	done
+-dnl Check for elements from gst-plugins-good
+-for good_element in gconfaudiosink gconfvideosink goom
+-do
+-	AC_MSG_CHECKING([GStreamer 0.10 $good_element plugin])
+-	if $gst010_inspect $good_element >/dev/null 2>/dev/null; then
+-		AC_MSG_RESULT([yes])
+-	else
+-		AC_MSG_RESULT([no])
+-		AC_MSG_ERROR([
+-			Cannot find required GStreamer-0.10 plugin '$good_element'.
+-			It should be part of gst-plugins-good. Please install it.
+-		])
+-	fi
+-done
 -
--	dnl Check for elements from gst-plugins-good
--	for good_element in gconfaudiosink gconfvideosink goom
--	do
--		AC_MSG_CHECKING([GStreamer 0.10 $good_element plugin])
--		if $gst010_inspect $good_element >/dev/null 2>/dev/null; then
--			AC_MSG_RESULT([yes])
--		else
--			AC_MSG_RESULT([no])
--			AC_MSG_ERROR([
--				Cannot find required GStreamer-0.10 plugin '$good_element'.
--				It should be part of gst-plugins-good. Please install it.
--			])
--		fi
--	done
--
--
- fi
+ AC_MSG_CHECKING([Whether not to check for iso-codes])
+ AC_ARG_ENABLE([iso-codes],
+ 	AS_HELP_STRING([--disable-iso-codes],[Whether not to check for iso-codes at build-time]),
+--- totem-2.27.1/configure.in~	2009-05-28 13:09:53.905040655 +0200
++++ totem-2.27.1/configure.in	2009-05-28 13:11:19.125023987 +0200
+@@ -515,17 +515,6 @@
+ 				add_plugin="0"
+ 			fi
  
- if test x$ENABLE_XINE = xno && test x$HAVE_GSTREAMER = xno; then
+-			dnl We need the souphttpsrc element for the YouTube plugin
+-			AC_MSG_CHECKING([GStreamer 0.10 souphttpsrc plugin])
+-			if $gst010_inspect souphttpsrc >/dev/null 2>/dev/null; then
+-				AC_MSG_RESULT([yes])
+-			else
+-				AC_MSG_RESULT([no])
+-				AC_MSG_ERROR([
+-					Cannot find required GStreamer-0.10 plugin 'souphttpsrc'.
+-					It should be part of gst-plugins-good. Please install it.
+-				])
+-			fi
+ 		;;
+ 	esac
+ 
