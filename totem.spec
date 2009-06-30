@@ -7,12 +7,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.26.2
+Version:	2.26.3
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.26/%{name}-%{version}.tar.bz2
-# Source0-md5:	aa9905e84c7a15354baa2de529afde86
+# Source0-md5:	f8f7390f5d93268cd200086a1b4f765a
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -39,7 +39,7 @@ BuildRequires:	libtool
 BuildRequires:	libtracker-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-devel >= 2.25.90
+BuildRequires:	nautilus-devel >= 2.26.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpmbuild(find_lang) >= 1.23
@@ -47,7 +47,7 @@ BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.26.0
-BuildRequires:	vala >= 0.3.5
+#BuildRequires:	vala >= 0.3.5
 %{!?with_gstreamer:BuildRequires:	xine-lib-devel >= 2:1.0.2-1}
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -158,7 +158,7 @@ Wtyczka Totem do przeglądarek WWW.
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
-	--enable-vala \
+	--disable-vala \
 	--enable-nautilus \
 	%{!?with_gstreamer:--enable-xine} \
 	--enable-python \
