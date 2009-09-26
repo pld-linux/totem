@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.27.92
+Version:	2.28.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.27/%{name}-%{version}.tar.bz2
-# Source0-md5:	b2cfb39e272be8cb452b392be57daf02
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.28/%{name}-%{version}.tar.bz2
+# Source0-md5:	481d56b78b351606cf6c75d923776a75
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -28,7 +28,7 @@ BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.12
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.24
 BuildRequires:	gtk+2-devel >= 2:2.16.0
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	intltool >= 0.40.0
@@ -47,7 +47,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 2.27.0
+BuildRequires:	totem-pl-parser-devel >= 2.28.0
 BuildRequires:	vala >= 0.3.5
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -144,8 +144,6 @@ Wtyczka Totem do przeglądarek WWW.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-rm po/ca@valencia.po
-sed -i s#^ca@valencia## po/LINGUAS
 
 %build
 %{__gtkdocize}
