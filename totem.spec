@@ -6,24 +6,24 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.28.0
+Version:	2.28.1
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.28/%{name}-%{version}.tar.bz2
-# Source0-md5:	481d56b78b351606cf6c75d923776a75
+# Source0-md5:	42f071fcf8ffc471beb3e1689297d647
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.25.0
+BuildRequires:	GConf2-devel >= 2.26.0
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.19.7
+BuildRequires:	glib2-devel >= 1:2.20.0
 BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
@@ -38,6 +38,7 @@ BuildRequires:	libgalago-devel >= 0.5.2
 BuildRequires:	libgdata-devel >= 0.4.0
 BuildRequires:	libtool
 BuildRequires:	libtracker-devel
+BuildRequires:	libunique-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 2.26.0
@@ -59,6 +60,7 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
+Requires:	gstreamer-plugins-base >= 0.10.24
 Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
 Requires:	gtk+2 >= 2:2.16.0
