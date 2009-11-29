@@ -44,6 +44,7 @@ BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	nautilus-devel >= 2.26.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
@@ -87,7 +88,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		pluginsdir	%{_libdir}/totem/plugins
 
-%if %{with gstreamer}
 %description
 Totem is simple movie player for the GNOME desktop based on gstreamer.
 It features a simple playlist, a full-screen mode, seek and volume
@@ -98,19 +98,6 @@ Totem to prosty odtwarzacz filmów dla środowiska GNOME oparty na
 gstreamer. Ma prostą listę odtwarzania, tryb pełnoekranowy, kontrolę
 położenia w pliku i głośności, a także w miarę kompletną obsługę z
 klawiatury.
-
-%else
-%description
-Totem is simple movie player for the GNOME desktop based on xine-libs.
-It features a simple playlist, a full-screen mode, seek and volume
-controls, as well as a pretty complete keyboard navigation.
-
-%description -l pl.UTF-8
-Totem to prosty odtwarzacz filmów dla środowiska GNOME oparty na
-xine-libs. Ma prostą listę odtwarzania, tryb pełnoekranowy, kontrolę
-położenia w pliku i głośności, a także w miarę kompletną obsługę z
-klawiatury.
-%endif
 
 %package apidocs
 Summary:	Totem API documentation
