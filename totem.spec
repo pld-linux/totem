@@ -164,8 +164,6 @@ rm -f $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a}
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/la
-
 %py_postclean %{_libdir}/totem/plugins
 
 %find_lang %{name} --with-gnome --with-omf --all-name
