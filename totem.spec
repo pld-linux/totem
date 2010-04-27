@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.30.0
-Release:	2
+Version:	2.30.1
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.30/%{name}-%{version}.tar.bz2
-# Source0-md5:	ecee18e876f6adf5845f71ace87549ca
+# Source0-md5:	c28e61767c1a57baea9ad4c0155cca9c
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -23,13 +23,14 @@ BuildRequires:	automake >= 1:1.9
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.20.0
+BuildRequires:	glib2-devel >= 1:2.22.0
 BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.14.0
+BuildRequires:	gstreamer-devel >= 0.10.28.1
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.26
-BuildRequires:	gtk+2-devel >= 2:2.16.0
+BuildRequires:	gtk+2-devel >= 2:2.20.0
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	iso-codes
@@ -37,7 +38,6 @@ BuildRequires:	libepc-ui-devel >= 0.3.0
 BuildRequires:	libgalago-devel >= 0.5.2
 BuildRequires:	libgdata-devel >= 0.4.0
 BuildRequires:	libtool
-#BuildRequires:	libtracker-devel
 BuildRequires:	libunique-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
@@ -50,7 +50,8 @@ BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.30.0
-BuildRequires:	vala >= 0.3.5
+BuildRequires:	tracker-devel >= 0.8.1
+BuildRequires:	vala >= 0.8.0
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
@@ -61,10 +62,11 @@ Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
-Requires:	gstreamer-plugins-base >= 0.10.24
+Requires:	gstreamer-plugins-base >= 0.10.26
 Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
-Requires:	gtk+2 >= 2:2.16.0
+Requires:	gstreamer-visualisation
+Requires:	gtk+2 >= 2:2.20.0
 Requires:	nautilus >= 2.26.0
 Requires:	python-pygtk-gtk
 Suggests:	galago-daemon
@@ -312,9 +314,9 @@ fi
 %attr(755,root,root) %{pluginsdir}/thumbnail/libthumbnail.so
 %{pluginsdir}/thumbnail/thumbnail.totem-plugin
 
-#%dir %{pluginsdir}/tracker
-#%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
-#%{pluginsdir}/tracker/tracker.totem-plugin
+%dir %{pluginsdir}/tracker
+%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
+%{pluginsdir}/tracker/tracker.totem-plugin
 
 %dir %{pluginsdir}/totem
 %{pluginsdir}/totem/__init__.py[co]
