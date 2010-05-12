@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.30.1
+Version:	2.30.2
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.30/%{name}-%{version}.tar.bz2
-# Source0-md5:	c28e61767c1a57baea9ad4c0155cca9c
+# Source0-md5:	4ff658d6178fdb57f310c54daf596de7
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -148,6 +148,7 @@ rm po/en@shaw.po
 %{__automake}
 %configure \
 	--disable-scrollkeeper \
+	--disable-silent-rules \
 	--disable-vala \
 	--enable-nautilus \
 	--enable-python \
