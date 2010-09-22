@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.31.6
+Version:	2.31.92.2
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.31/%{name}-%{version}.tar.bz2
-# Source0-md5:	10029bf8c7c843224334a66b17b66ee6
+# Source0-md5:	91983b28d4342d05a6840f38cf7ecf41
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -234,6 +234,11 @@ fi
 %dir %{pluginsdir}/brasero-disc-recorder
 %attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
 %{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.totem-plugin
+
+%dir %{pluginsdir}/chapters
+%{pluginsdir}/chapters/*.ui
+%{pluginsdir}/chapters/chapters.totem-plugin
+%attr(755,root,root) %{pluginsdir}/chapters/libchapters.so
 
 %dir %{pluginsdir}/coherence_upnp
 %{pluginsdir}/coherence_upnp/*.py[co]
