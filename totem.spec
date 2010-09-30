@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.31.92.2
+Version:	2.32.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.31/%{name}-%{version}.tar.bz2
-# Source0-md5:	91983b28d4342d05a6840f38cf7ecf41
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.32/%{name}-%{version}.tar.bz2
+# Source0-md5:	2e55c3da316648ba860e3f88af2d30ab
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
@@ -23,7 +23,7 @@ BuildRequires:	automake >= 1:1.9
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.25.11
+BuildRequires:	glib2-devel >= 1:2.26.0
 BuildRequires:	gmyth-devel >= 0.7.1
 BuildRequires:	gmyth-upnp-devel >= 0.7.1
 BuildRequires:	gnome-common >= 2.24.0
@@ -60,7 +60,7 @@ Requires(post,postun):	gtk+2
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
-Requires:	glib2 >= 1:2.25.11
+Requires:	glib2 >= 1:2.26.0
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
 Requires:	gstreamer-plugins-base >= 0.10.26
