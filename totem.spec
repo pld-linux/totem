@@ -49,7 +49,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 2.30.0
+BuildRequires:	totem-pl-parser-devel >= 2.30.2
 BuildRequires:	tracker-devel >= 0.8.1
 BuildRequires:	vala >= 0.8.0
 BuildRequires:	xorg-lib-libSM-devel
