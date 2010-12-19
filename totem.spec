@@ -186,7 +186,9 @@ watching videos from those.
 Summary:	YouTube plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	gstreamer-ffmpeg
 Requires:	gstreamer-plugins-bad
+Requires:	gstreamer-x264
 
 %description youtube
 This package provides a plugin to allow browsing YouTube videos in
