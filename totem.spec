@@ -2,7 +2,7 @@
 # Conditional build
 %bcond_without	bemused		# build without bemused plugin
 %bcond_without	lirc		# without lirc support
-#
+
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
@@ -68,22 +68,22 @@ Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
 Requires:	gstreamer-visualisation
 Requires:	gtk+2 >= 2:2.20.0
-Requires:	nautilus >= 2.26.0
 Requires:	python-pygtk-gtk
-Suggests:	galago-daemon
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
-# youtube plugin
-Suggests:	gstreamer-plugins-bad
-Suggests:	python-BeautifulSoup
-Suggests:	python-coherence
-Suggests:	python-feedparser
 Suggests:	python-gnome-gconf
-Suggests:	python-httplib2
 Suggests:	python-json-py
 Suggests:	python-listparser
 Suggests:	python-pygobject >= 2.16.0
+# iplayer
+Requires:	python-BeautifulSoup
+Suggests:	python-feedparser
+Suggests:	python-httplib2
+# gromit: gromit bin
+# im status (galago)
+Suggests:	galago-daemon
+# opensubtitles
 Suggests:	python-pyxdg
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
@@ -101,6 +101,64 @@ Totem to prosty odtwarzacz filmów dla środowiska GNOME oparty na
 gstreamer. Ma prostą listę odtwarzania, tryb pełnoekranowy, kontrolę
 położenia w pliku i głośności, a także w miarę kompletną obsługę z
 klawiatury.
+
+%package jamendo
+Summary:	Jamendo plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description jamendo
+This package provides a plugin to allow browsing the Jamendo music
+store in Totem, and listening to them.
+
+%package lirc
+Summary:	LIRC (Infrared remote) plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description lirc
+This package provides a plugin to add LIRC (Infrared remote) support
+to Totem.
+
+%package publish
+Summary:	Share your playlist with other Totems on the local network
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description publish
+This package provides a plugin to allow you to share your current
+playlist (and the files included in that playlist) with other Totems
+on the same local network.
+
+%package tracker
+Summary:	Tracker-based video search plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+
+%description tracker
+This package provides a Totem plugin to allow searching local videos,
+based on their tags, metadata, or filenames, as indexing by the
+Tracker indexer.
+
+%package upnp
+Summary:	UPNP/DLNA plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-coherence
+
+%description upnp
+This package provides a plugin to allow browsing UPNP/DLNA shares, and
+watching videos from those.
+
+%package youtube
+Summary:	YouTube plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	gstreamer-plugins-bad
+
+%description youtube
+This package provides a plugin to allow browsing YouTube videos in
+Totem, and watching them.
 
 %package apidocs
 Summary:	Totem API documentation
@@ -132,11 +190,21 @@ Totem's plugin for browsers.
 %description -n browser-plugin-%{name} -l pl.UTF-8
 Wtyczka Totem do przeglądarek WWW.
 
+%package -n nautilus-totem
+Summary:	Video and Audio Properties tab for Nautilus
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	nautilus >= 2.26.0
+
+%description -n nautilus-totem
+This package provides a Nautilus extension that shows the properties
+of audio and video files in the properties dialog.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
-sed -i s#^en@shaw## po/LINGUAS
+sed -i 's#^en@shaw##' po/LINGUAS
 rm po/en@shaw.po
 
 %build
@@ -160,9 +228,9 @@ rm po/en@shaw.po
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	INSTALL="install -p" \
 	BROWSER_PLUGIN_DIR=%{_browserpluginsdir} \
 	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
@@ -212,7 +280,6 @@ fi
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
-%attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
 %{_desktopdir}/totem.desktop
@@ -240,10 +307,6 @@ fi
 %{pluginsdir}/chapters/chapters.totem-plugin
 %attr(755,root,root) %{pluginsdir}/chapters/libchapters.so
 
-%dir %{pluginsdir}/coherence_upnp
-%{pluginsdir}/coherence_upnp/*.py[co]
-%{pluginsdir}/coherence_upnp/coherence_upnp.totem-plugin
-
 %dir %{pluginsdir}/dbus
 %{pluginsdir}/dbus/*.py[co]
 %{pluginsdir}/dbus/dbus-service.totem-plugin
@@ -260,16 +323,6 @@ fi
 %{pluginsdir}/iplayer/*.py[co]
 %{pluginsdir}/iplayer/iplayer.ui
 %{pluginsdir}/iplayer/iplayer.totem-plugin
-
-%dir %{pluginsdir}/jamendo
-%{pluginsdir}/jamendo/*.py[co]
-%{pluginsdir}/jamendo/jamendo.totem-plugin
-%{pluginsdir}/jamendo/jamendo.ui
-
-%dir %{pluginsdir}/lirc
-%attr(755,root,root) %{pluginsdir}/lirc/liblirc.so
-%{pluginsdir}/lirc/lirc.totem-plugin
-%{pluginsdir}/lirc/totem_lirc_default
 
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
@@ -291,11 +344,6 @@ fi
 %dir %{pluginsdir}/properties
 %attr(755,root,root) %{pluginsdir}/properties/libmovie-properties.so
 %{pluginsdir}/properties/movie-properties.totem-plugin
-
-%dir %{pluginsdir}/publish
-%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
-%{pluginsdir}/publish/publish-plugin.ui
-%{pluginsdir}/publish/publish.totem-plugin
 
 %dir %{pluginsdir}/pythonconsole
 %{pluginsdir}/pythonconsole/console.py[co]
@@ -321,13 +369,44 @@ fi
 %attr(755,root,root) %{pluginsdir}/thumbnail/libthumbnail.so
 %{pluginsdir}/thumbnail/thumbnail.totem-plugin
 
+%dir %{pluginsdir}/totem
+%{pluginsdir}/totem/__init__.py[co]
+
+%files jamendo
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/jamendo
+%{pluginsdir}/jamendo/*.py[co]
+%{pluginsdir}/jamendo/jamendo.totem-plugin
+%{pluginsdir}/jamendo/jamendo.ui
+
+%files lirc
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/lirc
+%attr(755,root,root) %{pluginsdir}/lirc/liblirc.so
+%{pluginsdir}/lirc/lirc.totem-plugin
+%{pluginsdir}/lirc/totem_lirc_default
+
+%files publish
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/publish
+%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
+%{pluginsdir}/publish/publish-plugin.ui
+%{pluginsdir}/publish/publish.totem-plugin
+
+%files tracker
+%defattr(644,root,root,755)
 %dir %{pluginsdir}/tracker
 %attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
 %{pluginsdir}/tracker/tracker.totem-plugin
 
-%dir %{pluginsdir}/totem
-%{pluginsdir}/totem/__init__.py[co]
+%files upnp
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/coherence_upnp
+%{pluginsdir}/coherence_upnp/*.py[co]
+%{pluginsdir}/coherence_upnp/coherence_upnp.totem-plugin
 
+%files youtube
+%defattr(644,root,root,755)
 %dir %{pluginsdir}/youtube
 %attr(755,root,root) %{pluginsdir}/youtube/libyoutube.so
 %{pluginsdir}/youtube/youtube.totem-plugin
@@ -336,6 +415,10 @@ fi
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/totem
+
+%files -n nautilus-totem
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/nautilus/extensions-2.0/libtotem-properties-page.so
 
 %files -n browser-plugin-%{name}
 %defattr(644,root,root,755)
