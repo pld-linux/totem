@@ -76,15 +76,6 @@ Suggests:	python-gnome-gconf
 Suggests:	python-json-py
 Suggests:	python-listparser
 Suggests:	python-pygobject >= 2.16.0
-# iplayer
-Requires:	python-BeautifulSoup
-Suggests:	python-feedparser
-Suggests:	python-httplib2
-# gromit: gromit bin
-# im status (galago)
-Suggests:	galago-daemon
-# opensubtitles
-Suggests:	python-pyxdg
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -101,6 +92,37 @@ Totem to prosty odtwarzacz filmów dla środowiska GNOME oparty na
 gstreamer. Ma prostą listę odtwarzania, tryb pełnoekranowy, kontrolę
 położenia w pliku i głośności, a także w miarę kompletną obsługę z
 klawiatury.
+
+%package galago
+Summary:	Instant Messenger status plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	galago-daemon
+
+%description galago
+This package provides a plugin to set your Instant Messenger status to
+away when a movie is playing.
+
+%package gromit
+Summary:	Gromit Annotations plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	gromit
+
+%description gromit
+This package provides a plugin to make annotations on screen.
+
+%package iplayer
+Summary:	BBC iPlayer plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-BeautifulSoup
+Requires:	python-feedparser
+Requires:	python-httplib2
+
+%description iplayer
+This package provides a plugin to allow streaming BBC programs from
+the BBC iPlayer service.
 
 %package jamendo
 Summary:	Jamendo plugin for Totem
@@ -119,6 +141,16 @@ Requires:	%{name} = %{version}-%{release}
 %description lirc
 This package provides a plugin to add LIRC (Infrared remote) support
 to Totem.
+
+%package opensubtitles
+Summary:	Subtitle Downloader plugin for Totem
+Group:		Applications/Multimedia
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-pyxdg
+
+%description opensubtitles
+This package provides a plugin to look for subtitles for the currently
+playing movie.
 
 %package publish
 Summary:	Share your playlist with other Totems on the local network
@@ -311,19 +343,6 @@ fi
 %{pluginsdir}/dbus/*.py[co]
 %{pluginsdir}/dbus/dbus-service.totem-plugin
 
-%dir %{pluginsdir}/galago
-%attr(755,root,root) %{pluginsdir}/galago/libtgp.so
-%{pluginsdir}/galago/galago.totem-plugin
-
-%dir %{pluginsdir}/gromit
-%attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
-%{pluginsdir}/gromit/gromit.totem-plugin
-
-%dir %{pluginsdir}/iplayer
-%{pluginsdir}/iplayer/*.py[co]
-%{pluginsdir}/iplayer/iplayer.ui
-%{pluginsdir}/iplayer/iplayer.totem-plugin
-
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
 %{pluginsdir}/media-player-keys/media-player-keys.totem-plugin
@@ -335,11 +354,6 @@ fi
 %dir %{pluginsdir}/ontop
 %attr(755,root,root) %{pluginsdir}/ontop/libontop.so
 %{pluginsdir}/ontop/ontop.totem-plugin
-
-%dir %{pluginsdir}/opensubtitles
-%{pluginsdir}/opensubtitles/*.py[co]
-%{pluginsdir}/opensubtitles/opensubtitles.totem-plugin
-%{pluginsdir}/opensubtitles/opensubtitles.ui
 
 %dir %{pluginsdir}/properties
 %attr(755,root,root) %{pluginsdir}/properties/libmovie-properties.so
@@ -372,6 +386,25 @@ fi
 %dir %{pluginsdir}/totem
 %{pluginsdir}/totem/__init__.py[co]
 
+%files galago
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/galago
+%attr(755,root,root) %{pluginsdir}/galago/libtgp.so
+%{pluginsdir}/galago/galago.totem-plugin
+
+%files gromit
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/gromit
+%attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
+%{pluginsdir}/gromit/gromit.totem-plugin
+
+%files iplayer
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/iplayer
+%{pluginsdir}/iplayer/*.py[co]
+%{pluginsdir}/iplayer/iplayer.ui
+%{pluginsdir}/iplayer/iplayer.totem-plugin
+
 %files jamendo
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/jamendo
@@ -385,6 +418,13 @@ fi
 %attr(755,root,root) %{pluginsdir}/lirc/liblirc.so
 %{pluginsdir}/lirc/lirc.totem-plugin
 %{pluginsdir}/lirc/totem_lirc_default
+
+%files opensubtitles
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/opensubtitles
+%{pluginsdir}/opensubtitles/*.py[co]
+%{pluginsdir}/opensubtitles/opensubtitles.totem-plugin
+%{pluginsdir}/opensubtitles/opensubtitles.ui
 
 %files publish
 %defattr(644,root,root,755)
