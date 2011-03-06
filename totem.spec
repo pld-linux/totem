@@ -38,12 +38,14 @@ BuildRequires:	libepc-ui-devel >= 0.3.0
 BuildRequires:	libgalago-devel >= 0.5.2
 BuildRequires:	libgdata-devel >= 0.4.0
 BuildRequires:	libpeas-devel >= 0.7.1
+BuildRequires:	libpeas-gtk-devel >= 0.7.1
 BuildRequires:	libtool
 BuildRequires:	libunique-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 2.26.0
 BuildRequires:	pkgconfig
+BuildRequires:	python-pygobject-devel >= 2.27.0
 BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
