@@ -6,63 +6,63 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.91.6
+Version:	2.91.91
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.91/%{name}-%{version}.tar.bz2
-# Source0-md5:	068c218f18f62d40ab83e4fc4967292a
+# Source0-md5:	e9b2cd9af20f875f736bbbf282aafd91
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	GConf2-devel >= 2.26.0
 BuildRequires:	autoconf >= 2.52
-BuildRequires:	automake >= 1:1.9
+BuildRequires:	automake >= 1:1.11
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
 BuildRequires:	dbus-glib-devel >= 0.74
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.26.0
-BuildRequires:	gmyth-devel >= 0.7.1
-BuildRequires:	gmyth-upnp-devel >= 0.7.1
+BuildRequires:	glib2-devel >= 1:2.28.0
+BuildRequires:	gdk-pixbuf2 >= 2.23.0
 BuildRequires:	gnome-common >= 2.24.0
-BuildRequires:	gnome-doc-utils >= 0.14.0
-BuildRequires:	gstreamer-devel >= 0.10.28.1
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.26
-BuildRequires:	gtk+2-devel >= 2:2.20.0
-BuildRequires:	gtk-doc >= 1.11
+BuildRequires:	gnome-doc-utils >= 0.20.3
+BuildRequires:	gstreamer-devel >= 0.10.30
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
+BuildRequires:	gobject-introspection-devel >= 0.6.7
+BuildRequires:	gtk+3-devel >= 3.0.0
+BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	iso-codes
 BuildRequires:	libepc-ui-devel >= 0.3.0
-BuildRequires:	libgalago-devel >= 0.5.2
-BuildRequires:	libgdata-devel >= 0.4.0
-BuildRequires:	libpeas-devel >= 0.7.1
-BuildRequires:	libpeas-gtk-devel >= 0.7.1
+BuildRequires:	libgdata-devel >= 0.7.0
+BuildRequires:	libsoup-devel
+BuildRequires:	libpeas-devel >= 0.7.2
+BuildRequires:	libpeas-gtk-devel >= 0.7.2
 BuildRequires:	libtool
-BuildRequires:	libunique-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	nautilus-devel >= 2.26.0
+BuildRequires:	nautilus-devel >= 2.91.3
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygobject-devel >= 2.27.0
-BuildRequires:	python-pygtk-devel >= 2:2.12.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.32.2
-BuildRequires:	tracker-devel >= 0.8.1
-BuildRequires:	vala >= 0.8.0
+#BuildRequires:	tracker-devel >= 0.9.34
+BuildRequires:	vala >= 0.11.1
 BuildRequires:	xorg-lib-libSM-devel
-BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
+BuildRequires:	xorg-lib-libXrandr-devel >= 1.1.1
+BuildRequires:	xorg-lib-libXtst-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-proto-xproto-devel
+#BuildRequires:	zeitgeist-devel >= 0.2.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	hicolor-icon-theme
 Requires(post,postun):	scrollkeeper
-Requires(post,preun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.28.0
 Requires:	gstreamer-GConf >= 0.10.3
@@ -71,14 +71,13 @@ Requires:	gstreamer-plugins-base >= 0.10.26
 Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
 Requires:	gstreamer-visualisation
-#Requires:	python-pygtk-gtk
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
 Suggests:	python-gnome-gconf
 Suggests:	python-json-py
 Suggests:	python-listparser
-Suggests:	python-pygobject >= 2.16.0
+Suggests:	python-pygobject >= 2.28.0
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -137,13 +136,13 @@ This package contains static libraries for Totem.
 %description static -l pl.UTF-8
 Pakiet zawiera statyczne biblioteki Totem.
 
-%package galago
+%package im-status
 Summary:	Instant Messenger status plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	galago-daemon
+Obsoletes:	totem-galago
 
-%description galago
+%description im-status
 This package provides a plugin to set your Instant Messenger status to
 away when a movie is playing.
 
@@ -309,8 +308,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	INSTALL="install -p" \
-	BROWSER_PLUGIN_DIR=%{_browserpluginsdir} \
-	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+	BROWSER_PLUGIN_DIR=%{_browserpluginsdir}
 
 %{__rm} $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a} \
 	$RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.{la,a} \
@@ -464,11 +462,11 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libtotem.a
 
-%files galago
+%files im-status
 %defattr(644,root,root,755)
-%dir %{pluginsdir}/galago
-%attr(755,root,root) %{pluginsdir}/galago/libtgp.so
-%{pluginsdir}/galago/galago.plugin
+%dir %{pluginsdir}/im-status
+%attr(755,root,root) %{pluginsdir}/im-status/libtotem-im-status.so
+%{pluginsdir}/im-status/totem-im-status.plugin
 
 %files gromit
 %defattr(644,root,root,755)
