@@ -14,63 +14,64 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.91/%{name}-%{version}.ta
 # Source0-md5:	e9b2cd9af20f875f736bbbf282aafd91
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
-Patch1:		%{name}-codegen.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.11
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
-BuildRequires:	dbus-glib-devel >= 0.74
+BuildRequires:	dbus-glib-devel >= 0.82
 BuildRequires:	docbook-dtd45-xml
+BuildRequires:	gdk-pixbuf2-devel >= 2.23.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.28.0
-BuildRequires:	gdk-pixbuf2 >= 2.23.0
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.20.3
+BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	gstreamer-devel >= 0.10.30
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
-BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libepc-ui-devel >= 0.3.0
-BuildRequires:	libgdata-devel >= 0.7.0
-BuildRequires:	libsoup-devel
+BuildRequires:	libgdata-devel >= 0.8.0
 BuildRequires:	libpeas-devel >= 0.7.2
 BuildRequires:	libpeas-gtk-devel >= 0.7.2
+BuildRequires:	libsoup-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
+BuildRequires:	libzeitgeist-devel >= 0.2.12
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 2.91.3
 BuildRequires:	pkgconfig
-BuildRequires:	python-pygobject-devel >= 2.27.0
+BuildRequires:	python-pygobject-devel >= 2.28.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.32.2
-#BuildRequires:	tracker-devel >= 0.9.34
+BuildRequires:	tracker-devel >= 0.10.0
 BuildRequires:	vala >= 0.11.1
-BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libICE-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
+BuildRequires:	xorg-lib-libSM-devel
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXrandr-devel >= 1.1.1
 BuildRequires:	xorg-lib-libXtst-devel
-BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 BuildRequires:	xorg-proto-xproto-devel
-#BuildRequires:	zeitgeist-devel >= 0.2.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,postun):	hicolor-icon-theme
+Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.28.0
+Requires:	gnome-icon-theme >= 2.91.0
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
-Requires:	gstreamer-plugins-base >= 0.10.26
+Requires:	gstreamer-plugins-base >= 0.10.30
 Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
 Requires:	gstreamer-visualisation
+Requires:	hicolor-icon-theme
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
@@ -170,6 +171,7 @@ the BBC iPlayer service.
 %package jamendo
 Summary:	Jamendo plugin for Totem
 Group:		Applications/Multimedia
+Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	%{name} = %{version}-%{release}
 
 %description jamendo
@@ -189,6 +191,8 @@ to Totem.
 Summary:	Subtitle Downloader plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires(post,postun):	glib2 >= 1:2.26.0
+Requires:	python-pygobject >= 2.28.0
 Requires:	python-pyxdg
 
 %description opensubtitles
@@ -198,6 +202,7 @@ playing movie.
 %package publish
 Summary:	Share your playlist with other Totems on the local network
 Group:		Applications/Multimedia
+Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	%{name} = %{version}-%{release}
 
 %description publish
@@ -209,6 +214,7 @@ on the same local network.
 Summary:	Tracker-based video search plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	tracker >= 0.10.0
 
 %description tracker
 This package provides a Totem plugin to allow searching local videos,
@@ -280,9 +286,6 @@ of audio and video files in the properties dialog.
 %prep
 %setup -q
 %patch0 -p1
-#patch1 -p1
-sed -i 's#^en@shaw##' po/LINGUAS
-%{__rm} po/en@shaw.po
 
 %build
 %{__gtkdocize}
@@ -295,7 +298,6 @@ sed -i 's#^en@shaw##' po/LINGUAS
 %configure \
 	--disable-scrollkeeper \
 	--disable-silent-rules \
-	--disable-vala \
 	--enable-nautilus \
 	--enable-python \
 	--enable-gtk-doc \
@@ -339,6 +341,24 @@ rm -rf $RPM_BUILD_ROOT
 %post   libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
+%post jamendo
+%glib_compile_schemas
+
+%postun jamendo
+%glib_compile_schemas
+
+%post publish
+%glib_compile_schemas
+
+%postun publish
+%glib_compile_schemas
+
+%post opensubtitles
+%glib_compile_schemas
+
+%postun opensubtitles
+%glib_compile_schemas
+
 %post -n browser-plugin-%{name}
 %update_browser_plugins
 
@@ -361,18 +381,9 @@ fi
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
-#%{_sysconfdir}/gconf/schemas/totem-handlers.schemas
-#%{_sysconfdir}/gconf/schemas/totem-video-thumbnail.schemas
-#%{_sysconfdir}/gconf/schemas/totem.schemas
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.enums.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.jamendo.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.pythonconsole.gschema.xml
-%{_datadir}/GConf/gsettings/jamendo.convert
-%{_datadir}/GConf/gsettings/opensubtitles.convert
-%{_datadir}/GConf/gsettings/publish.convert
 %{_datadir}/GConf/gsettings/pythonconsole.convert
 %{_datadir}/GConf/gsettings/totem.convert
 %dir %{_libdir}/totem
@@ -400,10 +411,6 @@ fi
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
 %{pluginsdir}/media-player-keys/media-player-keys.plugin
-
-#%dir %{pluginsdir}/mythtv
-#%attr(755,root,root) %{pluginsdir}/mythtv/libtotem_mythtv.so
-#%{pluginsdir}/mythtv/mythtv.totem-plugin
 
 %dir %{pluginsdir}/ontop
 %attr(755,root,root) %{pluginsdir}/ontop/libontop.so
@@ -442,8 +449,9 @@ fi
 %{pluginsdir}/thumbnail/thumbnail.plugin
 %{_datadir}/thumbnailers/totem.thumbnailer
 
-#%dir %{pluginsdir}/totem
-#%{pluginsdir}/totem/__init__.py[co]
+%dir %{pluginsdir}/zeitgeist-dp
+%attr(755,root,root) %{pluginsdir}/zeitgeist-dp/libtotem-zeitgeist-dp-plugin.so
+%{pluginsdir}/zeitgeist-dp/zeitgeist-dp.plugin
 
 %files libs
 %defattr(644,root,root,755)
@@ -453,8 +461,8 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libtotem.so
 %{_includedir}/totem
-%{_libdir}/libtotem.so
 %{_pkgconfigdir}/totem.pc
 %{_datadir}/gir-1.0/Totem-1.0.gir
 
@@ -487,6 +495,8 @@ fi
 %{pluginsdir}/jamendo/*.py[co]
 %{pluginsdir}/jamendo/jamendo.plugin
 %{pluginsdir}/jamendo/jamendo.ui
+%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.jamendo.gschema.xml
+%{_datadir}/GConf/gsettings/jamendo.convert
 
 %files lirc
 %defattr(644,root,root,755)
@@ -501,6 +511,8 @@ fi
 %{pluginsdir}/opensubtitles/*.py[co]
 %{pluginsdir}/opensubtitles/opensubtitles.plugin
 %{pluginsdir}/opensubtitles/opensubtitles.ui
+%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
+%{_datadir}/GConf/gsettings/opensubtitles.convert
 
 %files publish
 %defattr(644,root,root,755)
@@ -508,12 +520,14 @@ fi
 %attr(755,root,root) %{pluginsdir}/publish/libpublish.so
 %{pluginsdir}/publish/publish-plugin.ui
 %{pluginsdir}/publish/publish.plugin
+%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
+%{_datadir}/GConf/gsettings/publish.convert
 
-#%files tracker
-#%defattr(644,root,root,755)
-#%dir %{pluginsdir}/tracker
-#%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
-#%{pluginsdir}/tracker/tracker.totem-plugin
+%files tracker
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/tracker
+%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
+%{pluginsdir}/tracker/tracker.plugin
 
 #%files upnp
 #%defattr(644,root,root,755)
