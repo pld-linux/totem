@@ -6,12 +6,12 @@
 Summary:	Movie player for GNOME 2 based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME 2 oparty na silniku gstreamer
 Name:		totem
-Version:	2.91.91
+Version:	2.91.92
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/2.91/%{name}-%{version}.tar.bz2
-# Source0-md5:	e9b2cd9af20f875f736bbbf282aafd91
+# Source0-md5:	79e735794bbeb6d61e16a57355589d2d
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
@@ -48,7 +48,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 2.32.2
+BuildRequires:	totem-pl-parser-devel >= 2.32.4
 BuildRequires:	tracker-devel >= 0.10.0
 BuildRequires:	vala >= 0.11.1
 BuildRequires:	xorg-lib-libICE-devel
@@ -100,6 +100,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
+Requires:	totem-pl-parser >= 2.32.4
 
 %description libs
 This package contains Totem libraries.
@@ -112,6 +113,9 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	glib2-devel >= 1:2.28.0
+Requires:	gtk+3-devel >= 3.0.0
+Requires:	totem-pl-parser-devel >= 2.32.4
 
 %description devel
 This package contains the files necessary to develop applications
