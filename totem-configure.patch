@@ -1,7 +1,7 @@
-diff -urN totem-2.30.1/configure.in totem-2.30.1.new/configure.in
---- totem-2.30.1/configure.in	2010-04-27 11:17:40.000000000 +0200
-+++ totem-2.30.1.new/configure.in	2010-04-27 15:02:46.203562788 +0200
-@@ -101,52 +101,6 @@
+diff -uNr totem-3.2.0/configure.in totem-3.2.0.new/configure.in
+--- totem-3.2.0/configure.in	2011-09-26 11:20:52.000000000 +0200
++++ totem-3.2.0.new/configure.in	2011-09-29 19:31:28.000000000 +0200
+@@ -120,52 +120,6 @@
  AC_SUBST(GST_LIBS)
  EXTRA_BACKEND_LIBS="-lgstinterfaces-$GST_MAJORMINOR -lgstvideo-$GST_MAJORMINOR -lgstaudio-$GST_MAJORMINOR -lgstpbutils-$GST_MAJORMINOR"
  
@@ -37,7 +37,7 @@ diff -urN totem-2.30.1/configure.in totem-2.30.1.new/configure.in
 -done
 -
 -dnl Check for elements from gst-plugins-good
--for good_element in gconfaudiosink gconfvideosink goom
+-for good_element in autoaudiosink goom
 -do
 -	AC_MSG_CHECKING([GStreamer 0.10 $good_element plugin])
 -	if $gst010_inspect $good_element >/dev/null 2>/dev/null; then
@@ -52,11 +52,11 @@ diff -urN totem-2.30.1/configure.in totem-2.30.1.new/configure.in
 -done
 -
  dnl Check the smclient backend
- GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
- 
-@@ -551,16 +505,6 @@
- 			if test "${HAVE_LIBGDATA_0_7}" = "yes" ; then
- 				AC_DEFINE([HAVE_LIBGDATA_0_7],[1],[Define if libgdata >= 0.7.0 is available])
+ AC_MSG_CHECKING([which smclient backend to use])
+ AC_ARG_WITH([smclient],
+@@ -518,16 +472,6 @@
+ 				plugin_error_or_ignore "you need libsoup-2.4 installed for the YouTube plugin"
+ 				add_plugin="0"
  			fi
 -
 -			dnl We need the souphttpsrc element for the YouTube plugin
@@ -69,5 +69,5 @@ diff -urN totem-2.30.1/configure.in totem-2.30.1.new/configure.in
 -				add_plugin="0"
 -			fi
  		;;
- 	esac
- 
+ 		chapters)
+ 			PKG_CHECK_MODULES(CHAPTERS, libxml-2.0 >= 2.6.0 gtk+-3.0 glib-2.0 >= 2.15.0,

@@ -6,18 +6,21 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.0.1
-Release:	4
+Version:	3.2.0
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	4de1965243cc3d5324dfdb011cbb9e38
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.2/%{name}-%{version}.tar.xz
+# Source0-md5:	f8373449aaceedeab18f01e22b53f2d8
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.11
 %{?with_bemused:BuildRequires:	bluez-libs-devel}
+BuildRequires:	clutter-devel >= 1.6.8
+BuildRequires:	clutter-gst-devel >= 1.3.9
+BuildRequires:	clutter-gtk-devel >= 1.0.2
 BuildRequires:	dbus-glib-devel >= 0.82
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.23.0
@@ -31,26 +34,26 @@ BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
 BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libepc-ui-devel >= 0.3.0
-BuildRequires:	libgdata-devel >= 0.8.0
-BuildRequires:	libpeas-devel >= 1.0.0
-BuildRequires:	libpeas-gtk-devel >= 1.0.0
+#BuildRequires:	libepc-ui-devel > 0.4.0
+BuildRequires:	libgdata-devel >= 0.9.1
+BuildRequires:	libpeas-devel >= 1.1.0
+BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libsoup-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
-BuildRequires:	libzeitgeist-devel >= 0.2.12
+BuildRequires:	libzeitgeist-devel >= 0.3.6
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
-BuildRequires:	python-pygobject-devel >= 2.28.0
+BuildRequires:	python-devel >= 2.3
+BuildRequires:	python-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.32.4
-BuildRequires:	tracker-devel >= 0.10.0
-BuildRequires:	vala >= 0.11.1
+BuildRequires:	vala >= 1:0.12.1
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -78,7 +81,7 @@ Suggests:	gstreamer-pango
 Suggests:	python-gnome-gconf
 Suggests:	python-json-py
 Suggests:	python-listparser
-Suggests:	python-pygobject >= 2.28.0
+Suggests:	python-pygobject3 >= 3.0.0
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -172,16 +175,6 @@ Requires:	python-httplib2
 This package provides a plugin to allow streaming BBC programs from
 the BBC iPlayer service.
 
-%package jamendo
-Summary:	Jamendo plugin for Totem
-Group:		Applications/Multimedia
-Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	%{name} = %{version}-%{release}
-
-%description jamendo
-This package provides a plugin to allow browsing the Jamendo music
-store in Totem, and listening to them.
-
 %package lirc
 Summary:	LIRC (Infrared remote) plugin for Totem
 Group:		Applications/Multimedia
@@ -213,27 +206,6 @@ Requires:	%{name} = %{version}-%{release}
 This package provides a plugin to allow you to share your current
 playlist (and the files included in that playlist) with other Totems
 on the same local network.
-
-%package tracker
-Summary:	Tracker-based video search plugin for Totem
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	tracker >= 0.10.0
-
-%description tracker
-This package provides a Totem plugin to allow searching local videos,
-based on their tags, metadata, or filenames, as indexing by the
-Tracker indexer.
-
-%package upnp
-Summary:	UPNP/DLNA plugin for Totem
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	python-coherence
-
-%description upnp
-This package provides a plugin to allow browsing UPNP/DLNA shares, and
-watching videos from those.
 
 %package youtube
 Summary:	YouTube plugin for Totem
@@ -345,12 +317,6 @@ rm -rf $RPM_BUILD_ROOT
 %post   libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
-%post jamendo
-%glib_compile_schemas
-
-%postun jamendo
-%glib_compile_schemas
-
 %post publish
 %glib_compile_schemas
 
@@ -376,7 +342,6 @@ fi
 %doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/totem
 %attr(755,root,root) %{_bindir}/totem-audio-preview
-%attr(755,root,root) %{_bindir}/totem-video-indexer
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/%{name}
@@ -409,7 +374,7 @@ fi
 
 %dir %{pluginsdir}/dbus
 %{pluginsdir}/dbus/*.py[co]
-%{pluginsdir}/dbus/dbus-service.plugin
+%{pluginsdir}/dbus/dbusservice.plugin
 
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
@@ -427,6 +392,10 @@ fi
 %{pluginsdir}/pythonconsole/console.py[co]
 %{pluginsdir}/pythonconsole/pythonconsole.py[co]
 %{pluginsdir}/pythonconsole/pythonconsole.plugin
+
+%dir %{pluginsdir}/rotation
+%attr(755,root,root) %{pluginsdir}/rotation/librotation.so
+%{pluginsdir}/rotation/rotation.plugin
 
 %dir %{pluginsdir}/save-file
 %attr(755,root,root) %{pluginsdir}/save-file/libsave-file.so
@@ -447,9 +416,6 @@ fi
 %{pluginsdir}/skipto/skipto.plugin
 %{pluginsdir}/skipto/skipto.ui
 
-%dir %{pluginsdir}/thumbnail
-%attr(755,root,root) %{pluginsdir}/thumbnail/libthumbnail.so
-%{pluginsdir}/thumbnail/thumbnail.plugin
 %{_datadir}/thumbnailers/totem.thumbnailer
 
 %dir %{pluginsdir}/zeitgeist-dp
@@ -492,16 +458,6 @@ fi
 %{pluginsdir}/iplayer/iplayer.ui
 %{pluginsdir}/iplayer/iplayer.plugin
 
-%files jamendo
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/jamendo
-%{pluginsdir}/jamendo/*.py[co]
-%{pluginsdir}/jamendo/jamendo.plugin
-%{pluginsdir}/jamendo/jamendo.ui
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.jamendo.gschema.xml
-%{_datadir}/GConf/gsettings/jamendo.convert
-%{_datadir}/GConf/gsettings/pythonconsole.convert
-
 %files lirc
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/lirc
@@ -518,26 +474,14 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
 %{_datadir}/GConf/gsettings/opensubtitles.convert
 
-%files publish
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/publish
-%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
-%{pluginsdir}/publish/publish-plugin.ui
-%{pluginsdir}/publish/publish.plugin
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
-%{_datadir}/GConf/gsettings/publish.convert
-
-%files tracker
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/tracker
-%attr(755,root,root) %{pluginsdir}/tracker/libtracker.so
-%{pluginsdir}/tracker/tracker.plugin
-
-#%files upnp
+#%files publish
 #%defattr(644,root,root,755)
-#%dir %{pluginsdir}/coherence_upnp
-#%{pluginsdir}/coherence_upnp/*.py[co]
-#%{pluginsdir}/coherence_upnp/coherence_upnp.totem-plugin
+#%dir %{pluginsdir}/publish
+#%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
+#%{pluginsdir}/publish/publish-plugin.ui
+#%{pluginsdir}/publish/publish.plugin
+#%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
+#%{_datadir}/GConf/gsettings/publish.convert
 
 %files youtube
 %defattr(644,root,root,755)
