@@ -29,12 +29,13 @@ BuildRequires:	glib2-devel >= 1:2.28.0
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
+BuildRequires:	grilo-devel >= 0.1.16
 BuildRequires:	gstreamer-devel >= 0.10.30
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
 BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
-#BuildRequires:	libepc-ui-devel > 0.4.0
+BuildRequires:	libepc-ui-devel >= 0.4.1-2
 BuildRequires:	libgdata-devel >= 0.9.1
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
@@ -352,7 +353,6 @@ fi
 %{_iconsdir}/hicolor/*/*/*.svg
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.enums.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.pythonconsole.gschema.xml
 %{_datadir}/GConf/gsettings/totem.convert
 %dir %{_libdir}/totem
 %dir %{pluginsdir}
@@ -376,6 +376,12 @@ fi
 %{pluginsdir}/dbus/*.py[co]
 %{pluginsdir}/dbus/dbusservice.plugin
 
+%dir %{pluginsdir}/grilo
+%{pluginsdir}/grilo/grilo.plugin
+%{pluginsdir}/grilo/grilo.ui
+%{pluginsdir}/grilo/libgrilo.so
+%{pluginsdir}/grilo/totem-grilo.conf
+
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
 %{pluginsdir}/media-player-keys/media-player-keys.plugin
@@ -392,6 +398,8 @@ fi
 %{pluginsdir}/pythonconsole/console.py[co]
 %{pluginsdir}/pythonconsole/pythonconsole.py[co]
 %{pluginsdir}/pythonconsole/pythonconsole.plugin
+%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.pythonconsole.gschema.xml
+%{_datadir}/GConf/gsettings/pythonconsole.convert
 
 %dir %{pluginsdir}/rotation
 %attr(755,root,root) %{pluginsdir}/rotation/librotation.so
@@ -474,14 +482,14 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
 %{_datadir}/GConf/gsettings/opensubtitles.convert
 
-#%files publish
-#%defattr(644,root,root,755)
-#%dir %{pluginsdir}/publish
-#%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
-#%{pluginsdir}/publish/publish-plugin.ui
-#%{pluginsdir}/publish/publish.plugin
-#%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
-#%{_datadir}/GConf/gsettings/publish.convert
+%files publish
+%defattr(644,root,root,755)
+%dir %{pluginsdir}/publish
+%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
+%{pluginsdir}/publish/publish-plugin.ui
+%{pluginsdir}/publish/publish.plugin
+%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
+%{_datadir}/GConf/gsettings/publish.convert
 
 %files youtube
 %defattr(644,root,root,755)
