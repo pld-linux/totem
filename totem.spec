@@ -44,6 +44,7 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	libzeitgeist-devel >= 0.3.6
 %{?with_lirc:BuildRequires:	lirc-devel}
+BuildRequires:	mx-devel
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 2.3
