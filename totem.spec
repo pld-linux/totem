@@ -7,7 +7,7 @@ Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
 Version:	3.2.0
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.2/%{name}-%{version}.tar.xz
@@ -383,7 +383,7 @@ fi
 %dir %{pluginsdir}/grilo
 %{pluginsdir}/grilo/grilo.plugin
 %{pluginsdir}/grilo/grilo.ui
-%{pluginsdir}/grilo/libgrilo.so
+%attr(755,root,root) %{pluginsdir}/grilo/libgrilo.so
 %{pluginsdir}/grilo/totem-grilo.conf
 
 %dir %{pluginsdir}/media-player-keys
