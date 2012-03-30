@@ -1,7 +1,6 @@
-diff -uNr totem-3.2.0/configure.in totem-3.2.0.new/configure.in
---- totem-3.2.0/configure.in	2011-09-26 11:20:52.000000000 +0200
-+++ totem-3.2.0.new/configure.in	2011-09-29 19:31:28.000000000 +0200
-@@ -120,52 +120,6 @@
+--- totem-3.4.0/configure.in.pld	2012-03-30 17:33:12.411826425 +0200
++++ totem-3.4.0/configure.in	2012-03-30 17:37:37.970387770 +0200
+@@ -120,52 +120,6 @@ GST_LIBS="$GST_LIBS -lgstbase-$GST_MAJOR
  AC_SUBST(GST_LIBS)
  EXTRA_BACKEND_LIBS="-lgstinterfaces-$GST_MAJORMINOR -lgstvideo-$GST_MAJORMINOR -lgstaudio-$GST_MAJORMINOR -lgstpbutils-$GST_MAJORMINOR"
  
@@ -54,20 +53,3 @@ diff -uNr totem-3.2.0/configure.in totem-3.2.0.new/configure.in
  dnl Check the smclient backend
  AC_MSG_CHECKING([which smclient backend to use])
  AC_ARG_WITH([smclient],
-@@ -518,16 +472,6 @@
- 				plugin_error_or_ignore "you need libsoup-2.4 installed for the YouTube plugin"
- 				add_plugin="0"
- 			fi
--
--			dnl We need the souphttpsrc element for the YouTube plugin
--			AC_MSG_CHECKING([GStreamer 0.10 souphttpsrc plugin])
--			if $gst010_inspect souphttpsrc >/dev/null 2>/dev/null; then
--				AC_MSG_RESULT([yes])
--			else
--				AC_MSG_RESULT([no])
--				plugin_error_or_ignore "you need souphttpsrc from gst-plugins-good installed for the YouTube plugin"
--				add_plugin="0"
--			fi
- 		;;
- 		chapters)
- 			PKG_CHECK_MODULES(CHAPTERS, libxml-2.0 >= 2.6.0 gtk+-3.0 glib-2.0 >= 2.15.0,

@@ -1,29 +1,27 @@
 #
 # Conditional build
-%bcond_without	bemused		# build without bemused plugin
 %bcond_without	lirc		# without lirc support
 
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.2.2
-Release:	2
+Version:	3.4.0
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.2/%{name}-%{version}.tar.xz
-# Source0-md5:	afdfa30e392a191b0dca9bd7c84f8e83
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.4/%{name}-%{version}.tar.xz
+# Source0-md5:	a7502ba44a4ff87ea2acff0e4bb1d6df
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.11
-%{?with_bemused:BuildRequires:	bluez-libs-devel}
-BuildRequires:	clutter-devel >= 1.6.8
-BuildRequires:	clutter-gst-devel >= 1.3.9
+BuildRequires:	clutter-devel >= 1.8.0
+BuildRequires:	clutter-gst-devel >= 1.4.0
 BuildRequires:	clutter-gtk-devel >= 1.0.2
 BuildRequires:	dbus-glib-devel >= 0.82
 BuildRequires:	docbook-dtd45-xml
-BuildRequires:	gdk-pixbuf2-devel >= 2.23.0
+BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.28.0
 BuildRequires:	gnome-common >= 2.24.0
@@ -32,14 +30,12 @@ BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	grilo-devel >= 0.1.16
 BuildRequires:	gstreamer-devel >= 0.10.30
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
-BuildRequires:	gtk+3-devel >= 3.0.0
+BuildRequires:	gtk+3-devel >= 3.4.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libepc-ui-devel >= 0.4.1-2
-BuildRequires:	libgdata-devel >= 0.9.1
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
-BuildRequires:	libsoup-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	libzeitgeist-devel >= 0.3.6
@@ -47,6 +43,7 @@ BuildRequires:	libzeitgeist-devel >= 0.3.6
 BuildRequires:	mx-devel
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
+BuildRequires:	pylint
 BuildRequires:	python-devel >= 2.3
 BuildRequires:	python-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
@@ -55,7 +52,7 @@ BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 2.32.4
-BuildRequires:	vala >= 1:0.12.1
+BuildRequires:	vala >= 2:0.14.1
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -73,6 +70,7 @@ Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-GConf >= 0.10.3
 Requires:	gstreamer-audiosink >= 0.10
 Requires:	gstreamer-plugins-base >= 0.10.30
+Requires:	gstreamer-plugins-good
 Requires:	gstreamer-soup
 Requires:	gstreamer-videosink >= 0.10
 Requires:	gstreamer-visualisation
@@ -86,6 +84,7 @@ Suggests:	python-pygobject3 >= 3.0.0
 Obsoletes:	totem-jamendo
 Obsoletes:	totem-tracker
 Obsoletes:	totem-upnp
+Obsoletes:	totem-youtube
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -107,6 +106,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
+Requires:	gtk+3 >= 3.4.0
 Requires:	totem-pl-parser >= 2.32.4
 
 %description libs
@@ -121,7 +121,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.28.0
-Requires:	gtk+3-devel >= 3.0.0
+Requires:	gtk+3-devel >= 3.4.0
 Requires:	totem-pl-parser-devel >= 2.32.4
 
 %description devel
@@ -171,9 +171,11 @@ This package provides a plugin to make annotations on screen.
 Summary:	BBC iPlayer plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
+Requires:	libpeas >= 1.1.0
 Requires:	python-BeautifulSoup
 Requires:	python-feedparser
 Requires:	python-httplib2
+Requires:	python-pygobject3
 
 %description iplayer
 This package provides a plugin to allow streaming BBC programs from
@@ -193,7 +195,8 @@ Summary:	Subtitle Downloader plugin for Totem
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	python-pygobject >= 2.28.0
+Requires:	libpeas >= 1.1.0
+Requires:	python-pygobject3
 Requires:	python-pyxdg
 
 %description opensubtitles
@@ -360,12 +363,6 @@ fi
 %dir %{_libdir}/totem
 %dir %{pluginsdir}
 
-%if %{with bemused}
-%dir %{pluginsdir}/bemused
-%attr(755,root,root) %{pluginsdir}/bemused/libbemused.so
-%{pluginsdir}/bemused/bemused.plugin
-%endif
-
 %dir %{pluginsdir}/brasero-disc-recorder
 %attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
 %{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.plugin
@@ -493,13 +490,6 @@ fi
 %{pluginsdir}/publish/publish.plugin
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
 %{_datadir}/GConf/gsettings/publish.convert
-
-%files youtube
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/youtube
-%attr(755,root,root) %{pluginsdir}/youtube/libyoutube.so
-%{pluginsdir}/youtube/youtube.plugin
-%{pluginsdir}/youtube/youtube.ui
 
 %files apidocs
 %defattr(644,root,root,755)
