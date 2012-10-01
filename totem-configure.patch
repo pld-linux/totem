@@ -1,53 +1,84 @@
---- totem-3.4.0/configure.in.pld	2012-03-30 17:33:12.411826425 +0200
-+++ totem-3.4.0/configure.in	2012-03-30 17:37:37.970387770 +0200
-@@ -120,52 +120,6 @@ GST_LIBS="$GST_LIBS -lgstbase-$GST_MAJOR
- AC_SUBST(GST_LIBS)
- EXTRA_BACKEND_LIBS="-lgstinterfaces-$GST_MAJORMINOR -lgstvideo-$GST_MAJORMINOR -lgstaudio-$GST_MAJORMINOR -lgstpbutils-$GST_MAJORMINOR"
+--- totem-3.6.0/configure.in.new	2012-10-01 21:55:07.497259771 +0200
++++ totem-3.6.0/configure.in	2012-10-01 21:56:07.836932884 +0200
+@@ -121,82 +121,11 @@ fi
+ # Backend requirements
+ # ================================================================
+ 
+-BACKEND_MODULES="gstreamer-1.0 >= $GST_REQS gstreamer-base-1.0 >= $GST_REQS gstreamer-plugins-base-1.0 >= $GST_PLUG_BASE_REQS $MISSING_PLUGINS_MODULES gstreamer-tag-1.0 >= $GSTPLUG_REQS gstreamer-audio-1.0 gstreamer-video-1.0 clutter-1.0 >= $CLUTTER_REQS clutter-gst-2.0 >= $CLUTTER_GST_REQS clutter-gtk-1.0 cairo gnome-icon-theme >= $GNOMEICON_REQS gsettings-desktop-schemas"
++BACKEND_MODULES="gstreamer-1.0 >= $GST_REQS gstreamer-base-1.0 >= $GST_REQS gstreamer-plugins-base-1.0 >= $GST_PLUG_BASE_REQS $MISSING_PLUGINS_MODULES gstreamer-tag-1.0 >= $GSTPLUG_REQS gstreamer-audio-1.0 gstreamer-video-1.0 clutter-1.0 >= $CLUTTER_REQS clutter-gst-2.0 >= $CLUTTER_GST_REQS clutter-gtk-1.0 cairo gsettings-desktop-schemas"
+ 
+ PKG_CHECK_MODULES(BACKEND, $BACKEND_MODULES)
+ PKG_CHECK_MODULES(BACKEND_TEST, $BACKEND_MODULES gtk+-3.0 >= $GTK_REQS)
  
 -dnl Check for required plugins
--gst010_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-0.10`
--gst010_inspect="$gst010_toolsdir/gst-inspect-0.10"
+-gst10_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-1.0`
+-gst10_inspect="$gst10_toolsdir/gst-inspect-1.0"
 -
 -dnl Give error and exit if we don't have the gst_inspect tool
--AC_MSG_CHECKING([GStreamer 0.10 inspection tool])
--if test -r "$gst010_inspect"; then
+-AC_MSG_CHECKING([GStreamer 1.0 inspection tool])
+-if test -r "$gst10_inspect"; then
 -	AC_MSG_RESULT([yes])
 -else
 -	AC_MSG_RESULT([no])
 -	AC_MSG_ERROR([
--		Cannot find required GStreamer-0.10 tool 'gst-inspect-0.10'.
--		It should be part of gstreamer-0_10-utils. Please install it.
+-		Cannot find required GStreamer-1.0 tool 'gst-inspect-1.0'.
+-		It should be part of gstreamer-1_0-utils. Please install it.
 -	])
 -fi
 -
 -dnl Check for elements from gst-plugins-base
--for base_element in playbin2 ffmpegcolorspace videoscale
+-dnl Set plugins which contain below elements
+-set -- playback videoscale
+-for base_element in playbin videoscale
 -do
--	AC_MSG_CHECKING([GStreamer 0.10 $base_element plugin])
--	if $gst010_inspect $base_element >/dev/null 2>/dev/null; then
+-	AC_MSG_CHECKING([GStreamer 1.0 $base_element element])
+-	if $gst10_inspect $base_element >/dev/null 2>/dev/null; then
 -		AC_MSG_RESULT([yes])
 -	else
 -		AC_MSG_RESULT([no])
 -		AC_MSG_ERROR([
--			Cannot find required GStreamer-0.10 plugin '$base_element'.
+-			Cannot find required GStreamer-1.0 plugin '$1'.
 -			It should be part of gst-plugins-base. Please install it.
 -		])
+-
 -	fi
+-	shift;
 -done
 -
 -dnl Check for elements from gst-plugins-good
+-dnl Set plugins which contain below elements
+-set -- autodetect goom
 -for good_element in autoaudiosink goom
 -do
--	AC_MSG_CHECKING([GStreamer 0.10 $good_element plugin])
--	if $gst010_inspect $good_element >/dev/null 2>/dev/null; then
+-	AC_MSG_CHECKING([GStreamer 1.0 $good_element element])
+-	if $gst10_inspect $good_element >/dev/null 2>/dev/null; then
 -		AC_MSG_RESULT([yes])
 -	else
 -		AC_MSG_RESULT([no])
 -		AC_MSG_ERROR([
--			Cannot find required GStreamer-0.10 plugin '$good_element'.
+-			Cannot find required GStreamer-1.0 plugin '$1'.
 -			It should be part of gst-plugins-good. Please install it.
 -		])
 -	fi
+-	shift;
+-done
+-
+-dnl Check for elements from gst-plugins-bad
+-dnl Set plugins which contain below elements
+-set -- soundtouch
+-for bad_element in pitch
+-do
+-	AC_MSG_CHECKING([GStreamer 1.0 $bad_element element])
+-	if $gst10_inspect $bad_element >/dev/null 2>/dev/null; then
+-		AC_MSG_RESULT([yes])
+-	else
+-		AC_MSG_RESULT([no])
+-		AC_MSG_ERROR([
+-			Cannot find required GStreamer-1.0 plugin '$1'.
+-			It should be part of gst-plugins-bad. Please install it.
+-		])
+-	fi
+-	shift;
 -done
 -
  dnl Check the smclient backend

@@ -5,35 +5,35 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.4.3
+Version:	3.6.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.4/%{name}-%{version}.tar.xz
-# Source0-md5:	f545d49229ba3779ecb5421e5df3cebb
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.6/%{name}-%{version}.tar.xz
+# Source0-md5:	8621c52926e688c7b514280016dbeffb
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clutter-devel >= 1.8.0
-BuildRequires:	clutter-gst-devel >= 1.4.0
+BuildRequires:	clutter-gst-devel >= 1.9.0
 BuildRequires:	clutter-gtk-devel >= 1.0.2
 BuildRequires:	dbus-glib-devel >= 0.82
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.28.0
+BuildRequires:	glib2-devel >= 1:2.34.0
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
-BuildRequires:	grilo-devel >= 0.1.16
-BuildRequires:	gstreamer-devel >= 0.10.30
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.30
-BuildRequires:	gtk+3-devel >= 3.4.0
+BuildRequires:	grilo-devel >= 0.2.0
+BuildRequires:	gsettings-desktop-schemas-devel
+BuildRequires:	gstreamer-devel >= 1.0.0
+BuildRequires:	gstreamer-plugins-base-devel >= 1.0.0
+BuildRequires:	gtk+3-devel >= 3.6.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libepc-ui-devel >= 0.4.1-2
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libtool
@@ -65,23 +65,24 @@ Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2 >= 1:2.28.0
+Requires:	glib2 >= 1:2.34.0
 Requires:	gnome-icon-theme >= 3.0.0
-Requires:	gstreamer-GConf >= 0.10.3
-Requires:	gstreamer-audiosink >= 0.10
-Requires:	gstreamer-plugins-base >= 0.10.30
-Requires:	gstreamer-plugins-good
-Requires:	gstreamer-soup
-Requires:	gstreamer-videosink >= 0.10
-Requires:	gstreamer-visualisation
+Requires:	gstreamer-audiosink >= 1.0.0
+Requires:	gstreamer-plugins-base >= 1.0.0
+Requires:	gstreamer-plugins-good >= 1.0.0
+Requires:	gstreamer-soundtouch >= 1.0.0
+Requires:	gstreamer-soup >= 1.0.0
+Requires:	gstreamer-videosink >= 1.0.0
+Requires:	gstreamer-visualisation >= 1.0.0
 Requires:	hicolor-icon-theme
 Suggests:	gstreamer-ffmpeg
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
-Suggests:	python-gnome-gconf
-Suggests:	python-json-py
+Suggests:	python-dbus
 Suggests:	python-pygobject3 >= 3.0.0
+Obsoletes:	totem-iplayer
 Obsoletes:	totem-jamendo
+Obsoletes:	totem-publish
 Obsoletes:	totem-tracker
 Obsoletes:	totem-upnp
 Obsoletes:	totem-youtube
@@ -106,7 +107,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	gtk+3 >= 3.4.0
+Requires:	gtk+3 >= 3.6.0
 Requires:	totem-pl-parser >= 2.32.4
 
 %description libs
@@ -120,8 +121,8 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.28.0
-Requires:	gtk+3-devel >= 3.4.0
+Requires:	glib2-devel >= 1:2.34.0
+Requires:	gtk+3-devel >= 3.6.0
 Requires:	totem-pl-parser-devel >= 2.32.4
 
 %description devel
@@ -167,20 +168,6 @@ Requires:	gromit
 %description gromit
 This package provides a plugin to make annotations on screen.
 
-%package iplayer
-Summary:	BBC iPlayer plugin for Totem
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	libpeas >= 1.1.0
-Requires:	python-BeautifulSoup
-Requires:	python-feedparser
-Requires:	python-httplib2
-Requires:	python-pygobject3
-
-%description iplayer
-This package provides a plugin to allow streaming BBC programs from
-the BBC iPlayer service.
-
 %package lirc
 Summary:	LIRC (Infrared remote) plugin for Totem
 Group:		Applications/Multimedia
@@ -202,17 +189,6 @@ Requires:	python-pyxdg
 %description opensubtitles
 This package provides a plugin to look for subtitles for the currently
 playing movie.
-
-%package publish
-Summary:	Share your playlist with other Totems on the local network
-Group:		Applications/Multimedia
-Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	%{name} = %{version}-%{release}
-
-%description publish
-This package provides a plugin to allow you to share your current
-playlist (and the files included in that playlist) with other Totems
-on the same local network.
 
 %package youtube
 Summary:	YouTube plugin for Totem
@@ -324,12 +300,6 @@ rm -rf $RPM_BUILD_ROOT
 %post   libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
-%post publish
-%glib_compile_schemas
-
-%postun publish
-%glib_compile_schemas
-
 %post opensubtitles
 %glib_compile_schemas
 
@@ -362,6 +332,14 @@ fi
 %{_datadir}/GConf/gsettings/totem.convert
 %dir %{_libdir}/totem
 %dir %{pluginsdir}
+
+%dir %{pluginsdir}/apple-trailers
+%{pluginsdir}/apple-trailers/apple-trailers.plugin
+%attr(755,root,root) %{pluginsdir}/apple-trailers/libapple-trailers.so
+
+%dir %{pluginsdir}/autoload-subtitles
+%{pluginsdir}/autoload-subtitles/autoload-subtitles.plugin
+%attr(755,root,root) %{pluginsdir}/autoload-subtitles/libautoload-subtitles.so
 
 %dir %{pluginsdir}/brasero-disc-recorder
 %attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
@@ -401,6 +379,10 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.pythonconsole.gschema.xml
 %{_datadir}/GConf/gsettings/pythonconsole.convert
 
+%dir %{pluginsdir}/recent
+%attr(755,root,root) %{pluginsdir}/recent/librecent.so
+%{pluginsdir}/recent/recent.plugin
+
 %dir %{pluginsdir}/rotation
 %attr(755,root,root) %{pluginsdir}/rotation/librotation.so
 %{pluginsdir}/rotation/rotation.plugin
@@ -416,7 +398,6 @@ fi
 %dir %{pluginsdir}/screenshot
 %attr(755,root,root) %{pluginsdir}/screenshot/libscreenshot.so
 %{pluginsdir}/screenshot/gallery.ui
-%{pluginsdir}/screenshot/gnome-screenshot.ui
 %{pluginsdir}/screenshot/screenshot.plugin
 
 %dir %{pluginsdir}/skipto
@@ -459,13 +440,6 @@ fi
 %attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
 %{pluginsdir}/gromit/gromit.plugin
 
-%files iplayer
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/iplayer
-%{pluginsdir}/iplayer/*.py[co]
-%{pluginsdir}/iplayer/iplayer.ui
-%{pluginsdir}/iplayer/iplayer.plugin
-
 %files lirc
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/lirc
@@ -481,15 +455,6 @@ fi
 %{pluginsdir}/opensubtitles/opensubtitles.ui
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
 %{_datadir}/GConf/gsettings/opensubtitles.convert
-
-%files publish
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/publish
-%attr(755,root,root) %{pluginsdir}/publish/libpublish.so
-%{pluginsdir}/publish/publish-plugin.ui
-%{pluginsdir}/publish/publish.plugin
-%{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.publish.gschema.xml
-%{_datadir}/GConf/gsettings/publish.convert
 
 %files apidocs
 %defattr(644,root,root,755)
