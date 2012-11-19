@@ -1,6 +1,6 @@
---- totem-3.6.0/configure.in.new	2012-10-01 21:55:07.497259771 +0200
-+++ totem-3.6.0/configure.in	2012-10-01 21:56:07.836932884 +0200
-@@ -121,82 +121,11 @@ fi
+--- totem-3.6.3/configure.in.old	2012-11-19 22:50:20.671741675 +0100
++++ totem-3.6.3/configure.in	2012-11-19 22:51:44.924618745 +0100
+@@ -121,84 +121,15 @@ fi
  # Backend requirements
  # ================================================================
  
@@ -63,10 +63,12 @@
 -	shift;
 -done
 -
--dnl Check for elements from gst-plugins-bad
--dnl Set plugins which contain below elements
--set -- soundtouch
--for bad_element in pitch
+ dnl Check for elements from gst-plugins-bad
+ dnl Set plugins which contain below elements
+ PKG_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-1.0 >= 1.0.2)
+ 
+-set -- scaletempo
+-for bad_element in scaletempo
 -do
 -	AC_MSG_CHECKING([GStreamer 1.0 $bad_element element])
 -	if $gst10_inspect $bad_element >/dev/null 2>/dev/null; then
