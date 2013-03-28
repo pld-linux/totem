@@ -1,12 +1,6 @@
---- totem-3.6.3/configure.in.old	2012-11-19 22:50:20.671741675 +0100
-+++ totem-3.6.3/configure.in	2012-11-19 22:51:44.924618745 +0100
-@@ -121,84 +121,15 @@ fi
- # Backend requirements
- # ================================================================
- 
--BACKEND_MODULES="gstreamer-1.0 >= $GST_REQS gstreamer-base-1.0 >= $GST_REQS gstreamer-plugins-base-1.0 >= $GST_PLUG_BASE_REQS $MISSING_PLUGINS_MODULES gstreamer-tag-1.0 >= $GSTPLUG_REQS gstreamer-audio-1.0 gstreamer-video-1.0 clutter-1.0 >= $CLUTTER_REQS clutter-gst-2.0 >= $CLUTTER_GST_REQS clutter-gtk-1.0 cairo gnome-icon-theme >= $GNOMEICON_REQS gsettings-desktop-schemas"
-+BACKEND_MODULES="gstreamer-1.0 >= $GST_REQS gstreamer-base-1.0 >= $GST_REQS gstreamer-plugins-base-1.0 >= $GST_PLUG_BASE_REQS $MISSING_PLUGINS_MODULES gstreamer-tag-1.0 >= $GSTPLUG_REQS gstreamer-audio-1.0 gstreamer-video-1.0 clutter-1.0 >= $CLUTTER_REQS clutter-gst-2.0 >= $CLUTTER_GST_REQS clutter-gtk-1.0 cairo gsettings-desktop-schemas"
- 
+--- totem-3.8.0/configure.ac.new	2013-03-28 21:32:33.215758291 +0100
++++ totem-3.8.0/configure.ac	2013-03-28 21:36:08.991256002 +0100
+@@ -134,63 +134,6 @@ BACKEND_MODULES="gstreamer-1.0 >= $GST_R
  PKG_CHECK_MODULES(BACKEND, $BACKEND_MODULES)
  PKG_CHECK_MODULES(BACKEND_TEST, $BACKEND_MODULES gtk+-3.0 >= $GTK_REQS)
  
@@ -47,8 +41,8 @@
 -
 -dnl Check for elements from gst-plugins-good
 -dnl Set plugins which contain below elements
--set -- autodetect goom
--for good_element in autoaudiosink goom
+-set -- autodetect goom scaletempo
+-for good_element in autoaudiosink goom scaletempo
 -do
 -	AC_MSG_CHECKING([GStreamer 1.0 $good_element element])
 -	if $gst10_inspect $good_element >/dev/null 2>/dev/null; then
@@ -63,25 +57,9 @@
 -	shift;
 -done
 -
- dnl Check for elements from gst-plugins-bad
- dnl Set plugins which contain below elements
- PKG_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-1.0 >= 1.0.2)
- 
--set -- scaletempo
--for bad_element in scaletempo
--do
--	AC_MSG_CHECKING([GStreamer 1.0 $bad_element element])
--	if $gst10_inspect $bad_element >/dev/null 2>/dev/null; then
--		AC_MSG_RESULT([yes])
--	else
--		AC_MSG_RESULT([no])
--		AC_MSG_ERROR([
--			Cannot find required GStreamer-1.0 plugin '$1'.
--			It should be part of gst-plugins-bad. Please install it.
--		])
--	fi
--	shift;
--done
+-dnl Check for elements from gst-plugins-bad
+-dnl Set plugins which contain below elements
+-PKG_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-1.0 >= 1.0.2)
 -
  dnl Check the smclient backend
  AC_MSG_CHECKING([which smclient backend to use])

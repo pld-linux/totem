@@ -5,18 +5,18 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.6.3
-Release:	2
+Version:	3.8.0
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.6/%{name}-%{version}.tar.xz
-# Source0-md5:	0afbc46fcb5a1c2634fb3ef7c181ecb9
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.8/%{name}-%{version}.tar.xz
+# Source0-md5:	76eb42c772fa37f76678f270402303bd
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
-BuildRequires:	autoconf >= 2.52
+BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	clutter-devel >= 1.8.0
+BuildRequires:	clutter-devel >= 1.10.0
 BuildRequires:	clutter-gst-devel >= 1.9.0
 BuildRequires:	clutter-gtk-devel >= 1.0.2
 BuildRequires:	dbus-glib-devel >= 0.82
@@ -40,7 +40,6 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	libzeitgeist-devel >= 0.3.6
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	mx-devel
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	pylint
@@ -69,6 +68,7 @@ Requires:	clutter-gst >= 2.0.0-2
 Requires:	glib2 >= 1:2.34.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.0.0
+Requires:	gstreamer-plugins-bad >= 1.0.2
 Requires:	gstreamer-plugins-base >= 1.0.0
 Requires:	gstreamer-plugins-good >= 1.0.0
 Requires:	gstreamer-soundtouch >= 1.0.0
@@ -76,7 +76,7 @@ Requires:	gstreamer-soup >= 1.0.0
 Requires:	gstreamer-videosink >= 1.0.0
 Requires:	gstreamer-visualisation >= 1.0.0
 Requires:	hicolor-icon-theme
-Suggests:	gstreamer-ffmpeg
+Suggests:	gstreamer-libav
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
 Suggests:	python-dbus
@@ -251,12 +251,11 @@ of audio and video files in the properties dialog.
 %{__gtkdocize}
 %{__intltoolize}
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4 -I libgd
 %{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
-	--disable-scrollkeeper \
 	--disable-silent-rules \
 	--enable-nautilus \
 	--enable-python \
