@@ -5,12 +5,12 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.8.0
+Version:	3.8.2
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.8/%{name}-%{version}.tar.xz
-# Source0-md5:	76eb42c772fa37f76678f270402303bd
+# Source0-md5:	a7b332a6d3bb475e425fcb3bc45affee
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
