@@ -5,12 +5,12 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.8.2
+Version:	3.10.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.8/%{name}-%{version}.tar.xz
-# Source0-md5:	a7b332a6d3bb475e425fcb3bc45affee
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.10/%{name}-%{version}.tar.xz
+# Source0-md5:	e851a1d5eff8aef7d3be703c89e253e1
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 URL:		http://www.gnome.org/projects/totem/
@@ -38,7 +38,7 @@ BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
-BuildRequires:	libzeitgeist-devel >= 0.3.6
+BuildRequires:	zeitgeist-devel >= 0.9.12
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
@@ -50,7 +50,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 2.32.4
+BuildRequires:	totem-pl-parser-devel >= 3.9.92
 BuildRequires:	vala >= 2:0.14.1
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
@@ -406,6 +406,10 @@ fi
 %{pluginsdir}/skipto/skipto.ui
 
 %{_datadir}/thumbnailers/totem.thumbnailer
+
+%dir %{pluginsdir}/vimeo
+%attr(755,root,root) %{pluginsdir}/vimeo/libvimeo.so
+%{pluginsdir}/vimeo/vimeo.plugin
 
 %dir %{pluginsdir}/zeitgeist-dp
 %attr(755,root,root) %{pluginsdir}/zeitgeist-dp/libtotem-zeitgeist-dp-plugin.so
