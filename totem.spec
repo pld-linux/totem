@@ -6,7 +6,7 @@ Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
 Version:	3.10.1
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.10/%{name}-%{version}.tar.xz
@@ -38,7 +38,6 @@ BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
-BuildRequires:	zeitgeist-devel >= 0.9.12
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
@@ -59,6 +58,7 @@ BuildRequires:	xorg-lib-libXrandr-devel >= 1.1.1
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
 BuildRequires:	xorg-proto-xproto-devel
+BuildRequires:	zeitgeist-devel >= 0.9.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	glib2 >= 1:2.28.0
@@ -208,6 +208,9 @@ Summary:	Totem API documentation
 Summary(pl.UTF-8):	Dokumentacja API Totema
 Group:		Documentation
 Requires:	gtk-doc-common
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 Totem API documentation.
