@@ -22,7 +22,7 @@ BuildRequires:	clutter-gtk-devel >= 1.0.2
 BuildRequires:	dbus-glib-devel >= 0.82
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.34.0
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-doc-utils >= 0.20.3
