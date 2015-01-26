@@ -5,33 +5,35 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.10.1
-Release:	3
+Version:	3.14.1
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.10/%{name}-%{version}.tar.xz
-# Source0-md5:	d2382097573744d273af8e28c56fe3bd
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.14/%{name}-%{version}.tar.xz
+# Source0-md5:	9e8326f8977653ac36032b4fc98f6377
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
-URL:		http://www.gnome.org/projects/totem/
+#
+Patch1:		%{name}-python3.patch
+URL:		https://wiki.gnome.org/Apps/Videos
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	clutter-devel >= 1.10.0
+BuildRequires:	clutter-devel >= 1.18.0
 BuildRequires:	clutter-gst-devel >= 1.9.0
-BuildRequires:	clutter-gtk-devel >= 1.0.2
-BuildRequires:	dbus-glib-devel >= 0.82
+BuildRequires:	clutter-gtk-devel >= 1.5.5
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.34.0
+BuildRequires:	glib2-devel >= 1:2.36.0
 BuildRequires:	gnome-common >= 2.24.0
+BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
-BuildRequires:	grilo-devel >= 0.2.0
+BuildRequires:	grilo-devel >= 0.2.10
 BuildRequires:	gsettings-desktop-schemas-devel
-BuildRequires:	gstreamer-devel >= 1.0.0
-BuildRequires:	gstreamer-plugins-base-devel >= 1.0.0
-BuildRequires:	gtk+3-devel >= 3.6.0
+BuildRequires:	gstreamer-devel >= 1.4.2
+BuildRequires:	gstreamer-plugins-base-devel >= 1.4.2
+BuildRequires:	gtk+3-devel >= 3.12.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libpeas-devel >= 1.1.0
@@ -49,7 +51,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.357
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 3.9.92
+BuildRequires:	totem-pl-parser-devel >= 3.10.1
 BuildRequires:	vala >= 2:0.14.1
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
@@ -65,22 +67,26 @@ Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	clutter-gst >= 2.0.0-2
-Requires:	glib2 >= 1:2.34.0
+Requires:	glib2 >= 1:2.36.0
 Requires:	gnome-icon-theme >= 3.0.0
-Requires:	gstreamer-audiosink >= 1.0.0
-Requires:	gstreamer-plugins-bad >= 1.0.2
-Requires:	gstreamer-plugins-base >= 1.0.0
-Requires:	gstreamer-plugins-good >= 1.0.0
-Requires:	gstreamer-soundtouch >= 1.0.0
-Requires:	gstreamer-soup >= 1.0.0
-Requires:	gstreamer-videosink >= 1.0.0
-Requires:	gstreamer-visualisation >= 1.0.0
+Requires:	gstreamer-audiosink >= 1.4.2
+Requires:	gstreamer-plugins-bad >= 1.4.2
+Requires:	gstreamer-plugins-base >= 1.4.2
+Requires:	gstreamer-plugins-good >= 1.4.2
+Requires:	gstreamer-soundtouch >= 1.4.2
+Requires:	gstreamer-soup >= 1.4.2
+Requires:	gstreamer-videosink >= 1.4.2
+Requires:	gstreamer-visualisation >= 1.4.2
 Requires:	hicolor-icon-theme
+Requires:	libpeas-loader-python3
 Suggests:	gstreamer-libav
 Suggests:	gstreamer-mpeg
 Suggests:	gstreamer-pango
-Suggests:	python-dbus
-Suggests:	python-pygobject3 >= 3.0.0
+Suggests:	python3-dbus
+Suggests:	python3-pygobject3 >= 3.0.0
+Obsoletes:	browser-plugin-totem < 3.14.1-1
+Obsoletes:	mozilla-firefox-plugin-totem < 3.14.1-1
+Obsoletes:	mozilla-plugin-totem < 3.14.1-1
 Obsoletes:	totem-iplayer
 Obsoletes:	totem-jamendo
 Obsoletes:	totem-publish
@@ -108,8 +114,8 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	gtk+3 >= 3.6.0
-Requires:	totem-pl-parser >= 2.32.4
+Requires:	gtk+3 >= 3.12.0
+Requires:	totem-pl-parser >= 3.10.1
 
 %description libs
 This package contains Totem libraries.
@@ -122,9 +128,9 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.34.0
-Requires:	gtk+3-devel >= 3.6.0
-Requires:	totem-pl-parser-devel >= 2.32.4
+Requires:	glib2-devel >= 1:2.36.0
+Requires:	gtk+3-devel >= 3.12.0
+Requires:	totem-pl-parser-devel >= 3.10.1
 
 %description devel
 This package contains the files necessary to develop applications
@@ -184,8 +190,7 @@ Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	libpeas >= 1.1.0
-Requires:	python-pygobject3
-Requires:	python-pyxdg
+Requires:	python3-pygobject3
 
 %description opensubtitles
 This package provides a plugin to look for subtitles for the currently
@@ -218,24 +223,6 @@ Totem API documentation.
 %description apidocs -l pl.UTF-8
 Dokumentacja API Totema.
 
-%package -n browser-plugin-%{name}
-Summary:	Totem's browser plugin
-Summary(pl.UTF-8):	Wtyczka Totema do przeglądarek WWW
-Group:		X11/Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	browser-plugins >= 2.0
-Requires:	browser-plugins(%{_target_base_arch})
-Provides:	mozilla-firefox-plugin-totem = %{version}-%{release}
-Provides:	mozilla-plugin-totem = %{version}-%{release}
-Obsoletes:	mozilla-firefox-plugin-totem < %{version}-%{release}
-Obsoletes:	mozilla-plugin-totem < %{version}-%{release}
-
-%description -n browser-plugin-%{name}
-Totem's plugin for browsers.
-
-%description -n browser-plugin-%{name} -l pl.UTF-8
-Wtyczka Totem do przeglądarek WWW.
-
 %package -n nautilus-totem
 Summary:	Video and Audio Properties tab for Nautilus
 Group:		Applications/Multimedia
@@ -249,6 +236,7 @@ of audio and video files in the properties dialog.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__gtkdocize}
@@ -271,15 +259,11 @@ of audio and video files in the properties dialog.
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	INSTALL="install -p" \
-	BROWSER_PLUGIN_DIR=%{_browserpluginsdir}
+	INSTALL="install -p"
 
-%{__rm} $RPM_BUILD_ROOT%{_browserpluginsdir}/*.{la,a} \
-	$RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.{la,a} \
+%{__rm}	$RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.{la,a} \
 	$RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a} \
 	$RPM_BUILD_ROOT%{_libdir}/*.la
-
-%py_postclean %{_libdir}/totem/plugins
 
 %find_lang %{name} --with-gnome --with-omf --all-name
 
@@ -309,14 +293,6 @@ rm -rf $RPM_BUILD_ROOT
 %postun opensubtitles
 %glib_compile_schemas
 
-%post -n browser-plugin-%{name}
-%update_browser_plugins
-
-%postun -n browser-plugin-%{name}
-if [ "$1" = 0 ]; then
-	%update_browser_plugins
-fi
-
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
@@ -324,8 +300,10 @@ fi
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
+%{_datadir}/appdata/org.gnome.Totem.appdata.xml
+%{_datadir}/dbus-1/services/org.gnome.Totem.service
 %{_datadir}/%{name}
-%{_desktopdir}/totem.desktop
+%{_desktopdir}/org.gnome.Totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/*.png
@@ -350,18 +328,11 @@ fi
 
 %dir %{pluginsdir}/chapters
 %{pluginsdir}/chapters/*.ui
-%{pluginsdir}/chapters/chapters.plugin
-%attr(755,root,root) %{pluginsdir}/chapters/libchapters.so
 
 %dir %{pluginsdir}/dbus
-%{pluginsdir}/dbus/*.py[co]
+%{pluginsdir}/dbus/__pycache__
+%{pluginsdir}/dbus/*.py
 %{pluginsdir}/dbus/dbusservice.plugin
-
-%dir %{pluginsdir}/grilo
-%{pluginsdir}/grilo/grilo.plugin
-%{pluginsdir}/grilo/grilo.ui
-%attr(755,root,root) %{pluginsdir}/grilo/libgrilo.so
-%{pluginsdir}/grilo/totem-grilo.conf
 
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
@@ -376,8 +347,9 @@ fi
 %{pluginsdir}/properties/movie-properties.plugin
 
 %dir %{pluginsdir}/pythonconsole
-%{pluginsdir}/pythonconsole/console.py[co]
-%{pluginsdir}/pythonconsole/pythonconsole.py[co]
+%{pluginsdir}/pythonconsole/__pycache__
+%{pluginsdir}/pythonconsole/console.py
+%{pluginsdir}/pythonconsole/pythonconsole.py
 %{pluginsdir}/pythonconsole/pythonconsole.plugin
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.pythonconsole.gschema.xml
 %{_datadir}/GConf/gsettings/pythonconsole.convert
@@ -457,7 +429,8 @@ fi
 %files opensubtitles
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/opensubtitles
-%{pluginsdir}/opensubtitles/*.py[co]
+%{pluginsdir}/opensubtitles/__pycache__
+%{pluginsdir}/opensubtitles/*.py
 %{pluginsdir}/opensubtitles/opensubtitles.plugin
 %{pluginsdir}/opensubtitles/opensubtitles.ui
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.plugins.opensubtitles.gschema.xml
@@ -470,8 +443,3 @@ fi
 %files -n nautilus-totem
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
-
-%files -n browser-plugin-%{name}
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/totem-plugin-viewer
-%attr(755,root,root) %{_browserpluginsdir}/*.so
