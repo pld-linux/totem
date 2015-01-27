@@ -19,7 +19,7 @@ URL:		https://wiki.gnome.org/Apps/Videos
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clutter-devel >= 1.18.0
-BuildRequires:	clutter-gst-devel >= 1.9.0
+BuildRequires:	clutter-gst2-devel >= 1.9.0
 BuildRequires:	clutter-gtk-devel >= 1.5.5
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
@@ -66,7 +66,7 @@ Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	clutter-gst >= 2.0.0-2
+Requires:	clutter-gst2 >= 2.0.0-2
 Requires:	glib2 >= 1:2.36.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.4.2
