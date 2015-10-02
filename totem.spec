@@ -5,21 +5,21 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.14.2
-Release:	2
+Version:	3.18.0
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.14/%{name}-%{version}.tar.xz
-# Source0-md5:	82a0fc79d258269aa3adfeaf4a5c6599
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.18/%{name}-%{version}.tar.xz
+# Source0-md5:	00d7ecb79aff8ae279f903a979f6cb2d
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
-#
 Patch1:		%{name}-python3.patch
 URL:		https://wiki.gnome.org/Apps/Videos
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
+BuildRequires:	cairo-devel >= 1.14.0
 BuildRequires:	clutter-devel >= 1.18.0
-BuildRequires:	clutter-gst2-devel >= 1.9.0
+BuildRequires:	clutter-gst-devel >= 3.0.0
 BuildRequires:	clutter-gtk-devel >= 1.5.5
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
@@ -29,13 +29,13 @@ BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
-BuildRequires:	grilo-devel >= 0.2.10
+BuildRequires:	grilo-devel >= 0.2.12
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gstreamer-devel >= 1.4.2
 BuildRequires:	gstreamer-plugins-base-devel >= 1.4.2
-BuildRequires:	gtk+3-devel >= 3.12.0
+BuildRequires:	gtk+3-devel >= 3.16.0
 BuildRequires:	gtk-doc >= 1.14
-BuildRequires:	intltool >= 0.40.0
+BuildRequires:	intltool >= 0.50.1
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libtool
@@ -66,7 +66,7 @@ Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	clutter-gst2 >= 2.0.0-2
+Requires:	clutter-gst >= 3.0.0
 Requires:	glib2 >= 1:2.36.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.4.2
@@ -114,7 +114,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	gtk+3 >= 3.12.0
+Requires:	gtk+3 >= 3.16.0
 Requires:	totem-pl-parser >= 3.10.1
 
 %description libs
@@ -129,7 +129,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.36.0
-Requires:	gtk+3-devel >= 3.12.0
+Requires:	gtk+3-devel >= 3.16.0
 Requires:	totem-pl-parser-devel >= 3.10.1
 
 %description devel
@@ -299,7 +299,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/totem
 %attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
-%attr(755,root,root) %{_libdir}/totem/totem-bugreport.py
 %{_datadir}/appdata/org.gnome.Totem.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Totem.service
 %{_datadir}/%{name}
@@ -325,9 +324,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{pluginsdir}/brasero-disc-recorder
 %attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
 %{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.plugin
-
-%dir %{pluginsdir}/chapters
-%{pluginsdir}/chapters/*.ui
 
 %dir %{pluginsdir}/dbus
 %{pluginsdir}/dbus/__pycache__
