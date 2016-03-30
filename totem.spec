@@ -304,6 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %{_desktopdir}/org.gnome.Totem.desktop
 %{_mandir}/man1/totem.1*
+%{_mandir}/man1/totem-audio-preview.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
