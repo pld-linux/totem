@@ -5,12 +5,12 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.20.0
+Version:	3.20.1
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	e904a2513f28a79475541552c01b7ef9
+# Source0-md5:	765a0a1d2d2a8fc8d9c44dbaa92d5d7c
 # PLD-specific patches
 Patch0:		%{name}-configure.patch
 Patch1:		%{name}-python3.patch
@@ -20,7 +20,7 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	cairo-devel >= 1.14.0
 BuildRequires:	clutter-devel >= 1.18.0
 BuildRequires:	clutter-gst-devel >= 3.0.0
-BuildRequires:	clutter-gtk-devel >= 1.5.5
+BuildRequires:	clutter-gtk-devel >= 1.8.0
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
@@ -29,11 +29,11 @@ BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
-BuildRequires:	grilo-devel >= 0.2.12
+BuildRequires:	grilo-devel >= 0.3.0
 BuildRequires:	gsettings-desktop-schemas-devel
-BuildRequires:	gstreamer-devel >= 1.4.2
-BuildRequires:	gstreamer-plugins-base-devel >= 1.4.2
-BuildRequires:	gtk+3-devel >= 3.16.0
+BuildRequires:	gstreamer-devel >= 1.6.0
+BuildRequires:	gstreamer-plugins-base-devel >= 1.6.0
+BuildRequires:	gtk+3-devel >= 3.20.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	libpeas-devel >= 1.1.0
@@ -69,14 +69,14 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	clutter-gst >= 3.0.0
 Requires:	glib2 >= 1:2.36.0
 Requires:	gnome-icon-theme >= 3.0.0
-Requires:	gstreamer-audiosink >= 1.4.2
-Requires:	gstreamer-plugins-bad >= 1.4.2
-Requires:	gstreamer-plugins-base >= 1.4.2
-Requires:	gstreamer-plugins-good >= 1.4.2
-Requires:	gstreamer-soundtouch >= 1.4.2
-Requires:	gstreamer-soup >= 1.4.2
-Requires:	gstreamer-videosink >= 1.4.2
-Requires:	gstreamer-visualisation >= 1.4.2
+Requires:	gstreamer-audiosink >= 1.6.0
+Requires:	gstreamer-plugins-bad >= 1.6.0
+Requires:	gstreamer-plugins-base >= 1.6.0
+Requires:	gstreamer-plugins-good >= 1.6.0
+Requires:	gstreamer-soundtouch >= 1.6.0
+Requires:	gstreamer-soup >= 1.6.0
+Requires:	gstreamer-videosink >= 1.6.0
+Requires:	gstreamer-visualisation >= 1.6.0
 Requires:	hicolor-icon-theme
 Requires:	libpeas-loader-python3
 Suggests:	gstreamer-libav
@@ -114,7 +114,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	gtk+3 >= 3.16.0
+Requires:	gtk+3 >= 3.20.0
 Requires:	totem-pl-parser >= 3.10.1
 
 %description libs
@@ -129,7 +129,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.36.0
-Requires:	gtk+3-devel >= 3.16.0
+Requires:	gtk+3-devel >= 3.20.0
 Requires:	totem-pl-parser-devel >= 3.10.1
 
 %description devel
