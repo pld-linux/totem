@@ -5,26 +5,24 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.20.1
+Version:	3.26.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	765a0a1d2d2a8fc8d9c44dbaa92d5d7c
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.26/%{name}-%{version}.tar.xz
+# Source0-md5:	70fac11be0ef7da7d6d3ae1abaded8a6
+Patch0:		%{name}-gtk-doc.patch
 # PLD-specific patches
-Patch0:		%{name}-configure.patch
-Patch1:		%{name}-python3.patch
+Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
-BuildRequires:	autoconf >= 2.64
-BuildRequires:	automake >= 1:1.11
 BuildRequires:	cairo-devel >= 1.14.0
 BuildRequires:	clutter-devel >= 1.18.0
 BuildRequires:	clutter-gst-devel >= 3.0.0
-BuildRequires:	clutter-gtk-devel >= 1.8.0
+BuildRequires:	clutter-gtk-devel >= 1.8.1
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.36.0
+BuildRequires:	glib2-devel >= 1:2.44.0
 BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gnome-doc-utils >= 0.20.3
@@ -35,12 +33,11 @@ BuildRequires:	gstreamer-devel >= 1.6.0
 BuildRequires:	gstreamer-plugins-base-devel >= 1.6.0
 BuildRequires:	gtk+3-devel >= 3.20.0
 BuildRequires:	gtk-doc >= 1.14
-BuildRequires:	intltool >= 0.50.1
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
-BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
+BuildRequires:	meson >= 0.41.0
 BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	pylint
@@ -67,7 +64,7 @@ Requires(post,postun):	glib2 >= 1:2.28.0
 Requires(post,postun):	scrollkeeper
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	clutter-gst >= 3.0.0
-Requires:	glib2 >= 1:2.36.0
+Requires:	glib2 >= 1:2.44.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.6.0
 Requires:	gstreamer-plugins-bad >= 1.6.0
@@ -128,9 +125,10 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.36.0
+Requires:	glib2-devel >= 1:2.44.0
 Requires:	gtk+3-devel >= 3.20.0
 Requires:	totem-pl-parser-devel >= 3.10.1
+Obsoletes:	totem-static < 3.26.0
 
 %description devel
 This package contains the files necessary to develop applications
@@ -143,18 +141,6 @@ bibliotek programu Totem.
 %description devel -l pt_BR.UTF-8
 Este pacote contém os arquivos necessários para desenvolvimento de
 aplicações utilizando as bibliotecas do Totem.
-
-%package static
-Summary:	Static libraries for totem
-Summary(pl.UTF-8):	Biblioteki statyczne dla totem
-Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-This package contains static libraries for Totem.
-
-%description static -l pl.UTF-8
-Pakiet zawiera statyczne biblioteki Totem.
 
 %package im-status
 Summary:	Instant Messenger status plugin for Totem
@@ -236,34 +222,19 @@ of audio and video files in the properties dialog.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+%patch10 -p1
 
 %build
-%{__gtkdocize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4 -I libgd
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules \
-	--enable-nautilus \
-	--enable-python \
-	--enable-gtk-doc \
-	--with-html-dir=%{_gtkdocdir}
-
-%{__make}
+%meson build \
+	-Denable-nautilus=yes \
+	-Denable-python=yes \
+	-Denable-gtk-doc=true
+%meson_build -C build -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	INSTALL="install -p"
 
-%{__rm}	$RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.{la,a} \
-	$RPM_BUILD_ROOT%{_libdir}/totem/plugins/*/*.{la,a} \
-	$RPM_BUILD_ROOT%{_libdir}/*.la
+%meson_install -C build
 
 %find_lang %{name} --with-gnome --with-omf --all-name
 
@@ -295,16 +266,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README TODO
+%doc AUTHORS ChangeLog.pre-gitlog NEWS README TODO
 %attr(755,root,root) %{_bindir}/totem
-%attr(755,root,root) %{_bindir}/totem-audio-preview
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
-%{_datadir}/appdata/org.gnome.Totem.appdata.xml
+%attr(755,root,root) %{_libexecdir}/totem-gallery-thumbnailer
+%{_datadir}/metainfo/org.gnome.Totem.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Totem.service
 %{_datadir}/%{name}
 %{_desktopdir}/org.gnome.Totem.desktop
 %{_mandir}/man1/totem.1*
-%{_mandir}/man1/totem-audio-preview.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
@@ -327,7 +297,6 @@ rm -rf $RPM_BUILD_ROOT
 %{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.plugin
 
 %dir %{pluginsdir}/dbus
-%{pluginsdir}/dbus/__pycache__
 %{pluginsdir}/dbus/*.py
 %{pluginsdir}/dbus/dbusservice.plugin
 
@@ -344,7 +313,6 @@ rm -rf $RPM_BUILD_ROOT
 %{pluginsdir}/properties/movie-properties.plugin
 
 %dir %{pluginsdir}/pythonconsole
-%{pluginsdir}/pythonconsole/__pycache__
 %{pluginsdir}/pythonconsole/console.py
 %{pluginsdir}/pythonconsole/pythonconsole.py
 %{pluginsdir}/pythonconsole/pythonconsole.plugin
@@ -379,6 +347,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_datadir}/thumbnailers/totem.thumbnailer
 
+%dir %{pluginsdir}/variable-rate
+%attr(755,root,root) %{pluginsdir}/variable-rate/libvariable-rate.so
+%{pluginsdir}/variable-rate/variable-rate.plugin
+
 %dir %{pluginsdir}/vimeo
 %attr(755,root,root) %{pluginsdir}/vimeo/libvimeo.so
 %{pluginsdir}/vimeo/vimeo.plugin
@@ -399,10 +371,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/totem
 %{_pkgconfigdir}/totem.pc
 %{_datadir}/gir-1.0/Totem-1.0.gir
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libtotem.a
 
 %files im-status
 %defattr(644,root,root,755)
@@ -426,7 +394,6 @@ rm -rf $RPM_BUILD_ROOT
 %files opensubtitles
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/opensubtitles
-%{pluginsdir}/opensubtitles/__pycache__
 %{pluginsdir}/opensubtitles/*.py
 %{pluginsdir}/opensubtitles/opensubtitles.plugin
 %{pluginsdir}/opensubtitles/opensubtitles.ui

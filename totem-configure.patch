@@ -1,62 +1,35 @@
---- totem-3.14.1/configure.ac.fix	2014-11-20 17:18:40.000000000 +0100
-+++ totem-3.14.1/configure.ac	2015-01-26 21:27:57.453277498 +0100
-@@ -135,59 +135,6 @@ BACKEND_MODULES="gstreamer-1.0 >= $GST_R
- PKG_CHECK_MODULES(BACKEND, $BACKEND_MODULES)
- PKG_CHECK_MODULES(BACKEND_TEST, $BACKEND_MODULES gtk+-3.0 >= $GTK_REQS)
+--- totem-3.26.0/src/backend/meson.build.configfix	2018-03-17 22:39:59.380045123 +0100
++++ totem-3.26.0/src/backend/meson.build	2018-03-17 22:40:14.210790112 +0100
+@@ -6,32 +6,17 @@ gst_inspect = find_program(
+   required: false
+ )
  
--dnl Check for required plugins
--gst10_toolsdir=`$PKG_CONFIG --variable=toolsdir gstreamer-1.0`
--gst10_inspect="$gst10_toolsdir/gst-inspect-1.0"
+-assert(gst_inspect.found(),
+-       'Cannot find required GStreamer-1.0 tool "gst-inspect-1.0". It should be part of gstreamer-1_0-utils. Please install it.')
 -
--dnl Give error and exit if we don't have the gst_inspect tool
--AC_MSG_CHECKING([GStreamer 1.0 inspection tool])
--if test -r "$gst10_inspect"; then
--	AC_MSG_RESULT([yes])
--else
--	AC_MSG_RESULT([no])
--	AC_MSG_ERROR([
--		Cannot find required GStreamer-1.0 tool 'gst-inspect-1.0'.
--		It should be part of gstreamer-1_0-utils. Please install it.
--	])
--fi
+ gst_base_plugins = [
+   'playbin',
+   'videoscale'
+ ]
+ 
+-foreach plugin: gst_base_plugins
+-  r = run_command(gst_inspect, plugin)
+-  assert(r.returncode() == 0,
+-         'Cannot find required GStreamer-1.0 plugin "' + plugin + '". It should be part of gst-plugins-base. Please install it.')
+-endforeach
 -
--dnl Check for elements from gst-plugins-base
--dnl Set plugins which contain below elements
--set -- playback videoscale
--for base_element in playbin videoscale
--do
--	AC_MSG_CHECKING([GStreamer 1.0 $base_element element])
--	if $gst10_inspect $base_element >/dev/null 2>/dev/null; then
--		AC_MSG_RESULT([yes])
--	else
--		AC_MSG_RESULT([no])
--		AC_MSG_ERROR([
--			Cannot find required GStreamer-1.0 plugin '$1'.
--			It should be part of gst-plugins-base. Please install it.
--		])
+ gst_good_plugins = [
+   'autoaudiosink',
+   'goom',
+   'scaletempo'
+ ]
+ 
+-foreach plugin: gst_good_plugins
+-  r = run_command(gst_inspect, plugin)
+-  assert(r.returncode() == 0,
+-         'Cannot find required GStreamer-1.0 plugin "' + plugin + '". It should be part of gst-plugins-good. Please install it.')
+-endforeach
 -
--	fi
--	shift;
--done
--
--dnl Check for elements from gst-plugins-good
--dnl Set plugins which contain below elements
--set -- autodetect goom scaletempo
--for good_element in autoaudiosink goom scaletempo
--do
--	AC_MSG_CHECKING([GStreamer 1.0 $good_element element])
--	if $gst10_inspect $good_element >/dev/null 2>/dev/null; then
--		AC_MSG_RESULT([yes])
--	else
--		AC_MSG_RESULT([no])
--		AC_MSG_ERROR([
--			Cannot find required GStreamer-1.0 plugin '$1'.
--			It should be part of gst-plugins-good. Please install it.
--		])
--	fi
--	shift;
--done
--
- # ================================================================
- # Python plugins
- # ================================================================
+ sources = files(
+   'bacon-time-label.c',
+   'bacon-video-controls-actor.c',
