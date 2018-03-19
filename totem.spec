@@ -6,7 +6,7 @@ Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
 Version:	3.26.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Multimedia
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.26/%{name}-%{version}.tar.xz
@@ -229,6 +229,9 @@ of audio and video files in the properties dialog.
 	-Denable-nautilus=yes \
 	-Denable-python=yes \
 	-Denable-gtk-doc=true
+
+# work-around for https://github.com/mesonbuild/meson/issues/1994
+%meson_build -C build src/Totem-1.0.gir
 %meson_build -C build -j1
 
 %install
