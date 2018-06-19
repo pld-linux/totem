@@ -49,6 +49,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 3.10.1
 BuildRequires:	vala >= 2:0.14.1
+BuildRequires:	vala-zeitgeist
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libX11-devel
