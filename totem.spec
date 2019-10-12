@@ -5,12 +5,12 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.30.0
+Version:	3.34.1
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.30/%{name}-%{version}.tar.xz
-# Source0-md5:	3b9fdeaee5cb82ec6580d08c1492393f
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.34/%{name}-%{version}.tar.xz
+# Source0-md5:	7f8e99c8f59cf4e53f185cc6b0e7f017
 # PLD-specific patches
 Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
@@ -37,7 +37,6 @@ BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	meson >= 0.46.1-5
-BuildRequires:	nautilus-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	pylint
 BuildRequires:	python-devel >= 2.3
@@ -84,8 +83,11 @@ Suggests:	python3-pygobject3 >= 3.0.0
 Obsoletes:	browser-plugin-totem < 3.14.1-1
 Obsoletes:	mozilla-firefox-plugin-totem < 3.14.1-1
 Obsoletes:	mozilla-plugin-totem < 3.14.1-1
+Obsoletes:	nautilus-totem
+Obsoletes:	totem-gromit
 Obsoletes:	totem-iplayer
 Obsoletes:	totem-jamendo
+Obsoletes:	totem-lirc
 Obsoletes:	totem-publish
 Obsoletes:	totem-tracker
 Obsoletes:	totem-upnp
@@ -152,24 +154,6 @@ Obsoletes:	totem-galago
 This package provides a plugin to set your Instant Messenger status to
 away when a movie is playing.
 
-%package gromit
-Summary:	Gromit Annotations plugin for Totem
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	gromit
-
-%description gromit
-This package provides a plugin to make annotations on screen.
-
-%package lirc
-Summary:	LIRC (Infrared remote) plugin for Totem
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-
-%description lirc
-This package provides a plugin to add LIRC (Infrared remote) support
-to Totem.
-
 %package opensubtitles
 Summary:	Subtitle Downloader plugin for Totem
 Group:		Applications/Multimedia
@@ -209,23 +193,12 @@ Totem API documentation.
 %description apidocs -l pl.UTF-8
 Dokumentacja API Totema.
 
-%package -n nautilus-totem
-Summary:	Video and Audio Properties tab for Nautilus
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	nautilus >= 3.0.0
-
-%description -n nautilus-totem
-This package provides a Nautilus extension that shows the properties
-of audio and video files in the properties dialog.
-
 %prep
 %setup -q
 %patch10 -p1
 
 %build
 %meson build \
-	-Denable-nautilus=yes \
 	-Denable-python=yes \
 	-Denable-gtk-doc=true
 
@@ -268,7 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog.pre-gitlog NEWS README TODO
+%doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/totem
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libexecdir}/totem-gallery-thumbnailer
@@ -278,7 +251,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
-%{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.enums.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.totem.gschema.xml
@@ -294,21 +266,13 @@ rm -rf $RPM_BUILD_ROOT
 %{pluginsdir}/autoload-subtitles/autoload-subtitles.plugin
 %attr(755,root,root) %{pluginsdir}/autoload-subtitles/libautoload-subtitles.so
 
-%dir %{pluginsdir}/brasero-disc-recorder
-%attr(755,root,root) %{pluginsdir}/brasero-disc-recorder/libbrasero-disc-recorder.so
-%{pluginsdir}/brasero-disc-recorder/brasero-disc-recorder.plugin
-
 %dir %{pluginsdir}/dbus
 %{pluginsdir}/dbus/*.py
 %{pluginsdir}/dbus/dbusservice.plugin
 
 %dir %{pluginsdir}/media-player-keys
-%attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia_player_keys.so
+%attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia-player-keys.so
 %{pluginsdir}/media-player-keys/media-player-keys.plugin
-
-%dir %{pluginsdir}/ontop
-%attr(755,root,root) %{pluginsdir}/ontop/libontop.so
-%{pluginsdir}/ontop/ontop.plugin
 
 %dir %{pluginsdir}/properties
 %attr(755,root,root) %{pluginsdir}/properties/libmovie-properties.so
@@ -357,10 +321,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{pluginsdir}/vimeo/libvimeo.so
 %{pluginsdir}/vimeo/vimeo.plugin
 
-%dir %{pluginsdir}/zeitgeist-dp
-%attr(755,root,root) %{pluginsdir}/zeitgeist-dp/libtotem-zeitgeist-dp-plugin.so
-%{pluginsdir}/zeitgeist-dp/zeitgeist-dp.plugin
-
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtotem.so.*.*.*
@@ -380,19 +340,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{pluginsdir}/im-status/libtotem-im-status.so
 %{pluginsdir}/im-status/totem-im-status.plugin
 
-%files gromit
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/gromit
-%attr(755,root,root) %{pluginsdir}/gromit/libgromit.so
-%{pluginsdir}/gromit/gromit.plugin
-
-%files lirc
-%defattr(644,root,root,755)
-%dir %{pluginsdir}/lirc
-%attr(755,root,root) %{pluginsdir}/lirc/liblirc.so
-%{pluginsdir}/lirc/lirc.plugin
-%{pluginsdir}/lirc/totem_lirc_default
-
 %files opensubtitles
 %defattr(644,root,root,755)
 %dir %{pluginsdir}/opensubtitles
@@ -405,7 +352,3 @@ rm -rf $RPM_BUILD_ROOT
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/totem
-
-%files -n nautilus-totem
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
