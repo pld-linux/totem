@@ -22,9 +22,7 @@ BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.44.0
-BuildRequires:	gnome-common >= 2.24.0
 BuildRequires:	gnome-desktop-devel
-BuildRequires:	gnome-doc-utils >= 0.20.3
 BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	grilo-devel >= 0.3.0
 BuildRequires:	gsettings-desktop-schemas-devel
@@ -36,14 +34,15 @@ BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	meson >= 0.46.1-5
+BuildRequires:	meson >= 0.49.0
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	pylint
-BuildRequires:	python-devel >= 2.3
-BuildRequires:	python-pygobject3-devel >= 3.0.0
+BuildRequires:	python3-devel >= 1:3.2
+BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
-BuildRequires:	rpmbuild(macros) >= 1.357
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
 BuildRequires:	totem-pl-parser-devel >= 3.10.1
@@ -59,8 +58,7 @@ BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zeitgeist-devel >= 0.9.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,postun):	glib2 >= 1:2.28.0
-Requires(post,postun):	scrollkeeper
+Requires(post,postun):	glib2 >= 1:2.44.0
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	clutter-gst >= 3.0.0
 Requires:	glib2 >= 1:2.44.0
@@ -74,10 +72,10 @@ Requires:	gstreamer-soup >= 1.6.0
 Requires:	gstreamer-videosink >= 1.6.0
 Requires:	gstreamer-visualisation >= 1.6.0
 Requires:	hicolor-icon-theme
-Requires:	libpeas-loader-python3
-Suggests:	gstreamer-libav
-Suggests:	gstreamer-mpeg
-Suggests:	gstreamer-pango
+Requires:	libpeas-loader-python3 >= 1.1.0
+Suggests:	gstreamer-libav >= 1.6.0
+Suggests:	gstreamer-mpeg >= 1.6.0
+Suggests:	gstreamer-pango >= 1.6.0
 Suggests:	python3-dbus
 Suggests:	python3-pygobject3 >= 3.0.0
 Obsoletes:	browser-plugin-totem < 3.14.1-1
@@ -146,6 +144,7 @@ aplicações utilizando as bibliotecas do Totem.
 
 %package im-status
 Summary:	Instant Messenger status plugin for Totem
+Summary(pl.UTF-8):	Wtyczka Totema obsługująca stan na komunikatorze
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	totem-galago
@@ -154,11 +153,16 @@ Obsoletes:	totem-galago
 This package provides a plugin to set your Instant Messenger status to
 away when a movie is playing.
 
+%description im-status -l pl.UTF-8
+Ten pakiet zawiera wtyczkę ustawiającą stan na komunikatorze na
+nieobecny ("away"), kiedy odtwarzany jest film.
+
 %package opensubtitles
 Summary:	Subtitle Downloader plugin for Totem
+Summary(pl.UTF-8):	Wtyczka Totema ściągająca napisy
 Group:		Applications/Multimedia
+Requires(post,postun):	glib2 >= 1:2.44.0
 Requires:	%{name} = %{version}-%{release}
-Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	libpeas >= 1.1.0
 Requires:	python3-pygobject3
 
@@ -166,17 +170,26 @@ Requires:	python3-pygobject3
 This package provides a plugin to look for subtitles for the currently
 playing movie.
 
+%description opensubtitles -l pl.UTF-8
+Ten pakiet zawiera wtyczkę wyszukującą napisy do aktualnie
+odtwarzanego filmu.
+
 %package youtube
 Summary:	YouTube plugin for Totem
+Summary(pl.UTF-8):	Wtyczka Totema obsługująca YouTube
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Requires:	gstreamer-ffmpeg
-Requires:	gstreamer-plugins-bad
-Requires:	gstreamer-x264
+Requires:	gstreamer-libav >= 1.6.0
+Requires:	gstreamer-plugins-bad >= 1.6.0
+Requires:	gstreamer-x264 >= 1.6.0
 
 %description youtube
 This package provides a plugin to allow browsing YouTube videos in
 Totem, and watching them.
+
+%description youtube -l pl.UTF-8
+Ten pakiet zawiera wtyczkę pozwalającą na przeglądanie w Totemie
+filmów z YouTube'a i oglądanie ich.
 
 %package apidocs
 Summary:	Totem API documentation
@@ -211,7 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %meson_install -C build
 
-%find_lang %{name} --with-gnome --with-omf --all-name
+%find_lang %{name} --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -219,14 +232,12 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 %glib_compile_schemas
-%scrollkeeper_update_post
 %update_desktop_database_post
 %update_icon_cache hicolor
 
 %postun
 /sbin/ldconfig
 %glib_compile_schemas
-%scrollkeeper_update_postun
 %update_desktop_database_postun
 %update_icon_cache hicolor
 
@@ -273,6 +284,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{pluginsdir}/media-player-keys
 %attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia-player-keys.so
 %{pluginsdir}/media-player-keys/media-player-keys.plugin
+
+%dir %{pluginsdir}/open-directory
+%attr(755,root,root) %{pluginsdir}/open-directory/libopen-directory.so
+%{pluginsdir}/open-directory/open-directory.plugin
 
 %dir %{pluginsdir}/properties
 %attr(755,root,root) %{pluginsdir}/properties/libmovie-properties.so
