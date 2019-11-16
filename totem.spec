@@ -37,7 +37,7 @@ BuildRequires:	libxml2-devel >= 1:2.6.31
 BuildRequires:	meson >= 0.49.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
-BuildRequires:	pylint
+BuildRequires:	py3lint >= 2.4.4
 BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
