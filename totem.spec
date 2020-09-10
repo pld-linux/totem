@@ -5,12 +5,12 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.34.1
-Release:	4
-License:	GPL v2
+Version:	3.38.0
+Release:	1
+License:	GPL v2+ with GStreamer plugins exception
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.34/%{name}-%{version}.tar.xz
-# Source0-md5:	7f8e99c8f59cf4e53f185cc6b0e7f017
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.38/%{name}-%{version}.tar.xz
+# Source0-md5:	82217567b0d208a1d08b6b1f18f51f93
 # PLD-specific patches
 Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
@@ -21,20 +21,20 @@ BuildRequires:	clutter-gtk-devel >= 1.8.1
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.44.0
+BuildRequires:	glib2-devel >= 1:2.56.0
 BuildRequires:	gnome-desktop-devel
 BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	grilo-devel >= 0.3.0
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gstreamer-devel >= 1.6.0
 BuildRequires:	gstreamer-plugins-base-devel >= 1.6.0
-BuildRequires:	gtk+3-devel >= 3.20.0
+BuildRequires:	gtk+3-devel >= 3.22.0
 BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libxml2-devel >= 1:2.6.31
 %{?with_lirc:BuildRequires:	lirc-devel}
-BuildRequires:	meson >= 0.49.0
+BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	py3lint >= 2.4.4
@@ -45,7 +45,7 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sed >= 4.0
 BuildRequires:	shared-mime-info >= 0.22
-BuildRequires:	totem-pl-parser-devel >= 3.10.1
+BuildRequires:	totem-pl-parser-devel >= 3.26.5
 BuildRequires:	vala >= 2:0.14.1
 BuildRequires:	vala-zeitgeist
 BuildRequires:	xorg-lib-libICE-devel
@@ -58,10 +58,10 @@ BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zeitgeist-devel >= 0.9.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,postun):	glib2 >= 1:2.44.0
+Requires(post,postun):	glib2 >= 1:2.56.0
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	clutter-gst >= 3.0.0
-Requires:	glib2 >= 1:2.44.0
+Requires:	glib2 >= 1:2.56.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.6.0
 Requires:	gstreamer-plugins-bad >= 1.6.0
@@ -111,8 +111,10 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	gtk+3 >= 3.20.0
-Requires:	totem-pl-parser >= 3.10.1
+Requires:	clutter-gtk >= 1.8.1
+Requires:	glib2 >= 1:2.56.0
+Requires:	gtk+3 >= 3.22.0
+Requires:	totem-pl-parser >= 3.26.5
 
 %description libs
 This package contains Totem libraries.
@@ -125,9 +127,9 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.44.0
-Requires:	gtk+3-devel >= 3.20.0
-Requires:	totem-pl-parser-devel >= 3.10.1
+Requires:	glib2-devel >= 1:2.56.0
+Requires:	gtk+3-devel >= 3.22.0
+Requires:	totem-pl-parser-devel >= 3.26.5
 Obsoletes:	totem-static < 3.26.0
 
 %description devel
@@ -161,7 +163,7 @@ nieobecny ("away"), kiedy odtwarzany jest film.
 Summary:	Subtitle Downloader plugin for Totem
 Summary(pl.UTF-8):	Wtyczka Totema ściągająca napisy
 Group:		Applications/Multimedia
-Requires(post,postun):	glib2 >= 1:2.44.0
+Requires(post,postun):	glib2 >= 1:2.56.0
 Requires:	%{name} = %{version}-%{release}
 Requires:	libpeas >= 1.1.0
 Requires:	python3-pygobject3
@@ -252,7 +254,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
+%doc AUTHORS COPYING NEWS README
 %attr(755,root,root) %{_bindir}/totem
 %attr(755,root,root) %{_bindir}/totem-video-thumbnailer
 %attr(755,root,root) %{_libexecdir}/totem-gallery-thumbnailer
