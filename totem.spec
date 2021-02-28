@@ -198,9 +198,7 @@ Summary:	Totem API documentation
 Summary(pl.UTF-8):	Dokumentacja API Totema
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 Totem API documentation.
