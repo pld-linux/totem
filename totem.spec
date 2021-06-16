@@ -1,16 +1,12 @@
-#
-# Conditional build
-%bcond_without	lirc		# without lirc support
-
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.38.0
+Version:	3.38.1
 Release:	1
 License:	GPL v2+ with GStreamer plugins exception
 Group:		X11/Applications/Multimedia
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/totem/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	82217567b0d208a1d08b6b1f18f51f93
+Source0:	https://download.gnome.org/sources/totem/3.38/%{name}-%{version}.tar.xz
+# Source0-md5:	1ce5014e11be8d3826f969c12e6da38f
 # PLD-specific patches
 Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
@@ -33,7 +29,6 @@ BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libxml2-devel >= 1:2.6.31
-%{?with_lirc:BuildRequires:	lirc-devel}
 BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
@@ -41,6 +36,7 @@ BuildRequires:	py3lint >= 2.4.4
 BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sed >= 4.0
@@ -81,17 +77,15 @@ Suggests:	python3-pygobject3 >= 3.0.0
 Obsoletes:	browser-plugin-totem < 3.14.1-1
 Obsoletes:	mozilla-firefox-plugin-totem < 3.14.1-1
 Obsoletes:	mozilla-plugin-totem < 3.14.1-1
-Obsoletes:	nautilus-totem
-Obsoletes:	totem-gromit
-Obsoletes:	totem-iplayer
-Obsoletes:	totem-jamendo
-Obsoletes:	totem-lirc
-Obsoletes:	totem-publish
-Obsoletes:	totem-tracker
-Obsoletes:	totem-upnp
-Obsoletes:	totem-youtube
-# sr@Latn vs. sr@latin
-Conflicts:	glibc-misc < 6:2.7
+Obsoletes:	nautilus-totem < 3.34
+Obsoletes:	totem-gromit < 3.34
+Obsoletes:	totem-iplayer < 3.6
+Obsoletes:	totem-jamendo < 3.2
+Obsoletes:	totem-lirc < 3.34
+Obsoletes:	totem-publish < 3.6
+Obsoletes:	totem-tracker < 3.2
+Obsoletes:	totem-upnp < 3.2
+Obsoletes:	totem-youtube < 3.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		pluginsdir	%{_libdir}/totem/plugins
@@ -149,7 +143,7 @@ Summary:	Instant Messenger status plugin for Totem
 Summary(pl.UTF-8):	Wtyczka Totema obsługująca stan na komunikatorze
 Group:		Applications/Multimedia
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	totem-galago
+Obsoletes:	totem-galago < 3.0
 
 %description im-status
 This package provides a plugin to set your Instant Messenger status to
@@ -175,23 +169,6 @@ playing movie.
 %description opensubtitles -l pl.UTF-8
 Ten pakiet zawiera wtyczkę wyszukującą napisy do aktualnie
 odtwarzanego filmu.
-
-%package youtube
-Summary:	YouTube plugin for Totem
-Summary(pl.UTF-8):	Wtyczka Totema obsługująca YouTube
-Group:		Applications/Multimedia
-Requires:	%{name} = %{version}-%{release}
-Requires:	gstreamer-libav >= 1.6.0
-Requires:	gstreamer-plugins-bad >= 1.6.0
-Requires:	gstreamer-x264 >= 1.6.0
-
-%description youtube
-This package provides a plugin to allow browsing YouTube videos in
-Totem, and watching them.
-
-%description youtube -l pl.UTF-8
-Ten pakiet zawiera wtyczkę pozwalającą na przeglądanie w Totemie
-filmów z YouTube'a i oglądanie ich.
 
 %package apidocs
 Summary:	Totem API documentation
