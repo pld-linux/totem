@@ -1,24 +1,19 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	3.38.2
+Version:	42.0
 Release:	1
 License:	GPL v2+ with GStreamer plugins exception
 Group:		X11/Applications/Multimedia
-Source0:	https://download.gnome.org/sources/totem/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	21246e0f5a0ee425c9e492b965476547
+Source0:	https://download.gnome.org/sources/totem/42/%{name}-%{version}.tar.xz
+# Source0-md5:	33ecc1021d12e789183a189ddac6646f
 # PLD-specific patches
 Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
-BuildRequires:	cairo-devel >= 1.14.0
-BuildRequires:	clutter-devel >= 1.18.0
-BuildRequires:	clutter-gst-devel >= 3.0.0
-BuildRequires:	clutter-gtk-devel >= 1.8.1
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.56.0
-BuildRequires:	gnome-desktop-devel
 BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	grilo-devel >= 0.3.0
 BuildRequires:	gsettings-desktop-schemas-devel
@@ -26,6 +21,7 @@ BuildRequires:	gstreamer-devel >= 1.6.0
 BuildRequires:	gstreamer-plugins-base-devel >= 1.6.0
 BuildRequires:	gtk+3-devel >= 3.22.0
 BuildRequires:	gtk-doc >= 1.14
+BuildRequires:	libhandy1-devel >= 1.5.0
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
 BuildRequires:	libxml2-devel >= 1:2.6.31
@@ -56,12 +52,13 @@ Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,postun):	glib2 >= 1:2.56.0
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	clutter-gst >= 3.0.0
 Requires:	glib2 >= 1:2.56.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.6.0
 Requires:	gstreamer-plugins-bad >= 1.6.0
+# playbin(playback),videoscale plugins
 Requires:	gstreamer-plugins-base >= 1.6.0
+# autoaudiosink,scaletempo,gtkglsink,glsinkbin
 Requires:	gstreamer-plugins-good >= 1.6.0
 Requires:	gstreamer-soundtouch >= 1.6.0
 Requires:	gstreamer-soup >= 1.6.0
@@ -105,9 +102,9 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	clutter-gtk >= 1.8.1
 Requires:	glib2 >= 1:2.56.0
 Requires:	gtk+3 >= 3.22.0
+Requires:	libhandy1 >= 1.5.0
 Requires:	totem-pl-parser >= 3.26.5
 
 %description libs
@@ -254,13 +251,9 @@ rm -rf $RPM_BUILD_ROOT
 %{pluginsdir}/autoload-subtitles/autoload-subtitles.plugin
 %attr(755,root,root) %{pluginsdir}/autoload-subtitles/libautoload-subtitles.so
 
-%dir %{pluginsdir}/dbus
-%{pluginsdir}/dbus/*.py
-%{pluginsdir}/dbus/dbusservice.plugin
-
-%dir %{pluginsdir}/media-player-keys
-%attr(755,root,root) %{pluginsdir}/media-player-keys/libmedia-player-keys.so
-%{pluginsdir}/media-player-keys/media-player-keys.plugin
+%dir %{pluginsdir}/mpris
+%attr(755,root,root) %{pluginsdir}/mpris/libmpris.so
+%{pluginsdir}/mpris/mpris.plugin
 
 %dir %{pluginsdir}/open-directory
 %attr(755,root,root) %{pluginsdir}/open-directory/libopen-directory.so
@@ -295,13 +288,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{pluginsdir}/screenshot
 %attr(755,root,root) %{pluginsdir}/screenshot/libscreenshot.so
-%{pluginsdir}/screenshot/gallery.ui
 %{pluginsdir}/screenshot/screenshot.plugin
 
 %dir %{pluginsdir}/skipto
 %attr(755,root,root) %{pluginsdir}/skipto/libskipto.so
 %{pluginsdir}/skipto/skipto.plugin
-%{pluginsdir}/skipto/skipto.ui
 
 %{_datadir}/thumbnailers/totem.thumbnailer
 

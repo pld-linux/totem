@@ -1,6 +1,6 @@
---- totem-3.26.0/src/backend/meson.build.configfix	2018-03-17 22:39:59.380045123 +0100
-+++ totem-3.26.0/src/backend/meson.build	2018-03-17 22:40:14.210790112 +0100
-@@ -6,32 +6,17 @@ gst_inspect = find_program(
+--- totem-42.0/src/backend/meson.build.orig	2022-04-03 21:32:28.599445325 +0200
++++ totem-42.0/src/backend/meson.build	2022-04-03 21:45:35.721847784 +0200
+@@ -6,20 +6,11 @@ gst_inspect = find_program(
    required: false
  )
  
@@ -13,23 +13,24 @@
  ]
  
 -foreach plugin: gst_base_plugins
--  r = run_command(gst_inspect, plugin)
+-  r = run_command(gst_inspect, plugin, check: false)
 -  assert(r.returncode() == 0,
 -         'Cannot find required GStreamer-1.0 plugin "' + plugin + '". It should be part of gst-plugins-base. Please install it.')
 -endforeach
 -
  gst_good_plugins = [
    'autoaudiosink',
-   'goom',
-   'scaletempo'
+   'scaletempo',
+@@ -27,12 +18,6 @@ gst_good_plugins = [
+   'glsinkbin'
  ]
  
 -foreach plugin: gst_good_plugins
--  r = run_command(gst_inspect, plugin)
+-  r = run_command(gst_inspect, plugin, check: false)
 -  assert(r.returncode() == 0,
 -         'Cannot find required GStreamer-1.0 plugin "' + plugin + '". It should be part of gst-plugins-good. Please install it.')
 -endforeach
 -
  sources = files(
    'bacon-time-label.c',
-   'bacon-video-controls-actor.c',
+   'bacon-video-widget-gst-missing-plugins.c',
