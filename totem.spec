@@ -1,19 +1,19 @@
 Summary:	Movie player for GNOME based on the gstreamer engine
 Summary(pl.UTF-8):	Odtwarzacz filmów dla GNOME oparty na silniku gstreamer
 Name:		totem
-Version:	42.0
+Version:	43.0
 Release:	1
 License:	GPL v2+ with GStreamer plugins exception
 Group:		X11/Applications/Multimedia
-Source0:	https://download.gnome.org/sources/totem/42/%{name}-%{version}.tar.xz
-# Source0-md5:	33ecc1021d12e789183a189ddac6646f
+Source0:	https://download.gnome.org/sources/totem/43/%{name}-%{version}.tar.xz
+# Source0-md5:	fb79639052d09385c5d6f94f4edb030c
 # PLD-specific patches
 Patch10:	%{name}-configure.patch
 URL:		https://wiki.gnome.org/Apps/Videos
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	gdk-pixbuf2-devel >= 2.24.0
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.56.0
+BuildRequires:	glib2-devel >= 1:2.72.0
 BuildRequires:	gobject-introspection-devel >= 0.6.7
 BuildRequires:	grilo-devel >= 0.3.0
 BuildRequires:	gsettings-desktop-schemas-devel
@@ -24,8 +24,9 @@ BuildRequires:	gtk-doc >= 1.14
 BuildRequires:	libhandy1-devel >= 1.5.0
 BuildRequires:	libpeas-devel >= 1.1.0
 BuildRequires:	libpeas-gtk-devel >= 1.1.0
+BuildRequires:	libportal-gtk3-devel
 BuildRequires:	libxml2-devel >= 1:2.6.31
-BuildRequires:	meson >= 0.50.0
+BuildRequires:	meson >= 0.57.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	py3lint >= 2.4.4
@@ -42,7 +43,7 @@ BuildRequires:	vala >= 2:0.14.1
 BuildRequires:	vala-zeitgeist
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
-BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libX11-devel >= 1.8
 BuildRequires:	xorg-lib-libXrandr-devel >= 1.1.1
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel >= 1.0.1
@@ -50,9 +51,9 @@ BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zeitgeist-devel >= 0.9.12
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,postun):	glib2 >= 1:2.56.0
+Requires(post,postun):	glib2 >= 1:2.72.0
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2 >= 1:2.56.0
+Requires:	glib2 >= 1:2.72.0
 Requires:	gnome-icon-theme >= 3.0.0
 Requires:	gstreamer-audiosink >= 1.6.0
 Requires:	gstreamer-plugins-bad >= 1.6.0
@@ -66,6 +67,7 @@ Requires:	gstreamer-videosink >= 1.6.0
 Requires:	gstreamer-visualisation >= 1.6.0
 Requires:	hicolor-icon-theme
 Requires:	libpeas-loader-python3 >= 1.1.0
+Requires:	xorg-lib-libX11 >= 1.8
 Suggests:	gstreamer-libav >= 1.6.0
 Suggests:	gstreamer-mpeg >= 1.6.0
 Suggests:	gstreamer-pango >= 1.6.0
@@ -102,7 +104,7 @@ klawiatury.
 Summary:	Totem libraries
 Summary(pl.UTF-8):	Biblioteki Totem
 Group:		X11/Libraries
-Requires:	glib2 >= 1:2.56.0
+Requires:	glib2 >= 1:2.72.0
 Requires:	gtk+3 >= 3.22.0
 Requires:	libhandy1 >= 1.5.0
 Requires:	totem-pl-parser >= 3.26.5
@@ -118,7 +120,7 @@ Summary:	Header files for totem
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.56.0
+Requires:	glib2-devel >= 1:2.72.0
 Requires:	gtk+3-devel >= 3.22.0
 Requires:	totem-pl-parser-devel >= 3.26.5
 Obsoletes:	totem-static < 3.26.0
@@ -154,7 +156,7 @@ nieobecny ("away"), kiedy odtwarzany jest film.
 Summary:	Subtitle Downloader plugin for Totem
 Summary(pl.UTF-8):	Wtyczka Totema ściągająca napisy
 Group:		Applications/Multimedia
-Requires(post,postun):	glib2 >= 1:2.56.0
+Requires(post,postun):	glib2 >= 1:2.72.0
 Requires:	%{name} = %{version}-%{release}
 Requires:	libpeas >= 1.1.0
 Requires:	python3-pygobject3
@@ -232,7 +234,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/totem-gallery-thumbnailer
 %{_datadir}/metainfo/org.gnome.Totem.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Totem.service
-%{_datadir}/%{name}
 %{_desktopdir}/org.gnome.Totem.desktop
 %{_mandir}/man1/totem.1*
 %{_mandir}/man1/totem-video-thumbnailer.1*
